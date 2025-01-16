@@ -1,0 +1,85 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewDepartamentos"
+             Title="Gestión de Departamentos"
+             BackgroundColor="#F5F6F8">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
+        <!-- Título -->
+        <Label Text="Gestión de Departamentos" 
+               FontSize="30" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               TextColor="#2C3E50" />
+
+        <!-- Barra de búsqueda -->
+        <Frame BackgroundColor="White" CornerRadius="15" Padding="0" HasShadow="True" HorizontalOptions="FillAndExpand" HeightRequest="70">
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <!-- Columna para el icono -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Columna para el Entry -->
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Icono de búsqueda -->
+                <Image Source="lupa.png" 
+               WidthRequest="30" 
+               HeightRequest="30" 
+               VerticalOptions="Center" 
+               Grid.Column="0" />
+
+                <!-- Entrada de búsqueda -->
+                <Entry Placeholder="Buscar departamento..." 
+               Text="{Binding TextoBusqueda, Mode=TwoWay}" 
+               FontSize="18" 
+               BackgroundColor="Transparent"
+               VerticalOptions="Center"
+               HorizontalOptions="FillAndExpand"
+               Grid.Column="1"
+               HeightRequest="50" />
+            </Grid>
+        </Frame>
+
+
+
+        <!-- Lista de departamentos (scrolleable) -->
+        <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
+            <ScrollView>
+                <CollectionView ItemsSource="{Binding DepartamentosFiltrados}" SelectionMode="Single"
+                                HeightRequest="300">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Nombre del departamento -->
+                                <Label Text="{Binding nombre}" FontSize="18" VerticalOptions="Center" />
+
+                                <!-- Botón Modificar -->
+                                <Button Text="Modificar"
+                                        Style="{StaticResource ModifyButtonStyle}"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnModificarClicked"
+                                        Grid.Column="1" />
+
+                                <!-- Botón Eliminar -->
+                                <Button Text="Eliminar"
+                                        Style="{StaticResource DeleteButtonStyle}"
+                                        CommandParameter="{Binding .}"
+                                        Clicked="OnEliminarClicked"
+                                        Grid.Column="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Frame>
+
+        <!-- Botón para añadir departamento -->
+        <Button Text="Añadir Departamento" Clicked="OnInsertarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+    </VerticalStackLayout>
+</ContentPage>

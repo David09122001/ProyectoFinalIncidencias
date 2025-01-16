@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.MainMenu"
+             Title="MENÚ PRINCIPAL"
+             BackgroundColor="#F8F9FA">
+    <Grid Padding="20" RowSpacing="20" ColumnSpacing="20">
+        <!-- Definir Columnas y Filas -->
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <!-- Card: Gestión de Incidencias -->
+        <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="incidencias.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Gestión de Incidencias" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="IncidenciasTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <!-- Card: Gestión de Profesores -->
+        <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="profesores.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Gestión de Profesores" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="ProfesoresTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <!-- Card: Gestión de Departamentos -->
+        <Frame Grid.Row="0" Grid.Column="2" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="departamentos.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Gestión de Departamentos" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="DepartamentosTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <!-- Card: Gestión de Tipos HW -->
+        <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="hardware.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Gestión tipos de HW" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="TiposHWTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <!-- Card: Generar Informes -->
+        <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="informes.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Generar Informes" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="InformesTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <!-- Card: Ver Logs -->
+        <Frame Grid.Row="1" Grid.Column="2" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="log.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Ver Logs" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="LogsTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+
+        <!-- Card: Perfil -->
+        <Frame Grid.Row="2" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
+                <Image Source="perfil.png" WidthRequest="50" HeightRequest="50" />
+                <Label Text="Perfil" Style="{StaticResource CardLabelStyle}" />
+            </VerticalStackLayout>
+            <Frame.GestureRecognizers>
+                <TapGestureRecognizer Tapped="PerfilTapped" />
+                <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
+            </Frame.GestureRecognizers>
+        </Frame>
+    </Grid>
+</ContentPage>

@@ -1,0 +1,72 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewModificarIncidencia"
+             Title="Modificar Incidencia"
+             BackgroundColor="#F5F6F8">
+    <ScrollView>
+        <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+            <Frame CornerRadius="20" Padding="20" BackgroundColor="White" WidthRequest="800">
+                <VerticalStackLayout Spacing="20">
+                    <!-- Título -->
+                    <Label Text="Modificar Incidencia" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#2C3E50" />
+
+                    <!-- Grid para los campos -->
+                    <Grid ColumnSpacing="20" RowSpacing="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="1*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!-- Descripción Detallada -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="0">
+                            <Label Text="Descripción Detallada" FontAttributes="Bold" TextColor="#34495E" />
+                            <Entry Placeholder="Ejemplo: El ordenador no enciende" Text="{Binding Incidencia.descripcionDetallada}" HeightRequest="50" />
+                        </VerticalStackLayout>
+
+                        <!-- Aula -->
+                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
+                            <Label Text="Aula" FontAttributes="Bold" TextColor="#34495E" />
+                            <Entry Placeholder="Ejemplo: Aula 101" Text="{Binding Incidencia.aulaUbicacion}" HeightRequest="50" />
+                        </VerticalStackLayout>
+
+                        <!-- Fecha de Incidencia -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="0">
+                            <Label Text="Fecha de Incidencia" FontAttributes="Bold" TextColor="#34495E" />
+                            <DatePicker Date="{Binding Incidencia.fechaIncidencia}" HeightRequest="50" />
+                        </VerticalStackLayout>
+
+                        <!-- Fecha de Resolución -->
+                        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
+                            <Label Text="Fecha de Resolución" FontAttributes="Bold" TextColor="#34495E" />
+                            <DatePicker Date="{Binding Incidencia.fechaResolucion}" HeightRequest="50" />
+                        </VerticalStackLayout>
+
+                        <!-- Tiempo Invertido -->
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="0">
+                            <Label Text="Tiempo Invertido (minutos)" FontAttributes="Bold" TextColor="#34495E" />
+                            <Entry Placeholder="Ejemplo: 30" Text="{Binding Incidencia.tiempoInvertido}" Keyboard="Numeric" HeightRequest="50" />
+                        </VerticalStackLayout>
+
+                        <!-- Observaciones -->
+                        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
+                            <Label Text="Observaciones" FontAttributes="Bold" TextColor="#34495E" />
+                            <Editor Placeholder="Ejemplo: Revisar fuente de alimentación" Text="{Binding Incidencia.observaciones}" HeightRequest="100" />
+                        </VerticalStackLayout>
+                    </Grid>
+
+                    <!-- Botones de Guardar y Cancelar -->
+                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+                        <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+                        <Button Text="Cancelar" Clicked="OnCancelarClicked" BackgroundColor="Red" TextColor="White" Style="{StaticResource SecondaryButtonStyle}" />
+                    </HorizontalStackLayout>
+                </VerticalStackLayout>
+            </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

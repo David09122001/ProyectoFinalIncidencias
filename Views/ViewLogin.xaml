@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewLogin"
+             Title=""
+             BackgroundColor="#F8F9FA">
+    <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
+        <!-- Título -->
+        <Label Text="Iniciar Sesión" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#2C3E50" />
+
+        <!-- Icono -->
+        <Image Source="login.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center" />
+
+        <!-- Campo de correo -->
+        <Frame Style="{StaticResource EntryFrameStyle}">
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image Source="mail.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" Grid.Column="0" />
+                <Entry Placeholder="Correo electrónico" Text="{Binding Correo, Mode=TwoWay}" 
+               VerticalOptions="Center" Grid.Column="1" />
+            </Grid>
+        </Frame>
+
+        <!-- Campo de contraseña -->
+        <Frame Style="{StaticResource EntryFrameStyle}">
+            <Grid ColumnSpacing="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image Source="password.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" Grid.Column="0" />
+                <Entry Placeholder="Contraseña" Text="{Binding Contrasena, Mode=TwoWay}" IsPassword="True" 
+               VerticalOptions="Center" Grid.Column="1" />
+            </Grid>
+        </Frame>
+
+
+        <!-- Botón de inicio de sesión -->
+        <Button Text="Iniciar Sesión" Clicked="IniciarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+
+        <!-- Mensaje de error -->
+        <Label x:Name="ErrorLabel" TextColor="Red" IsVisible="False" HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

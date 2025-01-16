@@ -1,0 +1,121 @@
+﻿<?xml version = "1.0" encoding = "UTF-8" ?>
+<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ProjecteFinal"
+             x:Class="ProjecteFinal.App">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Estilo para los Frames -->
+            <Style x:Key="ModernCardStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="HeightRequest" Value="150" />
+                <Setter Property="Padding" Value="10" />
+            </Style>
+
+            <!-- Estilo para los Labels -->
+            <Style x:Key="CardLabelStyle" TargetType="Label">
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="TextColor" Value="#2C3E50" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <!-- Estilo para los Entry -->
+            <Style x:Key="EntryFrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="900" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+            </Style>
+
+            <!-- Estilo para primarybutton -->
+            <Style x:Key="PrimaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#007ACC" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="18" />
+                <Setter Property="FontAttributes" Value="Bold" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HeightRequest" Value="50" />
+                <Setter Property="WidthRequest" Value="300" />
+                <Setter Property="HorizontalOptions" Value="FillAndExpand" />
+                <Setter Property="VerticalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="SecondaryButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#E0E0E0" />
+                <Setter Property="TextColor" Value="#2C3E50" />
+                <Setter Property="FontSize" Value="16" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+
+            <Style x:Key="ItemFrameStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="Padding" Value="10" />
+                <Setter Property="Margin" Value="5" />
+            </Style>
+
+            <Style x:Key="ModifyButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#4CAF50" />
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="WidthRequest" Value="100" />
+            </Style>
+
+            <Style x:Key="DeleteButtonStyle" TargetType="Button">
+                <Setter Property="BackgroundColor" Value="#F44336" />
+                <!-- Rojo -->
+                <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontSize" Value="14" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="HeightRequest" Value="40" />
+                <Setter Property="WidthRequest" Value="100" />
+            </Style>
+
+            <Style x:Key="SpecialEntryStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="HeightRequest" Value="90" />
+                <!-- Altura personalizada -->
+                <Setter Property="WidthRequest" Value="400" />
+                <!-- Ancho personalizado -->
+                <Setter Property="Padding" Value="15" />
+                <!-- Espaciado interno -->
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+            <Style x:Key="AdjuntarEntryStyle" TargetType="Frame">
+                <Setter Property="BackgroundColor" Value="White" />
+                <Setter Property="CornerRadius" Value="15" />
+                <Setter Property="HasShadow" Value="True" />
+                <Setter Property="HeightRequest" Value="90" />
+                <!-- Altura personalizada -->
+                <Setter Property="WidthRequest" Value="800" />
+                <!-- Ancho personalizado -->
+                <Setter Property="Padding" Value="15" />
+                <!-- Espaciado interno -->
+                <Setter Property="HorizontalOptions" Value="Center" />
+            </Style>
+
+
+
+        </ResourceDictionary>
+    </Application.Resources>
+
+
+
+
+</Application>

@@ -1,0 +1,43 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewIncidencias"
+             Title="Gestión de Incidencias"
+             BackgroundColor="#F8F9FA">
+    <StackLayout Padding="20" Spacing="15">
+        <!-- Lista de incidencias -->
+        <CollectionView ItemsSource="{Binding Incidencias}" SelectionMode="Single" SelectionChanged="OnSelectionChanged">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Style="{StaticResource ItemFrameStyle}">
+                        <Grid ColumnSpacing="10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Descripción -->
+                            <Label Text="{Binding descripcionDetallada}" 
+                                   VerticalOptions="Center" 
+                                   Grid.Column="0" 
+                                   HorizontalTextAlignment="Start"
+                                   FontSize="16" />
+
+                            <!-- Botón Modificar -->
+                            <Button Text="Modificar" Clicked="OnEditClicked" CommandParameter="{Binding .}" 
+                                    Style="{StaticResource ModifyButtonStyle}" Grid.Column="1" />
+
+                            <!-- Botón Eliminar -->
+                            <Button Text="Eliminar" Clicked="OnDeleteClicked" CommandParameter="{Binding .}" 
+                                    Style="{StaticResource DeleteButtonStyle}" Grid.Column="2" />
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <!-- Botón para añadir incidencia -->
+        <Button Text="Añadir Incidencia" Clicked="OnAddClicked" Style="{StaticResource PrimaryButtonStyle}" 
+                HorizontalOptions="Center" VerticalOptions="End" />
+    </StackLayout>
+</ContentPage>

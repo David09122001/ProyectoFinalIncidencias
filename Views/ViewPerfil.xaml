@@ -1,0 +1,51 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewPerfil"
+             Title="Perfil">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+            <!-- Título -->
+            <Label Text="Mi Perfil" 
+                   FontSize="24" 
+                   FontAttributes="Bold" 
+                   HorizontalOptions="Center" 
+                   TextColor="#2C3E50" />
+
+            <!-- Datos del usuario -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Correo Electrónico" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding Profesor.email}" FontSize="18" TextColor="Black" />
+
+                    <Label Text="Nombre" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding Profesor.nombre}" FontSize="18" TextColor="Black" />
+
+                    <Label Text="DNI" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding Profesor.dni}" FontSize="18" TextColor="Black" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Cambiar contraseña -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Cambiar Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+
+                    <!-- Contraseña actual -->
+                    <Label Text="Contraseña Actual" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Contraseña actual" Text="{Binding ContraseñaActual}" IsPassword="True" />
+
+                    <!-- Nueva contraseña -->
+                    <Label Text="Nueva Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Nueva contraseña" Text="{Binding NuevaContraseña}" IsPassword="True" />
+
+                    <!-- Confirmar nueva contraseña -->
+                    <Label Text="Confirmar Nueva Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Confirmar nueva contraseña" Text="{Binding ConfirmarNuevaContraseña}" IsPassword="True" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botón Guardar -->
+            <Button Text="Guardar Contraseña" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

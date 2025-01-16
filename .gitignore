@@ -1,0 +1,10 @@
+# Ignorar la carpeta .vs de Visual Studio
+.vs/
+# Ignorar las carpetas de compilación
+bin/
+obj/
+# Ignorar configuraciones del entorno
+*.user
+*.suo
+*.db
+.DS_Store

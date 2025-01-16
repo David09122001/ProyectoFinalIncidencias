@@ -1,0 +1,39 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewInsertarModificarDepartamento"
+             Title="Insertar/Modificar Departamento"
+             BackgroundColor="#F5F6F8">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+        <!-- Título -->
+        <Label Text="Formulario de Departamento" FontSize="24" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#2C3E50" />
+
+        <!-- Frame contenedor de los campos -->
+        <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
+            <VerticalStackLayout Spacing="15">
+                <!-- Código -->
+                <VerticalStackLayout>
+                    <Label Text="Código" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Ejemplo: INF" Text="{Binding Departamento.codigo, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
+                <!-- Nombre -->
+                <VerticalStackLayout>
+                    <Label Text="Nombre" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Ejemplo: Informática" Text="{Binding Departamento.nombre, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
+                <!-- Ubicación -->
+                <VerticalStackLayout>
+                    <Label Text="Ubicación" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Ejemplo: Aula 204" Text="{Binding Departamento.ubicacion, Mode=TwoWay}" />
+                </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Botones -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+            <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource DeleteButtonStyle}" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>
