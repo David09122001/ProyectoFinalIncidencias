@@ -1,0 +1,106 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewDetalleIncidencia"
+             Title="Detalles de Incidencia"
+             BackgroundColor="#F8F9FA">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+            <!-- Título -->
+            <Label Text="Detalles de la Incidencia" FontSize="24" FontAttributes="Bold" TextColor="#2C3E50" HorizontalOptions="Center" />
+
+            <!-- Campos generales -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Estado" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding Incidencia.estado}" TextColor="#2C3E50" />
+
+                    <Label Text="Profesor Responsable" FontAttributes="Bold" TextColor="#34495E" />
+                    <!--<Label Text="{Binding Incidencia.profesorDni}" TextColor="#2C3E50" />-->
+                    <Label Text="{Binding Profesor.nombre}" TextColor="#2C3E50" />
+                    <Label Text="{Binding Profesor.email}" TextColor="#2C3E50" />
+
+                    <Label Text="Descripción Detallada" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding Incidencia.descripcionDetallada}" TextColor="#2C3E50" />
+
+                    <Label Text="Aula" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding Incidencia.aulaUbicacion}" TextColor="#2C3E50" />
+
+                    <Label Text="Fecha de la Incidencia" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding Incidencia.fechaIncidencia}" TextColor="#2C3E50" />
+
+                    <Frame x:Name="FechaResolucionFrame" BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                        <VerticalStackLayout>
+                            <Label Text="Fecha de Resolución" FontAttributes="Bold" TextColor="#34495E" />
+                            <Label Text="{Binding Incidencia.fechaResolucion}" TextColor="#2C3E50" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Label Text="Tiempo Invertido" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding Incidencia.tiempoInvertido}" TextColor="#2C3E50" />
+
+                    <Label Text="Observaciones" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding Incidencia.observaciones}" TextColor="#2C3E50" />
+
+                </VerticalStackLayout>
+            </Frame>
+
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Adjuntos" FontAttributes="Bold" TextColor="#34495E" />
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                    </StackLayout>
+                    <CollectionView ItemsSource="{Binding Adjuntos}" HeightRequest="150" Margin="0,10,0,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5" ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="{Binding Nombre}" VerticalOptions="Center" Grid.Column="0" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <!-- Especialización: Hardware -->
+            <Frame IsVisible="{Binding MostrarHW}" BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Dispositivo" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding IncidenciaHW.dispositivo}" TextColor="#34495E" />
+
+                    <Label Text="Modelo" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding IncidenciaHW.modelo}" TextColor="#34495E" />
+
+                    <Label Text="Número de Serie" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding IncidenciaHW.numeroSerie}" TextColor="#34495E" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Especialización: Software -->
+            <Frame IsVisible="{Binding MostrarSW}" BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Sistema Operativo" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding IncidenciaSW.sistemaOperativo}" TextColor="#34495E" />
+
+                    <Label Text="Aplicación" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding IncidenciaSW.aplicacion}" TextColor="#34495E" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Especialización: Red -->
+            <Frame IsVisible="{Binding MostrarRed}" BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Dispositivo Afectado" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding IncidenciaRed.dispositivoAfectado}" TextColor="#34495E" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botón Volver -->
+            <Button Text="Volver" Clicked="OnVolverClicked" Style="{StaticResource PrimaryButtonStyle}" WidthRequest="200" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

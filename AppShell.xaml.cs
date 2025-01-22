@@ -18,6 +18,7 @@
             Routing.RegisterRoute(nameof(Views.ViewInsertarModificarDepartamento), typeof(Views.ViewInsertarModificarDepartamento));
             Routing.RegisterRoute(nameof(Views.ViewPerfil), typeof(Views.ViewPerfil));
             Routing.RegisterRoute(nameof(Views.ViewSeleccionarProfesor), typeof(Views.ViewSeleccionarProfesor));
+            Routing.RegisterRoute(nameof(Views.ViewDetalleIncidencia), typeof(Views.ViewDetalleIncidencia));
         }
     }
 }

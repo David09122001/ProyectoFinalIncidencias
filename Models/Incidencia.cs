@@ -64,8 +64,8 @@ namespace ProjecteFinal.Models
         [NotNull] // Poner enum
         public string estado { get; set; } // Puedes usar un enum para restringir valores posibles
 
-        private DateTime _fechaResolucion;
-        public DateTime fechaResolucion
+        private DateTime? _fechaResolucion;
+        public DateTime? fechaResolucion
         {
             get => _fechaResolucion;
             set

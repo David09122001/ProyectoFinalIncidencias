@@ -55,11 +55,23 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
+        public ObservableCollection<string> TiposHW { get; set; } = new ObservableCollection<string>();
         public InsertarIncidenciaVM(Profesor profesor)
         {
             Incidencia.profesorDni = profesor.dni;
             Incidencia.fechaIncidencia = DateTime.Now;
             EliminarAdjuntoCommand = new Command<Adjunto>(EliminarAdjunto);
+            CargarTiposAsync();
+        }
+
+        private async void CargarTiposAsync()
+        {
+            var tiposHW = await incidenciaHWDAO.ObtenerTiposHWAsync();
+            TiposHW.Clear();
+            foreach (var tipo in tiposHW)
+            {
+                TiposHW.Add(tipo.dispositivo);  
+            }
         }
 
         private async void EliminarAdjunto(Adjunto adjunto)

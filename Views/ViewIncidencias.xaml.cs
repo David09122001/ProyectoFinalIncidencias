@@ -39,7 +39,7 @@ public partial class ViewIncidencias : ContentPage
                 { "Profesor", Profesor }
             });
     }
-
+    
     private async void OnEditClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -56,15 +56,15 @@ public partial class ViewIncidencias : ContentPage
         }
     }
 
-    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    // Método para manejar el evento de tocar la incidencia
+    private async void OnIncidenciaTapped(object sender, EventArgs e)
     {
-        if (e.CurrentSelection != null && e.CurrentSelection.Count > 0)
+        // Obtener la incidencia asociada al elemento tocado
+        var incidenciaSeleccionada = (sender as Label)?.BindingContext as Incidencia;
+        if (incidenciaSeleccionada != null)
         {
-            // Obtener la incidencia seleccionada
-            var incidencia = e.CurrentSelection.FirstOrDefault() as Incidencia;
-
-            // Establecer la incidencia seleccionada en el ViewModel
-            vm.SelectedIncidencia = incidencia;
+            // Navegar a la página de detalles de la incidencia, pasando el objeto Incidencia
+            await Navigation.PushAsync(new ViewDetalleIncidencia(incidenciaSeleccionada));
         }
     }
 

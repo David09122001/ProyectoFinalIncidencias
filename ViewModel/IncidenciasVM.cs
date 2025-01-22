@@ -1,5 +1,6 @@
 ﻿using ProjecteFinal.DAO;
 using ProjecteFinal.Models;
+using ProjecteFinal.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -10,6 +11,7 @@ namespace ProjecteFinal.ViewModel
     public class IncidenciasVM : INotifyPropertyChanged
     {
         private IncidenciaDAO incidenciaDAO;
+        private ProfesorDAO profesorDAO;
 
         public ObservableCollection<Incidencia> Incidencias { get; private set; }
 
@@ -24,23 +26,49 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
+        private string _profesorNombre;
+        public string ProfesorNombre
+        {
+            get => _profesorNombre;
+            set
+            {
+                _profesorNombre = value;
+                OnPropertyChanged(nameof(ProfesorNombre));
+            }
+        }
         public IncidenciasVM()
         {
             incidenciaDAO = new IncidenciaDAO();
+            profesorDAO = new ProfesorDAO();
             Incidencias = new ObservableCollection<Incidencia>();
-            CargarIncidencias();
+            CargarIncidenciasAsync();
         }
 
-        public void CargarIncidencias()
+
+        public async Task CargarIncidenciasAsync()
         {
             Incidencias.Clear();
             var listaIncidencias = incidenciaDAO.ObtenerIncidencias();
 
             foreach (var incidencia in listaIncidencias)
             {
+                // Obtener el nombre del profesor responsable
+                if (!string.IsNullOrWhiteSpace(incidencia.responsableDni))
+                {
+                    var profesor = await profesorDAO.BuscarPorDniAsync(incidencia.responsableDni);
+                    incidencia.responsableDni = profesor?.nombre ?? "Ningún profesor asignado";
+                }
+                else
+                {
+                    incidencia.responsableDni = "Ningún profesor asignado";
+                }
+
                 Incidencias.Add(incidencia);
             }
         }
+
+
+
 
         public void AñadirIncidencia(Incidencia nuevaIncidencia)
         {

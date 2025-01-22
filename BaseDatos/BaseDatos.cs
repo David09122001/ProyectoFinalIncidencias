@@ -268,7 +268,13 @@ namespace ProjecteFinal.BaseDatos
                 id = 3,
                 dispositivoAfectado = "Ordenador HP sobremesa"
             }).Wait();
-            
+
+            GetConnection().InsertAsync(new Incidencia_Red
+            {
+                id = 4,
+                dispositivoAfectado = "Ordenador HP sobremesa"
+            }).Wait();
+
             //Insertar tipos HW
             GetConnection().InsertAsync(new Incidencia_HW { id = -1, dispositivo = "Servidor" }).Wait();
             GetConnection().InsertAsync(new Incidencia_HW { id = -2, dispositivo = "Ordenador" }).Wait();

@@ -337,6 +337,10 @@ namespace ProjecteFinal.ViewModel
 
             // Guardar en la base de datos
             Console.WriteLine($"Guardando incidencia con estado: {Incidencia.estado}"); // Depuración
+            if (Incidencia.estado == "Solucionada" && !Incidencia.fechaResolucion.HasValue)
+            {
+                Incidencia.fechaResolucion = DateTime.Now;
+            }
             await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
 
             // Manejar subtipo y adjuntos
@@ -697,7 +701,7 @@ namespace ProjecteFinal.ViewModel
                 var log = new Log
                 {
                     incidenciaId = Incidencia.id,
-                    estado = Incidencia.estado, 
+                    estado = Incidencia.estado,
                     fecha = DateTime.Now
                 };
 

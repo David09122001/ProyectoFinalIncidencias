@@ -1,3 +1,4 @@
+﻿
 using ProjecteFinal.Models;
 using ProjecteFinal.ViewModel;
 using Microsoft.Maui.Storage;
@@ -34,6 +35,13 @@ public partial class ViewModificarIncidencia : ContentPage
         if (Incidencia != null)
         {
             BindingContext = vm = new ModificarIncidenciaVM(Incidencia);
+
+            // Establecer la fecha actual solo si la fecha de resolución no tiene un valor
+            if (Incidencia.fechaResolucion == DateTime.MinValue)
+            {
+                Incidencia.fechaResolucion = DateTime.Now; // Establecer la fecha actual por defecto
+            }
+
             Loaded -= OnLoaded;
         }
     }
@@ -42,8 +50,26 @@ public partial class ViewModificarIncidencia : ContentPage
     {
         try
         {
+            // Verificar el estado de la incidencia
+            if (Incidencia.estado == "Solucionada")
+            {
+                // Si el estado es "Resuelta", aseguramos que la fecha de resolución esté asignada.
+                if (Incidencia.fechaResolucion == DateTime.MinValue)
+                {
+                    // Asignar la fecha actual si no se ha asignado ninguna fecha aún
+                    Incidencia.fechaResolucion = DateTime.Now;
+                }
+            }
+            else
+            {
+                // Si el estado no es "Resuelta", asignamos null a la fecha de resolución
+                Incidencia.fechaResolucion = null;
+            }
+
+            // Guardar los cambios de la incidencia, asegurándose de que la fecha esté bien asignada
             await vm.GuardarCambiosAsync();
-            await DisplayAlert("�xito", "La incidencia se ha actualizado correctamente.", "Aceptar");
+
+            await DisplayAlert("Éxito", "La incidencia se ha actualizado correctamente.", "Aceptar");
             await Navigation.PopAsync();
         }
         catch (Exception ex)
@@ -52,9 +78,11 @@ public partial class ViewModificarIncidencia : ContentPage
         }
     }
 
+
+
     private async void OnCancelarClicked(object sender, EventArgs e)
     {
-        bool confirm = await DisplayAlert("Cancelar", "�Est�s seguro de que quieres cancelar los cambios?", "S�", "No");
+        bool confirm = await DisplayAlert("Cancelar", "¿Estás seguro de que quieres cancelar los cambios?", "Sí", "No");
         if (confirm)
             await Navigation.PopAsync();
     }
@@ -87,7 +115,7 @@ public partial class ViewModificarIncidencia : ContentPage
                 await stream.CopyToAsync(memoryStream);
 
                 vm.AgregarAdjunto(result.FileName, localFilePath, memoryStream.ToArray());
-                await DisplayAlert("�xito", "Foto adjuntada correctamente.", "Aceptar");
+                await DisplayAlert("Éxito", "Foto adjuntada correctamente.", "Aceptar");
             }
         }
         catch (Exception ex)
@@ -104,7 +132,6 @@ public partial class ViewModificarIncidencia : ContentPage
             await DisplayAlert("Incidencia Asignada al SAI", "La incidencia ha sido asignada correctamente al SAI.", "Aceptar");
         }
     }
-
 
     private async void OnSeleccionarArchivoClicked(object sender, EventArgs e)
     {
@@ -131,7 +158,7 @@ public partial class ViewModificarIncidencia : ContentPage
                 await stream.CopyToAsync(memoryStream);
 
                 vm.AgregarAdjunto(result.FileName, localFilePath, memoryStream.ToArray());
-                await DisplayAlert("�xito", "Archivo adjuntado correctamente.", "Aceptar");
+                await DisplayAlert("Éxito", "Archivo adjuntado correctamente.", "Aceptar");
             }
         }
         catch (Exception ex)

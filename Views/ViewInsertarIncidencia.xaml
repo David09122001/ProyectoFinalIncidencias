@@ -70,8 +70,11 @@
             <!-- Formulario específico para cada tipo -->
             <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600" IsVisible="{Binding MostrarHW}">
                 <VerticalStackLayout>
-                    <Label Text="Dispositivo" FontAttributes="Bold" TextColor="#2C3E50" />
-                    <Entry Placeholder="Ejemplo: Ordenador" Text="{Binding IncidenciaHW.dispositivo}" WidthRequest="550" />
+                    <Label Text="Tipo de Incidencia" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Picker ItemsSource="{Binding TiposHW}" 
+                    SelectedItem="{Binding IncidenciaHW.dispositivo}" 
+                    Title="Seleccione un tipo de dispositivo" 
+                    WidthRequest="550" />
 
                     <Label Text="Modelo" FontAttributes="Bold" TextColor="#2C3E50" />
                     <Entry Placeholder="Ejemplo: HP Pavilion" Text="{Binding IncidenciaHW.modelo}" WidthRequest="550" />

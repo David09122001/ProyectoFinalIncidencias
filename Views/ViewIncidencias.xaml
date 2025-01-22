@@ -5,35 +5,88 @@
              BackgroundColor="#F8F9FA">
     <StackLayout Padding="20" Spacing="15">
         <!-- Lista de incidencias -->
-        <CollectionView ItemsSource="{Binding Incidencias}" SelectionMode="Single" SelectionChanged="OnSelectionChanged">
+        <CollectionView ItemsSource="{Binding Incidencias}" SelectionMode="Single">
+            <!-- Header -->
+            <CollectionView.Header>
+                <Grid ColumnSpacing="0" Padding="10, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*" />
+                        <!-- Incidencia -->
+                        <ColumnDefinition Width="1.2*" />
+                        <!-- Estado -->
+                        <ColumnDefinition Width="1.8*" />
+                        <!-- Responsable -->
+                        <ColumnDefinition Width="1.2*" />
+                        <!-- Modificar -->
+                        <ColumnDefinition Width="1.2*" />
+                        <!-- Eliminar -->
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Encabezados -->
+                    <Label Text="Incidencia" FontAttributes="Bold" Grid.Column="0"
+                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                           Padding="5, 0, 0, 0" />
+                    <Label Text="Estado" FontAttributes="Bold" Grid.Column="1"
+                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                           Padding="5, 0, 0, 0" />
+                    <Label Text="Responsable" FontAttributes="Bold" Grid.Column="2"
+                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                           Padding="5, 0, 0, 0" />
+
+                </Grid>
+            </CollectionView.Header>
+
+            <!-- Template -->
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Style="{StaticResource ItemFrameStyle}">
-                        <Grid ColumnSpacing="10">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+                    <Grid ColumnSpacing="10" Padding="10, 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="2*" />
+                            <!-- Incidencia -->
+                            <ColumnDefinition Width="1.2*" />
+                            <!-- Estado -->
+                            <ColumnDefinition Width="1.8*" />
+                            <!-- Responsable -->
+                            <ColumnDefinition Width="2.4*" />
+                            <!-- Botones juntos -->
+                        </Grid.ColumnDefinitions>
+                        <Label Text="{Binding descripcionDetallada}" Grid.Column="0" 
+                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                       Padding="5, 0, 0, 0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                            </Label.GestureRecognizers>
+                        </Label>
 
-                            <!-- Descripción -->
-                            <Label Text="{Binding descripcionDetallada}" 
-                                   VerticalOptions="Center" 
-                                   Grid.Column="0" 
-                                   HorizontalTextAlignment="Start"
-                                   FontSize="16" />
+                        <!-- Estado -->
+                        <Label Text="{Binding estado}" Grid.Column="1"
+                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                   Padding="5, 0, 0, 0" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                            </Label.GestureRecognizers>
+                        </Label>
 
-                            <!-- Botón Modificar -->
+                        <!-- Responsable -->
+                        <Label Text="{Binding responsableDni, TargetNullValue='Ningún profesor asignado'}" Grid.Column="2"
+                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                   Padding="5, 0, 0, 0" >
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                            </Label.GestureRecognizers>
+                        </Label>
+
+                        <!-- Botones Modificar y Eliminar -->
+                        <StackLayout Orientation="Horizontal" Grid.Column="3" HorizontalOptions="EndAndExpand" Spacing="5">
                             <Button Text="Modificar" Clicked="OnEditClicked" CommandParameter="{Binding .}" 
-                                    Style="{StaticResource ModifyButtonStyle}" Grid.Column="1" />
-
-                            <!-- Botón Eliminar -->
+                        Style="{StaticResource ModifyButtonStyle}" />
                             <Button Text="Eliminar" Clicked="OnDeleteClicked" CommandParameter="{Binding .}" 
-                                    Style="{StaticResource DeleteButtonStyle}" Grid.Column="2" />
-                        </Grid>
-                    </Frame>
+                        Style="{StaticResource DeleteButtonStyle}" />
+                        </StackLayout>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
         </CollectionView>
 
         <!-- Botón para añadir incidencia -->
