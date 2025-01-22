@@ -1,4 +1,4 @@
-using ProjecteFinal.Models;
+ï»¿using ProjecteFinal.Models;
 using ProjecteFinal.ViewModel;
 
 namespace ProjecteFinal.Views;
@@ -73,11 +73,11 @@ public partial class ViewIncidencias : ContentPage
         var button = sender as Button;
         var incidencia = button?.CommandParameter as Incidencia;
 
-        if (incidencia != null && await DisplayAlert("Confirmar", "¿Eliminar esta incidencia?", "Sí", "No"))
+        if (incidencia != null && await DisplayAlert("Confirmar", "Eliminar esta incidencia?", "Si", "No"))
         {
             if (vm.EliminarIncidencia(incidencia))
             {
-                await DisplayAlert("Éxito", "Incidencia eliminada correctamente.", "Aceptar");
+                await DisplayAlert("Ã‰xito", "Incidencia eliminada correctamente.", "Aceptar");
             }
             else
             {

@@ -36,15 +36,18 @@ namespace ProjecteFinal.Views
 
         private async void OnGuardarClicked(object sender, EventArgs e)
         {
+            Console.WriteLine("Guardar clicado. Iniciando el guardado...");
             try
             {
                 var resultado = await vm.GuardarIncidenciaAsync();
                 if (!resultado)
                 {
+                    Console.WriteLine("Error: Validación fallida.");
                     await DisplayAlert("Error", "Faltan campos obligatorios. Por favor, completa todos los datos.", "Aceptar");
                     return;
                 }
 
+                Console.WriteLine("Guardado con éxito.");
                 await DisplayAlert("Éxito", "Incidencia guardada correctamente.", "Aceptar");
 
                 // Refrescar lista de incidencias
@@ -58,13 +61,20 @@ namespace ProjecteFinal.Views
             }
             catch (InvalidOperationException ex)
             {
+                Console.WriteLine($"Validación fallida: {ex.Message}");
                 await DisplayAlert("Aviso", ex.Message, "Aceptar");
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"Error al guardar: {ex.Message}");
                 await DisplayAlert("Error", $"Ha ocurrido un error: {ex.Message}", "Aceptar");
             }
+            finally
+            {
+                Console.WriteLine("Finalizando guardado.");
+            }
         }
+
 
         private async void OnCancelarClicked(object sender, EventArgs e)
         {

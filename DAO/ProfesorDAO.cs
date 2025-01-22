@@ -23,6 +23,15 @@ namespace ProjecteFinal.DAO
             return await GetConnection().Table<Profesor>().FirstOrDefaultAsync(p => p.email == correo);
         }
 
+        public async Task<List<Profesor>> BuscarTodosAsync()
+        {
+            return await GetConnection().Table<Profesor>().ToListAsync();
+        }
+
+        public async Task<Profesor> BuscarPorDniAsync(string dni)
+        {
+            return await GetConnection().Table<Profesor>().FirstOrDefaultAsync(p => p.dni == dni);
+        }
 
     }
 }

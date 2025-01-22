@@ -17,7 +17,7 @@ namespace ProjecteFinal.Models
         public int incidenciaId { get; set; }
 
         [NotNull]
-        public int estado { get; set; }
+        public string estado { get; set; }
 
         public DateTime fecha { get; set; } = DateTime.Now;
     }

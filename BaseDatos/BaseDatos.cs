@@ -198,10 +198,24 @@ namespace ProjecteFinal.BaseDatos
                 fechaIncidencia = DateTime.Now.AddDays(-1),
                 fechaIntroduccion = DateTime.Now,
                 profesorDni = "20761603X",
+                responsableDni = "20761603X",
                 aulaUbicacion = "Aula 101",
                 descripcionDetallada = "El ordenador no enciende",
                 observaciones = "Revisar fuente de alimentación",
                 estado = EstadoIncidencia.Comunicada.ToString(),
+                tiempoInvertido = 0,
+                comunicada = false
+            }).Wait();
+
+            GetConnection().InsertAsync(new Incidencia
+            {
+                fechaIncidencia = DateTime.Now.AddDays(-1),
+                fechaIntroduccion = DateTime.Now,
+                profesorDni = "20761603X",
+                aulaUbicacion = "1",
+                descripcionDetallada = "1",
+                observaciones = "1",
+                estado = EstadoIncidencia.Pendiente.ToString(),
                 tiempoInvertido = 0,
                 comunicada = false
             }).Wait();
@@ -219,6 +233,7 @@ namespace ProjecteFinal.BaseDatos
                 fechaIncidencia = DateTime.Now.AddDays(-2),
                 fechaIntroduccion = DateTime.Now,
                 profesorDni = "20889987X",
+                responsableDni = "20761603X",
                 aulaUbicacion = "Aula 202",
                 descripcionDetallada = "No funciona el software",
                 observaciones = "Actualizar software",
@@ -253,13 +268,7 @@ namespace ProjecteFinal.BaseDatos
                 id = 3,
                 dispositivoAfectado = "Ordenador HP sobremesa"
             }).Wait();
-
-            // Insertar logs
-            GetConnection().InsertAsync(new Log { incidenciaId = 1, estado = 1 }).Wait();
-            GetConnection().InsertAsync(new Log { incidenciaId = 2, estado = 2 }).Wait();
-            GetConnection().InsertAsync(new Log { incidenciaId = 3, estado = 1 }).Wait();
-
-
+            
             //Insertar tipos HW
             GetConnection().InsertAsync(new Incidencia_HW { id = -1, dispositivo = "Servidor" }).Wait();
             GetConnection().InsertAsync(new Incidencia_HW { id = -2, dispositivo = "Ordenador" }).Wait();

@@ -67,6 +67,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ViewLogs.xaml.cs">
+	    <DependentUpon>ViewLogs.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ViewTiposHW.xaml.cs">
 	    <DependentUpon>ViewTiposHW.xaml</DependentUpon>
 	  </Compile>
@@ -91,6 +94,9 @@
 	  <MauiXaml Update="Views\ViewPerfil.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewSeleccionarProfesor.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewTiposHW.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -103,7 +109,7 @@
 	  <MauiXaml Update="Views\ViewLogin.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Logs.xaml">
+	  <MauiXaml Update="Views\ViewLogs.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\MainMenu.xaml">

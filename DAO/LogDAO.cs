@@ -1,10 +1,6 @@
 ﻿using ProjecteFinal.Models;
 using SQLite;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjecteFinal.DAO
@@ -13,31 +9,46 @@ namespace ProjecteFinal.DAO
     {
         private static SQLiteAsyncConnection connection;
 
-        public static SQLiteAsyncConnection GetConnection()
+        public LogDAO()
         {
-            return BaseDatos.BaseDatos.GetConnection();
+            connection = BaseDatos.BaseDatos.GetConnection();
         }
 
-        public void AñadirLog(Log log)
+        // Método para añadir un log de forma asincrónica
+        public async Task AñadirLogAsync(Log log)
         {
-            GetConnection().InsertAsync(log).Wait();
+            await connection.InsertAsync(log);
+            Console.WriteLine($"Log añadido: IncidenciaId = {log.incidenciaId}, Estado = {log.estado}, Fecha = {log.fecha}");
         }
 
-        public ObservableCollection<Log> ObtenerLogs()
+        // Método para obtener todos los logs
+        public async Task<ObservableCollection<Log>> ObtenerLogsAsync()
         {
-            var logsQuery = GetConnection().Table<Log>();
-            var logs = logsQuery.ToListAsync().Result;
+            var logs = await connection.Table<Log>().ToListAsync();
             return new ObservableCollection<Log>(logs);
         }
 
-        public void EliminarLog(Log log)
+        // Método para obtener los logs específicos de una incidencia
+        public async Task<ObservableCollection<Log>> ObtenerLogsPorIncidenciaAsync(int incidenciaId)
         {
-            GetConnection().DeleteAsync(log).Wait();
+            var logs = await connection.Table<Log>()
+                                        .Where(l => l.incidenciaId == incidenciaId)
+                                        .ToListAsync();
+            return new ObservableCollection<Log>(logs);
         }
 
-        public void ActualizarLog(Log log)
+        // Método para eliminar un log
+        public async Task EliminarLogAsync(Log log)
         {
-            GetConnection().UpdateAsync(log).Wait();
+            await connection.DeleteAsync(log);
+            Console.WriteLine($"Log eliminado: Id = {log.id}");
+        }
+
+        // Método para actualizar un log existente
+        public async Task ActualizarLogAsync(Log log)
+        {
+            await connection.UpdateAsync(log);
+            Console.WriteLine($"Log actualizado: Id = {log.id}");
         }
     }
 }

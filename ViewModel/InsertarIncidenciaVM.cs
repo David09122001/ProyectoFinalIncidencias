@@ -4,6 +4,8 @@ using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using ProjecteFinal.Base;
 using System.Windows.Input;
+using System.Net.Mail;
+using System.Net;
 
 namespace ProjecteFinal.ViewModel
 {
@@ -40,6 +42,19 @@ namespace ProjecteFinal.ViewModel
         public bool MostrarRed { get; set; }
         public ICommand EliminarAdjuntoCommand { get; }
 
+        private readonly SemaphoreSlim _semaforo = new SemaphoreSlim(1, 1); // Máximo 1 tarea simultánea
+
+        private bool _isGuardando = true;
+        public bool IsGuardando
+        {
+            get => _isGuardando;
+            set
+            {
+                _isGuardando = value;
+                OnPropertyChanged();
+            }
+        }
+
         public InsertarIncidenciaVM(Profesor profesor)
         {
             Incidencia.profesorDni = profesor.dni;
@@ -75,29 +90,111 @@ namespace ProjecteFinal.ViewModel
             OnPropertyChanged(nameof(MostrarRed));
         }
 
+        private async Task EnviarCorreoAsync()
+        {
+            try
+            {
+                string correoDestino = "david.carcer09@gmail.com";
+                string asunto = "Nueva Incidencia Reportada";
+
+                // Cuerpo dinámico
+                string cuerpo = $@"
+        <!DOCTYPE html>
+        <html>
+        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+            <h2 style='color: #007ACC;'>Nueva Incidencia Reportada</h2>
+            <p>Estimado equipo de <strong>Mantenimiento TIC</strong>,</p>
+            <p>Se ha registrado una nueva incidencia en el sistema de gestión. A continuación, se detallan los datos de la incidencia:</p>
+            <table style='border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 20px; font-size: 14px;'>
+                <tr>
+                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Descripción</strong></td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.descripcionDetallada}</td>
+                </tr>
+                <tr>
+                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Aula</strong></td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.aulaUbicacion}</td>
+                </tr>
+                <tr>
+                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Fecha de Incidencia</strong></td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.fechaIncidencia:dd/MM/yyyy}</td>
+                </tr>
+                <tr>
+                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Tipo</strong></td>
+                    <td style='border: 1px solid #ddd; padding: 8px;'>{TipoSeleccionado}</td>
+                </tr>
+            </table>
+            <p style='margin-top: 20px;'>Por favor, revisen esta incidencia a la mayor brevedad posible.</p>
+            <p>Gracias,</p>
+            <p style='color: #007ACC;'><strong>Sistema de Gestión de Incidencias</strong></p>
+        </body>
+        </html>";
+
+                // Configuración del correo
+                MailAddress addressFrom = new MailAddress("iscapopproyecto@gmail.com", "Gestión Incidencias");
+                MailAddress addressTo = new MailAddress(correoDestino);
+                MailMessage message = new MailMessage(addressFrom, addressTo)
+                {
+                    Subject = asunto,
+                    Body = cuerpo,
+                    IsBodyHtml = true // HTML activado
+                };
+
+                // Configuración del cliente SMTP
+                SmtpClient client = new SmtpClient("smtp.gmail.com")
+                {
+                    Port = 587,
+                    EnableSsl = true,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential("iscapopproyecto@gmail.com", "wjre zcur tdxg lakz")
+                };
+
+                await Task.Run(() => client.Send(message));
+                Console.WriteLine("Correo enviado correctamente.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al enviar correo: {ex.Message}");
+            }
+        }
+
         public async Task<bool> GuardarIncidenciaAsync()
         {
-            // Validar campos obligatorios generales
-            if (string.IsNullOrWhiteSpace(Incidencia.descripcionDetallada) || string.IsNullOrWhiteSpace(Incidencia.aulaUbicacion))
+            // Intentar adquirir el semáforo; evita múltiples ejecuciones simultáneas
+            if (!await _semaforo.WaitAsync(0))
             {
-                throw new InvalidOperationException("Completa todos los campos obligatorios.");
+                return false; // Si ya está en uso, no se ejecuta de nuevo
             }
 
-            // Validar tipo de incidencia
-            if (string.IsNullOrWhiteSpace(TipoSeleccionado))
-            {
-                throw new InvalidOperationException("Selecciona un tipo de incidencia (Hardware, Software o Red).");
-            }
+            IsGuardando = false; // Deshabilitar botón
 
             try
             {
-                // Asignar estado predeterminado
-                Incidencia.estado = "Comunicada";
+                // Validar campos obligatorios generales
+                if (string.IsNullOrWhiteSpace(Incidencia.descripcionDetallada))
+                {
+                    throw new InvalidOperationException("La descripción detallada es obligatoria.");
+                }
+
+                if (string.IsNullOrWhiteSpace(Incidencia.aulaUbicacion))
+                {
+                    throw new InvalidOperationException("El aula es obligatoria.");
+                }
+
+                if (string.IsNullOrWhiteSpace(TipoSeleccionado))
+                {
+                    throw new InvalidOperationException("Debes seleccionar un tipo de incidencia.");
+                }
+
+                // Determinar estado inicial
+                if (string.IsNullOrWhiteSpace(Incidencia.estado))
+                {
+                    Incidencia.estado = "Pendiente";
+                }
 
                 // Guardar incidencia principal
                 await incidenciaDAO.AñadirIncidenciaAsync(Incidencia);
 
-                // Validar y guardar subtipo
+                // Guardar subtipos
                 if (TipoSeleccionado == "Hardware")
                 {
                     if (string.IsNullOrWhiteSpace(IncidenciaHW.dispositivo))
@@ -126,7 +223,7 @@ namespace ProjecteFinal.ViewModel
                     }
 
                     IncidenciaRed.id = Incidencia.id;
-                    await incidenciaRedDAO.AñadirIncidenciaRedAsync(IncidenciaRed);
+                    await incidenciaDAO.AñadirSubtipoRedAsync(IncidenciaRed);
                 }
 
                 // Guardar adjuntos
@@ -136,11 +233,20 @@ namespace ProjecteFinal.ViewModel
                     await adjuntoDAO.AñadirAdjuntoAsync(adjunto);
                 }
 
+                // Enviar correo
+                await EnviarCorreoAsync();
+
                 return true; // Éxito
             }
             catch (Exception ex)
             {
-                throw new InvalidOperationException($"Error al guardar la incidencia: {ex.Message}");
+                Console.WriteLine($"Error en GuardarIncidenciaAsync: {ex.Message}");
+                throw; // Relanzar la excepción para que se maneje en la vista
+            }
+            finally
+            {
+                IsGuardando = true; // Rehabilitar botón
+                _semaforo.Release(); // Liberar el semáforo para permitir nuevas ejecuciones
             }
         }
 

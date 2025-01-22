@@ -58,7 +58,7 @@ public partial class MainMenu : ContentPage
     }
     private async void LogsTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(Logs)}");
+        await Shell.Current.GoToAsync($"{nameof(ViewLogs)}");
     }
 
     private async void PerfilTapped(object sender, EventArgs e)

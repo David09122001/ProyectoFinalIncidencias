@@ -1,0 +1,83 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewSeleccionarProfesor"
+             Title="Seleccionar Profesor"
+             BackgroundColor="#F5F6F8"
+             x:Name="ParentPage">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
+        <!-- Título -->
+        <Label Text="Seleccionar Profesor"
+               FontSize="30"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#2C3E50" />
+
+        <!-- Barra de búsqueda -->
+        <Frame BackgroundColor="White" CornerRadius="15" Padding="0" HasShadow="True" HorizontalOptions="FillAndExpand" HeightRequest="70">
+            <Grid Padding="10">
+                <Grid.ColumnDefinitions>
+                    <!-- Columna para el icono -->
+                    <ColumnDefinition Width="Auto" />
+                    <!-- Columna para el Entry -->
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Icono de búsqueda -->
+                <Image Source="lupa.png"
+                       WidthRequest="30"
+                       HeightRequest="30"
+                       VerticalOptions="Center"
+                       Grid.Column="0" />
+
+                <!-- Entrada de búsqueda -->
+                <Entry Placeholder="Buscar profesor..."
+                       Text="{Binding Filtro, Mode=TwoWay}"
+                       FontSize="18"
+                       BackgroundColor="Transparent"
+                       VerticalOptions="Center"
+                       HorizontalOptions="FillAndExpand"
+                       Grid.Column="1"
+                       HeightRequest="50" />
+            </Grid>
+        </Frame>
+
+        <!-- Lista de profesores (scrolleable) -->
+        <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
+            <ScrollView>
+                <CollectionView ItemsSource="{Binding ProfesoresFiltrados}" SelectionMode="Single"
+                                HeightRequest="300">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Padding="10" ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Nombre del profesor -->
+                                <Label Text="{Binding nombre}" FontSize="18" VerticalOptions="Center" Grid.Column="0" />
+
+                                <!-- Email del profesor -->
+                                <Label Text="{Binding email}" FontSize="16" TextColor="#34495E" VerticalOptions="Center" Grid.Column="1" />
+
+                                <!-- Botón Seleccionar -->
+                                <Button Text="Seleccionar"
+                                        BackgroundColor="#4CAF50"
+                                        TextColor="White"
+                                        FontSize="14"
+                                        CornerRadius="10"
+                                        HeightRequest="35"
+                                        WidthRequest="100"
+                                        HorizontalOptions="End"
+                                        Command="{Binding BindingContext.SeleccionarProfesorCommand, Source={x:Reference ParentPage}}"
+                                        CommandParameter="{Binding .}"
+                                        Grid.Column="2" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Frame>
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,7 +1,9 @@
 using ProjecteFinal.Models;
 using ProjecteFinal.ViewModel;
-using System;
 using Microsoft.Maui.Storage;
+using System;
+using System.IO;
+using System.Linq;
 
 namespace ProjecteFinal.Views;
 
@@ -13,8 +15,12 @@ public partial class ViewModificarIncidencia : ContentPage
     private Incidencia _incidencia;
     public Incidencia Incidencia
     {
-        get { return _incidencia; }
-        set { _incidencia = value; OnPropertyChanged(); }
+        get => _incidencia;
+        set
+        {
+            _incidencia = value;
+            OnPropertyChanged();
+        }
     }
 
     public ViewModificarIncidencia()
@@ -34,28 +40,103 @@ public partial class ViewModificarIncidencia : ContentPage
 
     private async void OnGuardarClicked(object sender, EventArgs e)
     {
-        if (vm.GuardarIncidencia())
+        try
         {
-            await DisplayAlert("Éxito", "Incidencia modificada correctamente.", "Aceptar");
-
-            if (Shell.Current.Navigation.NavigationStack.OfType<ViewIncidencias>().FirstOrDefault() is ViewIncidencias viewIncidencias &&
-                viewIncidencias.BindingContext is IncidenciasVM incidenciasVM)
-            {
-                incidenciasVM.ActualizarIncidencia(vm.Incidencia);
-            }
-
+            await vm.GuardarCambiosAsync();
+            await DisplayAlert("Éxito", "La incidencia se ha actualizado correctamente.", "Aceptar");
             await Navigation.PopAsync();
         }
-        else
+        catch (Exception ex)
         {
-            await DisplayAlert("Error", "Completa los campos obligatorios.", "Aceptar");
+            await DisplayAlert("Error", ex.Message, "Aceptar");
+        }
+    }
+
+    private async void OnCancelarClicked(object sender, EventArgs e)
+    {
+        bool confirm = await DisplayAlert("Cancelar", "¿Estás seguro de que quieres cancelar los cambios?", "Sí", "No");
+        if (confirm)
+            await Navigation.PopAsync();
+    }
+
+    private async void OnCambiarProfesorClicked(object sender, EventArgs e)
+    {
+        if (vm != null)
+        {
+            await vm.CambiarProfesorAsync();
+        }
+    }
+
+    private async void OnHacerFotoClicked(object sender, EventArgs e)
+    {
+        try
+        {
+            var result = await MediaPicker.Default.CapturePhotoAsync();
+            if (result != null)
+            {
+                string localFilePath = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
+
+                // Guardar en el almacenamiento local
+                using var stream = await result.OpenReadAsync();
+                using var localStream = File.OpenWrite(localFilePath);
+                await stream.CopyToAsync(localStream);
+
+                // Leer en memoria
+                using var memoryStream = new MemoryStream();
+                stream.Seek(0, SeekOrigin.Begin);
+                await stream.CopyToAsync(memoryStream);
+
+                vm.AgregarAdjunto(result.FileName, localFilePath, memoryStream.ToArray());
+                await DisplayAlert("Éxito", "Foto adjuntada correctamente.", "Aceptar");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Error al capturar foto: {ex.Message}", "Aceptar");
+        }
+    }
+
+    private async void OnResolverPorSAIClicked(object sender, EventArgs e)
+    {
+        if (BindingContext is ModificarIncidenciaVM vm)
+        {
+            await vm.ResolverPorSAIAsync();
+            await DisplayAlert("Incidencia Asignada al SAI", "La incidencia ha sido asignada correctamente al SAI.", "Aceptar");
         }
     }
 
 
-
-    private async void OnCancelarClicked(object sender, EventArgs e)
+    private async void OnSeleccionarArchivoClicked(object sender, EventArgs e)
     {
-        await Navigation.PopAsync();
+        try
+        {
+            var result = await FilePicker.Default.PickAsync(new PickOptions
+            {
+                PickerTitle = "Selecciona un archivo",
+                FileTypes = FilePickerFileType.Images
+            });
+
+            if (result != null)
+            {
+                string localFilePath = Path.Combine(FileSystem.AppDataDirectory, result.FileName);
+
+                // Guardar en el almacenamiento local
+                using var stream = await result.OpenReadAsync();
+                using var localStream = File.OpenWrite(localFilePath);
+                await stream.CopyToAsync(localStream);
+
+                // Leer en memoria
+                using var memoryStream = new MemoryStream();
+                stream.Seek(0, SeekOrigin.Begin);
+                await stream.CopyToAsync(memoryStream);
+
+                vm.AgregarAdjunto(result.FileName, localFilePath, memoryStream.ToArray());
+                await DisplayAlert("Éxito", "Archivo adjuntado correctamente.", "Aceptar");
+            }
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Error", $"Error al seleccionar archivo: {ex.Message}", "Aceptar");
+        }
     }
 }

@@ -1,0 +1,66 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewLogs"
+             Title="Ver Logs">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
+            <!-- Título -->
+            <Label Text="Historial de Logs"
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="#2C3E50"
+                   HorizontalOptions="Center" />
+
+            <!-- Filtro por ID de Incidencia -->
+            <StackLayout Orientation="Horizontal" Spacing="10" HorizontalOptions="Center" VerticalOptions="Start">
+                <Entry Placeholder="Filtrar por ID de incidencia"
+                       Keyboard="Numeric"
+                       Text="{Binding FiltroIncidenciaId}" 
+                       WidthRequest="250" />
+                <Button Text="Filtrar"
+                        Command="{Binding FiltrarCommand}" 
+                        WidthRequest="100" />
+                <Button Text="Borrar Filtro"
+                        Command="{Binding BorrarFiltroCommand}" 
+                        WidthRequest="120" />
+            </StackLayout>
+
+            <!-- Lista de Logs -->
+            <CollectionView ItemsSource="{Binding Logs}" Margin="0,20,0,0" VerticalOptions="FillAndExpand">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame BackgroundColor="#F5F5F5"
+                               CornerRadius="10"
+                               Padding="15"
+                               HasShadow="True"
+                               Margin="10"
+                               HorizontalOptions="FillAndExpand">
+                            <VerticalStackLayout Spacing="8">
+                                <Label Text="Incidencia ID:"
+                                       FontAttributes="Bold"
+                                       TextColor="#34495E" />
+                                <Label Text="{Binding incidenciaId}" 
+                                       FontSize="16" 
+                                       TextColor="#2C3E50" />
+
+                                <Label Text="Estado:"
+                                       FontAttributes="Bold"
+                                       TextColor="#34495E" />
+                                <Label Text="{Binding estado}" 
+                                       FontSize="16" 
+                                       TextColor="#2C3E50" />
+
+                                <Label Text="Fecha:"
+                                       FontAttributes="Bold"
+                                       TextColor="#34495E" />
+                                <Label Text="{Binding fecha, StringFormat='{0:dd/MM/yyyy HH:mm}'}"
+                                       FontSize="16" 
+                                       TextColor="#2C3E50" />
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

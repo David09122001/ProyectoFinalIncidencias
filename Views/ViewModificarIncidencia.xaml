@@ -1,72 +1,148 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProjecteFinal.Views.ViewModificarIncidencia"
+             x:Name="ParentPage"
              Title="Modificar Incidencia"
              BackgroundColor="#F5F6F8">
     <ScrollView>
-        <VerticalStackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
-            <Frame CornerRadius="20" Padding="20" BackgroundColor="White" WidthRequest="800">
-                <VerticalStackLayout Spacing="20">
-                    <!-- Título -->
-                    <Label Text="Modificar Incidencia" FontSize="30" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#2C3E50" />
+        <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
+            <!-- Título -->
+            <Label Text="Modificar Incidencia" FontSize="24" FontAttributes="Bold" TextColor="#2C3E50" HorizontalOptions="Center" />
 
-                    <!-- Grid para los campos -->
-                    <Grid ColumnSpacing="20" RowSpacing="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="1*" />
-                            <ColumnDefinition Width="1*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
+            <!-- Estado -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Estado de la Incidencia" FontAttributes="Bold" TextColor="#34495E" />
+                    <Picker ItemsSource="{Binding Estados}"
+                            SelectedItem="{Binding EstadoSeleccionado, Mode=TwoWay}" 
+                            WidthRequest="550" />
+                </VerticalStackLayout>
+            </Frame>
 
-                        <!-- Descripción Detallada -->
-                        <VerticalStackLayout Grid.Row="0" Grid.Column="0">
-                            <Label Text="Descripción Detallada" FontAttributes="Bold" TextColor="#34495E" />
-                            <Entry Placeholder="Ejemplo: El ordenador no enciende" Text="{Binding Incidencia.descripcionDetallada}" HeightRequest="50" />
-                        </VerticalStackLayout>
-
-                        <!-- Aula -->
-                        <VerticalStackLayout Grid.Row="0" Grid.Column="1">
-                            <Label Text="Aula" FontAttributes="Bold" TextColor="#34495E" />
-                            <Entry Placeholder="Ejemplo: Aula 101" Text="{Binding Incidencia.aulaUbicacion}" HeightRequest="50" />
-                        </VerticalStackLayout>
-
-                        <!-- Fecha de Incidencia -->
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="0">
-                            <Label Text="Fecha de Incidencia" FontAttributes="Bold" TextColor="#34495E" />
-                            <DatePicker Date="{Binding Incidencia.fechaIncidencia}" HeightRequest="50" />
-                        </VerticalStackLayout>
-
-                        <!-- Fecha de Resolución -->
-                        <VerticalStackLayout Grid.Row="1" Grid.Column="1">
-                            <Label Text="Fecha de Resolución" FontAttributes="Bold" TextColor="#34495E" />
-                            <DatePicker Date="{Binding Incidencia.fechaResolucion}" HeightRequest="50" />
-                        </VerticalStackLayout>
-
-                        <!-- Tiempo Invertido -->
-                        <VerticalStackLayout Grid.Row="2" Grid.Column="0">
-                            <Label Text="Tiempo Invertido (minutos)" FontAttributes="Bold" TextColor="#34495E" />
-                            <Entry Placeholder="Ejemplo: 30" Text="{Binding Incidencia.tiempoInvertido}" Keyboard="Numeric" HeightRequest="50" />
-                        </VerticalStackLayout>
-
-                        <!-- Observaciones -->
-                        <VerticalStackLayout Grid.Row="2" Grid.Column="1">
-                            <Label Text="Observaciones" FontAttributes="Bold" TextColor="#34495E" />
-                            <Editor Placeholder="Ejemplo: Revisar fuente de alimentación" Text="{Binding Incidencia.observaciones}" HeightRequest="100" />
-                        </VerticalStackLayout>
-                    </Grid>
-
-                    <!-- Botones de Guardar y Cancelar -->
-                    <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
-                        <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
-                        <Button Text="Cancelar" Clicked="OnCancelarClicked" BackgroundColor="Red" TextColor="White" Style="{StaticResource SecondaryButtonStyle}" />
+            <!-- Profesor Responsable -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Profesor Responsable" FontAttributes="Bold" TextColor="#34495E" />
+                    <Label Text="{Binding ProfesorResponsable}" TextColor="#2C3E50" />
+                    <HorizontalStackLayout Spacing="15" VerticalOptions="Center">
+                        <Button Text="Cambiar Profesor" Clicked="OnCambiarProfesorClicked" WidthRequest="200" />
+                        <Button Text="Resolver por SAI" Clicked="OnResolverPorSAIClicked" BackgroundColor="#FF9800" TextColor="White" WidthRequest="200" />
                     </HorizontalStackLayout>
                 </VerticalStackLayout>
             </Frame>
+
+
+
+
+            <!-- Campos Generales -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="Descripción Detallada" FontAttributes="Bold" TextColor="#34495E" />
+                    <Editor Placeholder="Ejemplo: El ordenador no enciende"
+                            Text="{Binding Incidencia.descripcionDetallada}"
+                            HeightRequest="100"
+                            WidthRequest="550" />
+
+                    <Label Text="Aula" FontAttributes="Bold" TextColor="#34495E" />
+                    <Entry Placeholder="Ejemplo: Aula 101"
+                           Text="{Binding Incidencia.aulaUbicacion}"
+                           WidthRequest="550" />
+
+                    <Label Text="Fecha de la Incidencia" FontAttributes="Bold" TextColor="#34495E" />
+                    <DatePicker Date="{Binding Incidencia.fechaIncidencia}" WidthRequest="550" />
+
+                    <Label Text="Fecha de Resolución" FontAttributes="Bold" TextColor="#34495E" />
+                    <DatePicker Date="{Binding Incidencia.fechaResolucion}" WidthRequest="550" />
+
+                    <Label Text="Tiempo Invertido (minutos)" FontAttributes="Bold" TextColor="#34495E" />
+                    <Entry Placeholder="Ejemplo: 30" 
+                           Text="{Binding Incidencia.tiempoInvertido}" 
+                           Keyboard="Numeric"
+                           WidthRequest="550" />
+
+                    <Label Text="Observaciones" FontAttributes="Bold" TextColor="#34495E" />
+                    <Editor Placeholder="Ejemplo: Revisar fuente de alimentación"
+                            Text="{Binding Incidencia.observaciones}"
+                            HeightRequest="100"
+                            WidthRequest="550" />
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Adjuntos -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Label Text="Adjuntos" FontAttributes="Bold" TextColor="#34495E" />
+                    <StackLayout Orientation="Horizontal" Spacing="10">
+                        <Button Text="Capturar Foto" Clicked="OnHacerFotoClicked" WidthRequest="200" />
+                        <Button Text="Seleccionar Archivo" Clicked="OnSeleccionarArchivoClicked" WidthRequest="200" />
+                    </StackLayout>
+                    <CollectionView ItemsSource="{Binding Adjuntos}" HeightRequest="150" Margin="0,10,0,0">
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Padding="5" ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Label Text="{Binding Nombre}" VerticalOptions="Center" Grid.Column="0" />
+                                    <Button Text="Eliminar"
+                                            BackgroundColor="#F44336"
+                                            TextColor="White"
+                                            Command="{Binding BindingContext.EliminarAdjuntoCommand, Source={x:Reference ParentPage}}"
+                                            CommandParameter="{Binding .}"
+                                            Grid.Column="1"
+                                            WidthRequest="80"
+                                            HeightRequest="35"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center" />
+                                </Grid>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Formulario Específico por Tipo -->
+            <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
+                <VerticalStackLayout>
+                    <Picker ItemsSource="{Binding Tipos}" SelectedItem="{Binding TipoSeleccionado}" Title="Seleccione un tipo de incidencia" WidthRequest="550" />
+                    <Frame IsVisible="{Binding MostrarHW}">
+                        <VerticalStackLayout>
+                            <Label Text="Dispositivo" FontAttributes="Bold" TextColor="#2C3E50" />
+                            <Entry Placeholder="Ejemplo: Ordenador" Text="{Binding IncidenciaHW.dispositivo}" WidthRequest="550" />
+
+                            <Label Text="Modelo" FontAttributes="Bold" TextColor="#2C3E50" />
+                            <Entry Placeholder="Ejemplo: HP Pavilion" Text="{Binding IncidenciaHW.modelo}" WidthRequest="550" />
+
+                            <Label Text="Número de Serie" FontAttributes="Bold" TextColor="#2C3E50" />
+                            <Entry Placeholder="Ejemplo: 12345-67890" Text="{Binding IncidenciaHW.numeroSerie}" WidthRequest="550" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame IsVisible="{Binding MostrarSW}">
+                        <VerticalStackLayout>
+                            <Label Text="Sistema Operativo" FontAttributes="Bold" TextColor="#2C3E50" />
+                            <Entry Placeholder="Ejemplo: Windows 10" Text="{Binding IncidenciaSW.sistemaOperativo}" WidthRequest="550" />
+
+                            <Label Text="Aplicación" FontAttributes="Bold" TextColor="#2C3E50" />
+                            <Entry Placeholder="Ejemplo: Office 365" Text="{Binding IncidenciaSW.aplicacion}" WidthRequest="550" />
+                        </VerticalStackLayout>
+                    </Frame>
+
+                    <Frame IsVisible="{Binding MostrarRed}">
+                        <VerticalStackLayout>
+                            <Label Text="Dispositivo Afectado" FontAttributes="Bold" TextColor="#2C3E50" />
+                            <Entry Placeholder="Ejemplo: Router de la sala" Text="{Binding IncidenciaRed.dispositivoAfectado}" WidthRequest="550" />
+                        </VerticalStackLayout>
+                    </Frame>
+                </VerticalStackLayout>
+            </Frame>
+
+            <!-- Botones -->
+            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+                <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" WidthRequest="200" />
+                <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource DeleteButtonStyle}" WidthRequest="200" />
+            </StackLayout>
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

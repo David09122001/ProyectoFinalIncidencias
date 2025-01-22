@@ -9,6 +9,7 @@ namespace ProjecteFinal.Models
 {
     public enum EstadoIncidencia
     {
+        Pendiente,
         Comunicada,
         Resolviendo,
         Solucionada,
