@@ -1,0 +1,73 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewInsertarModificarProfesor"
+             Title="Insertar/Modificar Profesor"
+             BackgroundColor="#F5F6F8">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+        <!-- Título -->
+        <Label Text="Formulario de Profesor" 
+               FontSize="24" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               TextColor="#2C3E50" />
+
+        <!-- Frame contenedor de los campos -->
+        <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
+            <VerticalStackLayout Spacing="15">
+                <!-- DNI -->
+                <VerticalStackLayout>
+                    <Label Text="DNI" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Ejemplo: 12345678A" 
+                           Text="{Binding Profesor.dni, Mode=TwoWay}" 
+                           IsEnabled="{Binding IsDniEditable}" />
+                </VerticalStackLayout>
+
+                <!-- Nombre -->
+                <VerticalStackLayout>
+                    <Label Text="Nombre" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Ejemplo: Juan Pérez" 
+                           Text="{Binding Profesor.nombre, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
+                <!-- Departamento -->
+                <VerticalStackLayout>
+                    <Label Text="Departamento" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Picker Title="Seleccionar Departamento"
+                    ItemsSource="{Binding Departamentos}"
+                    SelectedItem="{Binding SelectedDepartamento, Mode=TwoWay}"
+                    ItemDisplayBinding="{Binding nombre}" />
+                </VerticalStackLayout>
+                <!-- Email -->
+                <VerticalStackLayout>
+                    <Label Text="Email" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Ejemplo: juan.perez@email.com" 
+                           Text="{Binding Profesor.email, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
+                <!-- Contraseña -->
+                <VerticalStackLayout>
+                    <Label Text="Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Escribir contraseña" 
+                           IsPassword="True" 
+                           Text="{Binding Profesor.contrasena, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
+                <!-- Rol -->
+                <VerticalStackLayout>
+                    <Label Text="Rol" FontAttributes="Bold" TextColor="#2C3E50" />
+                        <Picker Title="Seleccionar Rol" 
+                        ItemsSource="{Binding Roles}" 
+                        SelectedItem="{Binding SelectedRol, Mode=TwoWay}" 
+                        ItemDisplayBinding="{Binding nombre}" />        
+
+                    </VerticalStackLayout>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Botones -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+            <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource DeleteButtonStyle}" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

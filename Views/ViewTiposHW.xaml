@@ -15,20 +15,16 @@
         <Frame BackgroundColor="White" CornerRadius="15" Padding="0" HasShadow="True" WidthRequest="800" HeightRequest="60" HorizontalOptions="Center">
             <Grid Padding="10" ColumnSpacing="10">
                 <Grid.ColumnDefinitions>
-                    <!-- Columna para el icono -->
                     <ColumnDefinition Width="Auto" />
-                    <!-- Columna para el Entry -->
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <!-- Icono de búsqueda -->
                 <Image Source="lupa.png" 
                WidthRequest="30" 
                HeightRequest="30" 
                VerticalOptions="Center" 
                Grid.Column="0" />
 
-                <!-- Entrada de búsqueda -->
                 <Entry Placeholder="Buscar tipo de hardware..." 
                Text="{Binding TextoBusqueda, Mode=TwoWay}" 
                FontSize="18" 
@@ -41,7 +37,6 @@
 
 
 
-        <!-- Lista de tipos (scrolleable) -->
         <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
             <ScrollView>
                 <CollectionView ItemsSource="{Binding TiposFiltrados}" SelectionMode="Single"

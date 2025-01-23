@@ -17,7 +17,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <!-- Card: Gestión de Incidencias -->
+        <!-- Gestión de Incidencias -->
         <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="incidencias.png" WidthRequest="50" HeightRequest="50" />
@@ -29,7 +29,7 @@
             </Frame.GestureRecognizers>
         </Frame>
 
-        <!-- Card: Gestión de Profesores -->
+        <!-- Gestión de Profesores -->
         <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="profesores.png" WidthRequest="50" HeightRequest="50" />
@@ -41,7 +41,7 @@
             </Frame.GestureRecognizers>
         </Frame>
 
-        <!-- Card: Gestión de Departamentos -->
+        <!-- Gestión de Departamentos -->
         <Frame Grid.Row="0" Grid.Column="2" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="departamentos.png" WidthRequest="50" HeightRequest="50" />
@@ -53,7 +53,7 @@
             </Frame.GestureRecognizers>
         </Frame>
 
-        <!-- Card: Gestión de Tipos HW -->
+        <!-- Gestión de Tipos HW -->
         <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="hardware.png" WidthRequest="50" HeightRequest="50" />
@@ -65,7 +65,7 @@
             </Frame.GestureRecognizers>
         </Frame>
 
-        <!-- Card: Generar Informes -->
+        <!-- Generar Informes -->
         <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="informes.png" WidthRequest="50" HeightRequest="50" />
@@ -77,7 +77,7 @@
             </Frame.GestureRecognizers>
         </Frame>
 
-        <!-- Card: Ver Logs -->
+        <!-- Ver Logs -->
         <Frame Grid.Row="1" Grid.Column="2" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="log.png" WidthRequest="50" HeightRequest="50" />
@@ -89,7 +89,7 @@
             </Frame.GestureRecognizers>
         </Frame>
 
-        <!-- Card: Perfil -->
+        <!-- Perfil -->
         <Frame Grid.Row="2" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
             <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                 <Image Source="perfil.png" WidthRequest="50" HeightRequest="50" />

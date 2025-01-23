@@ -60,9 +60,21 @@ namespace ProjecteFinal.Models
                 OnPropertyChanged(nameof(observaciones));
             }
         }
+        private string _estado;
+        [NotNull]
+        public string estado
+        {
+            get => _estado;
+            set
+            {
+                if (_estado != value)
+                {
+                    _estado = value;
+                    OnPropertyChanged(nameof(estado));
+                }
+            }
+        }
 
-        [NotNull] // Poner enum
-        public string estado { get; set; } // Puedes usar un enum para restringir valores posibles
 
         private DateTime? _fechaResolucion;
         public DateTime? fechaResolucion

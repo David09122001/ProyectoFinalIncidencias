@@ -18,8 +18,8 @@ namespace ProjecteFinal.ViewModel
             set
             {
                 _departamentos = value;
-                OnPropertyChanged(); // Notificar cambios en la lista principal
-                FiltrarDepartamentos(); // Actualizar la lista filtrada
+                OnPropertyChanged(); 
+                FiltrarDepartamentos();
             }
         }
 
@@ -30,7 +30,7 @@ namespace ProjecteFinal.ViewModel
             set
             {
                 _departamentosFiltrados = value;
-                OnPropertyChanged(); // Notificar cambios en la lista filtrada
+                OnPropertyChanged();
             }
         }
 
@@ -91,7 +91,6 @@ namespace ProjecteFinal.ViewModel
 
             await departamentoDAO.EliminarDepartamentoAsync(departamento);
 
-            // Actualizar las listas
             Departamentos.Remove(departamento);
             DepartamentosFiltrados.Remove(departamento);
         }
@@ -108,17 +107,14 @@ namespace ProjecteFinal.ViewModel
                 throw new ArgumentException("Todos los campos son obligatorios.");
             }
 
-            // Verificar duplicados en la base de datos
             var existente = await departamentoDAO.ObtenerDepartamentoPorCodigoAsync(departamento.codigo);
             if (existente != null && existente != departamento)
             {
                 throw new InvalidOperationException("Ya existe un departamento con este código.");
             }
 
-            // Guardar o actualizar en la base de datos
             await departamentoDAO.GuardarDepartamentoAsync(departamento);
 
-            // Recargar la lista desde la base de datos
             await CargarDepartamentosAsync();
         }
 

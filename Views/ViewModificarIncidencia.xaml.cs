@@ -50,10 +50,9 @@ public partial class ViewModificarIncidencia : ContentPage
     {
         try
         {
-            // Verificar el estado de la incidencia
             if (Incidencia.estado == "Solucionada")
             {
-                // Si el estado es "Resuelta", aseguramos que la fecha de resolución esté asignada.
+                // Si el estado es "Resuelta"
                 if (Incidencia.fechaResolucion == DateTime.MinValue)
                 {
                     // Asignar la fecha actual si no se ha asignado ninguna fecha aún
@@ -66,7 +65,6 @@ public partial class ViewModificarIncidencia : ContentPage
                 Incidencia.fechaResolucion = null;
             }
 
-            // Guardar los cambios de la incidencia, asegurándose de que la fecha esté bien asignada
             await vm.GuardarCambiosAsync();
 
             await DisplayAlert("Éxito", "La incidencia se ha actualizado correctamente.", "Aceptar");

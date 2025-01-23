@@ -34,7 +34,6 @@ namespace ProjecteFinal.ViewModel
 
         public async Task<bool> GuardarNuevaContraseñaAsync()
         {
-            // Validar datos
             if (string.IsNullOrWhiteSpace(ContraseñaActual) ||
                 string.IsNullOrWhiteSpace(NuevaContraseña) ||
                 string.IsNullOrWhiteSpace(ConfirmarNuevaContraseña))
@@ -52,7 +51,6 @@ namespace ProjecteFinal.ViewModel
                 throw new InvalidOperationException("La contraseña actual es incorrecta.");
             }
 
-            // Actualizar contraseña
             Profesor.contrasena = NuevaContraseña;
             await profesorDAO.ActualizarProfesorAsync(Profesor);
 

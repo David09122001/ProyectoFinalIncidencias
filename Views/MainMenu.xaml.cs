@@ -42,7 +42,7 @@ public partial class MainMenu : ContentPage
 
     private async void ProfesoresTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(Profesores)}");
+        await Shell.Current.GoToAsync($"{nameof(ViewProfesores)}");
     }
     private async void DepartamentosTapped(object sender, EventArgs e)
     {
@@ -54,7 +54,7 @@ public partial class MainMenu : ContentPage
     }
     private async void InformesTapped(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync($"{nameof(Informes)}");
+        await Shell.Current.GoToAsync($"{nameof(ViewInformes)}");
     }
     private async void LogsTapped(object sender, EventArgs e)
     {
@@ -74,7 +74,7 @@ public partial class MainMenu : ContentPage
     {
         if (sender is Frame frame)
         {
-            frame.BackgroundColor = Color.FromArgb("#E8F0FE"); // Fondo claro al pasar el ratón
+            frame.BackgroundColor = Color.FromArgb("#E8F0FE"); // Fondo al pasar el ratón
             frame.HasShadow = true;
         }
     }
@@ -83,7 +83,7 @@ public partial class MainMenu : ContentPage
     {
         if (sender is Frame frame)
         {
-            frame.BackgroundColor = Colors.White; // Fondo original
+            frame.BackgroundColor = Colors.White; 
             frame.HasShadow = true;
         }
     }

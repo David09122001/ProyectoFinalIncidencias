@@ -35,7 +35,6 @@ namespace ProjecteFinal.DAO
             return new ObservableCollection<Adjunto>(adjuntos);
         }
 
-        // Implementación del método ActualizarAdjuntoAsync
         public async Task ActualizarAdjuntoAsync(Adjunto adjunto)
         {
             await GetConnection().UpdateAsync(adjunto);

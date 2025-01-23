@@ -15,8 +15,8 @@ namespace ProjecteFinal.Views
             get => _departamento;
             set
             {
-                _departamento = value ?? new Departamento(); // Inicializar si es null
-                OnPropertyChanged(nameof(Departamento)); // Notificar el cambio
+                _departamento = value ?? new Departamento(); 
+                OnPropertyChanged(nameof(Departamento)); 
             }
         }
 
@@ -28,7 +28,7 @@ namespace ProjecteFinal.Views
             if (Departamento == null)
             {
                 Console.WriteLine("Departamento inicializado como null, creando nuevo objeto.");
-                Departamento = new Departamento(); // Seguridad adicional
+                Departamento = new Departamento(); 
             }
             else
             {

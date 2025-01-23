@@ -23,18 +23,14 @@ namespace ProjecteFinal.BaseDatos
             }
         }
 
-        // Inicializar base de datos
         public static async Task InicializarBaseDatosAsync()
         {
             var db = GetConnection();
 
-            // Eliminar tablas existentes
             EliminarTablasAsync();
 
-            // Crear tablas nuevas
             CrearTablasAsync();
 
-            // Insertar datos iniciales
             InsertarDatosInicialesAsync();
         }
 
@@ -287,6 +283,13 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Incidencia_HW { id = -9, dispositivo = "Teclado" }).Wait();
             GetConnection().InsertAsync(new Incidencia_HW { id = -10, dispositivo = "Altavoces" }).Wait();
             GetConnection().InsertAsync(new Incidencia_HW { id = -11, dispositivo = "Otro tipo de HW" }).Wait();
+
+            //Insertar logs //id incidenciaId estado fecha
+            GetConnection().InsertAsync(new Log { id = 1, incidenciaId = 1, estado="Pendiente",fecha= DateTime.Now }).Wait();
+            GetConnection().InsertAsync(new Log { id = 2, incidenciaId = 1, estado = "Comunicada", fecha = DateTime.Now }).Wait();
+            GetConnection().InsertAsync(new Log { id = 3, incidenciaId = 2, estado = "Pendiente", fecha = DateTime.Now }).Wait();
+            GetConnection().InsertAsync(new Log { id = 4, incidenciaId = 2, estado = "Comunicada", fecha = DateTime.Now }).Wait();
+
 
         }
     }

@@ -1,9 +1,10 @@
 ﻿using ProjecteFinal.Models;
 using ProjecteFinal.ViewModel;
+using System.ComponentModel;
 
 namespace ProjecteFinal.Views;
 [QueryProperty(nameof(Profesor), "Profesor")]
-public partial class ViewIncidencias : ContentPage
+public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
 {
     private Profesor _profesor;
 
@@ -16,12 +17,19 @@ public partial class ViewIncidencias : ContentPage
             OnPropertyChanged();
         }
     }
+
+    
     private IncidenciasVM vm;
 
     public ViewIncidencias()
     {
         InitializeComponent();
         Loaded += OnLoaded;
+
+    }
+    private void OnToggleFiltrosClicked(object sender, EventArgs e)
+    {
+        vm.isFiltros = !vm.isFiltros;
     }
 
     private void OnLoaded(object sender, EventArgs e)
@@ -32,14 +40,32 @@ public partial class ViewIncidencias : ContentPage
 
     private async void OnAddClicked(object sender, EventArgs e)
     {
-        // Navegar a InsertarIncidencia pasando el Profesor
         await Shell.Current.GoToAsync($"{nameof(ViewInsertarIncidencia)}",
             new Dictionary<string, object>
             {
                 { "Profesor", Profesor }
             });
     }
-    
+
+    private void OnSearchButtonPressed(object sender, EventArgs e)
+    {
+        if (BindingContext is IncidenciasVM viewModel)
+        {
+            viewModel.AplicarFiltros();
+        }
+    }
+
+    private void OnBorrarFiltrosClicked(object sender, EventArgs e)
+    {
+        if (BindingContext is IncidenciasVM viewModel)
+        {
+            viewModel.ReiniciarFiltros();
+        }
+    }
+
+
+
+
     private async void OnEditClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -47,8 +73,7 @@ public partial class ViewIncidencias : ContentPage
 
         if (incidencia != null)
         {
-            // Navegar a la vista ModificarIncidencia con la incidencia seleccionada
-            await Shell.Current.GoToAsync($"{nameof(ViewModificarIncidencia)}",
+             await Shell.Current.GoToAsync($"{nameof(ViewModificarIncidencia)}",
                 new Dictionary<string, object>
                 {
                     { "Incidencia", incidencia }
@@ -56,15 +81,12 @@ public partial class ViewIncidencias : ContentPage
         }
     }
 
-    // Método para manejar el evento de tocar la incidencia
     private async void OnIncidenciaTapped(object sender, EventArgs e)
     {
-        // Obtener la incidencia asociada al elemento tocado
         var incidenciaSeleccionada = (sender as Label)?.BindingContext as Incidencia;
         if (incidenciaSeleccionada != null)
         {
-            // Navegar a la página de detalles de la incidencia, pasando el objeto Incidencia
-            await Navigation.PushAsync(new ViewDetalleIncidencia(incidenciaSeleccionada));
+             await Navigation.PushAsync(new ViewDetalleIncidencia(incidenciaSeleccionada));
         }
     }
 

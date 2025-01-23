@@ -26,7 +26,6 @@ namespace ProjecteFinal.ViewModel
             {
                 var estadosDisponibles = new ObservableCollection<string> { "Resolviendo", "Solucionada", "Inviable" };
 
-                // Asegurar que "Pendiente" y "Comunicada" se muestren si son el estado actual
                 if (_estadoSeleccionado == "Pendiente" || _estadoSeleccionado == "Comunicada")
                 {
                     estadosDisponibles.Insert(0, _estadoSeleccionado);
@@ -50,14 +49,11 @@ namespace ProjecteFinal.ViewModel
                 if (_estadoSeleccionado != value && !string.IsNullOrWhiteSpace(value))
                 {
                     _estadoSeleccionado = value;
-                    Incidencia.estado = value; // Sincronizar con el modelo
-                    Console.WriteLine($"EstadoSeleccionado actualizado a: {value}"); // Depuración
+                    Incidencia.estado = value; 
                     OnPropertyChanged(nameof(EstadoSeleccionado));
                 }
             }
         }
-
-
 
         public ObservableCollection<string> Tipos { get; set; } = new ObservableCollection<string> { "Hardware", "Software", "Red" };
 
@@ -69,7 +65,6 @@ namespace ProjecteFinal.ViewModel
             {
                 if (_tipoSeleccionado != value)
                 {
-                    // Llamar al método para confirmar el cambio de subtipo
                     _ = ConfirmarCambioTipoAsync(value);
                 }
             }
@@ -104,7 +99,6 @@ namespace ProjecteFinal.ViewModel
         {
             Incidencia = incidencia;
 
-            // Inicializar EstadoSeleccionado desde la incidencia
             _estadoSeleccionado = incidencia.estado ?? "Pendiente";
             Incidencia.estado = _estadoSeleccionado;
             _estadoInicial = incidencia.estado;
@@ -118,9 +112,6 @@ namespace ProjecteFinal.ViewModel
 
             CargarDatosAsync();
         }
-
-
-
 
         private async Task CargarProfesorAsignadoAsync()
         {
@@ -166,8 +157,8 @@ namespace ProjecteFinal.ViewModel
 
         private void ActualizarPicker()
         {
-            OnPropertyChanged(nameof(Estados)); // Refrescar la lista de estados
-            OnPropertyChanged(nameof(EstadoSeleccionado)); // Refrescar el valor seleccionado
+            OnPropertyChanged(nameof(Estados)); 
+            OnPropertyChanged(nameof(EstadoSeleccionado)); 
         }
 
         private void CambiarEstadoComunicada()
@@ -175,8 +166,7 @@ namespace ProjecteFinal.ViewModel
             if (!string.IsNullOrWhiteSpace(Incidencia.responsableDni))
             {
                 Incidencia.estado = "Comunicada";
-                EstadoSeleccionado = "Comunicada"; // Refrescar el picker
-                Console.WriteLine($"Estado cambiado a: {EstadoSeleccionado}"); // Depuración
+                EstadoSeleccionado = "Comunicada"; 
                 OnPropertyChanged(nameof(EstadoSeleccionado));
                 OnPropertyChanged(nameof(Estados));
             }
@@ -185,11 +175,10 @@ namespace ProjecteFinal.ViewModel
 
         public async Task CambiarEstadoAsync(string nuevoEstado)
         {
-            // Si el estado no cambia, no hacemos nada
+            
             if (_estadoSeleccionado == nuevoEstado)
                 return;
 
-            // Validar si intenta cambiar a "Resolviendo" sin un profesor responsable asignado
             if (nuevoEstado == "Resolviendo" && string.IsNullOrWhiteSpace(Incidencia.responsableDni))
             {
                 await App.Current.MainPage.DisplayAlert(
@@ -199,7 +188,6 @@ namespace ProjecteFinal.ViewModel
                 return;
             }
 
-            // Confirmar cambio de estado
             bool confirm = await App.Current.MainPage.DisplayAlert(
                 "Cambiar Estado",
                 $"¿Estás seguro de que quieres cambiar el estado a '{nuevoEstado}'?",
@@ -207,12 +195,10 @@ namespace ProjecteFinal.ViewModel
                 "No");
 
             if (!confirm)
-                return; // Si el usuario cancela, no hacemos el cambio
+                return; 
 
-            // Cambiar el estado seleccionado
             _estadoSeleccionado = nuevoEstado;
 
-            // Notificar el cambio
             OnPropertyChanged(nameof(EstadoSeleccionado));
         }
 
@@ -230,21 +216,19 @@ namespace ProjecteFinal.ViewModel
                     "No");
 
                 if (!confirm)
-                    return; // Si el usuario cancela, no hacemos el cambio
+                    return; 
             }
 
-            // Limpiar datos específicos del tipo anterior
             if (_tipoSeleccionado == "Hardware")
-                IncidenciaHW = null; // Reiniciar a null
+                IncidenciaHW = null; 
             else if (_tipoSeleccionado == "Software")
-                IncidenciaSW = null; // Reiniciar a null
+                IncidenciaSW = null; 
             else if (_tipoSeleccionado == "Red")
-                IncidenciaRed = null; // Reiniciar a null
+                IncidenciaRed = null; 
 
-            // Asignar el nuevo subtipo
+       
             _tipoSeleccionado = nuevoTipo;
 
-            // Inicializar nuevos datos del tipo seleccionado
             if (nuevoTipo == "Hardware")
                 IncidenciaHW = new Incidencia_HW();
             else if (nuevoTipo == "Software")
@@ -252,7 +236,6 @@ namespace ProjecteFinal.ViewModel
             else if (nuevoTipo == "Red")
                 IncidenciaRed = new Incidencia_Red();
 
-            // Notificar los cambios
             OnPropertyChanged(nameof(TipoSeleccionado));
             OnPropertyChanged(nameof(MostrarHW));
             OnPropertyChanged(nameof(MostrarSW));
@@ -305,7 +288,6 @@ namespace ProjecteFinal.ViewModel
         }
         public async Task GuardarCambiosAsync()
         {
-            // Validar que los campos obligatorios no estén vacíos
             if (string.IsNullOrWhiteSpace(Incidencia.descripcionDetallada) ||
                 string.IsNullOrWhiteSpace(Incidencia.aulaUbicacion) ||
                 Incidencia.fechaIncidencia == default)
@@ -332,32 +314,25 @@ namespace ProjecteFinal.ViewModel
                 throw new InvalidOperationException("El estado de la incidencia no puede ser nulo.");
             }
 
-            // Detectar cambios de estado
             bool estadoCambiado = _estadoInicial != Incidencia.estado;
 
-            // Guardar en la base de datos
-            Console.WriteLine($"Guardando incidencia con estado: {Incidencia.estado}"); // Depuración
             if (Incidencia.estado == "Solucionada" && !Incidencia.fechaResolucion.HasValue)
             {
                 Incidencia.fechaResolucion = DateTime.Now;
             }
             await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
 
-            // Manejar subtipo y adjuntos
             await ManejarSubtipoAsync();
             await ManejarAdjuntosAsync();
 
-            // Si el estado cambió, registrar un log y enviar correos
             if (estadoCambiado)
             {
                 await RegistrarLogAsync(); // Registrar el log
-                await EnviarCorreosCambioEstadoAsync(); // Enviar correos
+                await EnviarCorreosCambioEstadoAsync(); 
             }
 
-            // Actualizar el estado inicial para futuras ediciones
             _estadoInicial = Incidencia.estado;
 
-            // Refrescar el picker después de guardar
             OnPropertyChanged(nameof(EstadoSeleccionado));
             OnPropertyChanged(nameof(Estados));
         }
@@ -569,7 +544,7 @@ namespace ProjecteFinal.ViewModel
                 return;
             }
 
-            // Si intenta cambiar a "Comunicada", restaurar el estado anterior
+            // Si intenta cambiar a "Comunicada", poner el estado anterior
             if (nuevoEstado == "Comunicada")
             {
                 await App.Current.MainPage.DisplayAlert(
@@ -611,11 +586,10 @@ namespace ProjecteFinal.ViewModel
 
                 // Cambiar automáticamente el estado a "Comunicada"
                 Incidencia.estado = "Comunicada";
-                EstadoSeleccionado = "Comunicada"; // Refrescar el picker
+                EstadoSeleccionado = "Comunicada"; 
                 OnPropertyChanged(nameof(EstadoSeleccionado));
                 OnPropertyChanged(nameof(Estados));
 
-                // Guardar en la base de datos
                 await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
 
                 // Enviar correo al SAI
@@ -634,7 +608,6 @@ namespace ProjecteFinal.ViewModel
                 string correoDestino = "sai@example.com"; // Dirección de correo del SAI
                 string asunto = "Nueva Incidencia Asignada al SAI";
 
-                // Cuerpo del correo con HTML dinámico
                 string cuerpo = $@"
 <!DOCTYPE html>
 <html>

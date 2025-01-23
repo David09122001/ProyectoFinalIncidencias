@@ -22,12 +22,10 @@ namespace ProjecteFinal.Views
             }
             catch (InvalidOperationException ex)
             {
-                // Mostrar mensaje si el tipo ya existe
                 await DisplayAlert("Aviso", ex.Message, "Aceptar");
             }
             catch (Exception ex)
             {
-                // Otros errores
                 await DisplayAlert("Error", $"No se pudo guardar el tipo: {ex.Message}", "Aceptar");
             }
         }
@@ -72,12 +70,10 @@ namespace ProjecteFinal.Views
                     }
                     catch (InvalidOperationException ex)
                     {
-                        // Mostrar mensaje si el nombre ya existe
                         await DisplayAlert("Aviso", ex.Message, "Aceptar");
                     }
                     catch (Exception ex)
                     {
-                        // Otros errores
                         await DisplayAlert("Error", $"No se pudo modificar el tipo: {ex.Message}", "Aceptar");
                     }
                 }

@@ -80,7 +80,6 @@ namespace ProjecteFinal.ViewModel
             {
                 Adjuntos.Remove(adjunto);
 
-                // Eliminar de la base de datos
                 try
                 {
                     await adjuntoDAO.EliminarAdjuntoAsync(adjunto);
@@ -109,7 +108,6 @@ namespace ProjecteFinal.ViewModel
                 string correoDestino = "david.carcer09@gmail.com";
                 string asunto = "Nueva Incidencia Reportada";
 
-                // Cuerpo dinámico
                 string cuerpo = $@"
         <!DOCTYPE html>
         <html>
@@ -141,7 +139,6 @@ namespace ProjecteFinal.ViewModel
         </body>
         </html>";
 
-                // Configuración del correo
                 MailAddress addressFrom = new MailAddress("iscapopproyecto@gmail.com", "Gestión Incidencias");
                 MailAddress addressTo = new MailAddress(correoDestino);
                 MailMessage message = new MailMessage(addressFrom, addressTo)
@@ -171,7 +168,6 @@ namespace ProjecteFinal.ViewModel
 
         public async Task<bool> GuardarIncidenciaAsync()
         {
-            // Intentar adquirir el semáforo; evita múltiples ejecuciones simultáneas
             if (!await _semaforo.WaitAsync(0))
             {
                 return false; // Si ya está en uso, no se ejecuta de nuevo
@@ -181,7 +177,6 @@ namespace ProjecteFinal.ViewModel
 
             try
             {
-                // Validar campos obligatorios generales
                 if (string.IsNullOrWhiteSpace(Incidencia.descripcionDetallada))
                 {
                     throw new InvalidOperationException("La descripción detallada es obligatoria.");
@@ -197,16 +192,13 @@ namespace ProjecteFinal.ViewModel
                     throw new InvalidOperationException("Debes seleccionar un tipo de incidencia.");
                 }
 
-                // Determinar estado inicial
                 if (string.IsNullOrWhiteSpace(Incidencia.estado))
                 {
                     Incidencia.estado = "Pendiente";
                 }
 
-                // Guardar incidencia principal
                 await incidenciaDAO.AñadirIncidenciaAsync(Incidencia);
 
-                // Guardar subtipos
                 if (TipoSeleccionado == "Hardware")
                 {
                     if (string.IsNullOrWhiteSpace(IncidenciaHW.dispositivo))
@@ -238,26 +230,24 @@ namespace ProjecteFinal.ViewModel
                     await incidenciaDAO.AñadirSubtipoRedAsync(IncidenciaRed);
                 }
 
-                // Guardar adjuntos
                 foreach (var adjunto in Adjuntos)
                 {
                     adjunto.IncidenciaId = Incidencia.id;
                     await adjuntoDAO.AñadirAdjuntoAsync(adjunto);
                 }
 
-                // Enviar correo
                 await EnviarCorreoAsync();
 
-                return true; // Éxito
+                return true; 
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error en GuardarIncidenciaAsync: {ex.Message}");
-                throw; // Relanzar la excepción para que se maneje en la vista
+                throw; 
             }
             finally
             {
-                IsGuardando = true; // Rehabilitar botón
+                IsGuardando = true; // Rehabilitar boton
                 _semaforo.Release(); // Liberar el semáforo para permitir nuevas ejecuciones
             }
         }

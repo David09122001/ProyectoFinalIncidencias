@@ -31,25 +31,21 @@ namespace ProjecteFinal.DAO
             return new ObservableCollection<Incidencia>(incidencias);
         }
 
-        // Eliminar una incidencia
         public void EliminarIncidencia(Incidencia incidencia)
         {
             GetConnection().DeleteAsync(incidencia).Wait();
         }
 
-        // Actualizar una incidencia
         public void ActualizarIncidencia(Incidencia incidencia)
         {
             GetConnection().UpdateAsync(incidencia).Wait();
         }
 
-        // Obtener incidencia por ID
         public async Task<Incidencia> ObtenerIncidenciaPorId(int id)
         {
             return await GetConnection().Table<Incidencia>().FirstOrDefaultAsync(i => i.id == id);
         }
 
-        // Obtener incidencias por profesor
         public ObservableCollection<Incidencia> ObtenerIncidenciasPorProfesor(string profesorDni)
         {
             var incidenciasQuery = GetConnection().Table<Incidencia>().Where(i => i.profesorDni == profesorDni);
@@ -57,7 +53,6 @@ namespace ProjecteFinal.DAO
             return new ObservableCollection<Incidencia>(incidencias);
         }
 
-        // Obtener incidencias por estado
         public ObservableCollection<Incidencia> ObtenerIncidenciasPorEstado(string estado)
         {
             var incidenciasQuery = GetConnection().Table<Incidencia>().Where(i => i.estado == estado);
@@ -65,21 +60,18 @@ namespace ProjecteFinal.DAO
             return new ObservableCollection<Incidencia>(incidencias);
         }
 
-        // Verificar si una incidencia es de tipo Hardware
         public bool EsIncidenciaHardware(int incidenciaId)
         {
             var hw = GetConnection().Table<Incidencia_HW>().FirstOrDefaultAsync(h => h.id == incidenciaId).Result;
             return hw != null;
         }
 
-        // Verificar si una incidencia es de tipo Software
         public bool EsIncidenciaSoftware(int incidenciaId)
         {
             var sw = GetConnection().Table<Incidencia_SW>().FirstOrDefaultAsync(s => s.id == incidenciaId).Result;
             return sw != null;
         }
 
-        // Verificar si una incidencia es de tipo Red
         public bool EsIncidenciaRed(int incidenciaId)
         {
             var red = GetConnection().Table<Incidencia_Red>().FirstOrDefaultAsync(r => r.id == incidenciaId).Result;
@@ -164,6 +156,94 @@ namespace ProjecteFinal.DAO
                 await GetConnection().UpdateAsync(incidencia);
             }
         }
+
+        public List<int> ObtenerIdsDeIncidenciasHardware()
+        {
+            var incidenciasHW = GetConnection().Table<Incidencia_HW>().ToListAsync().Result;
+            return incidenciasHW.Select(hw => hw.id).ToList();
+        }
+
+        public List<int> ObtenerIdsDeIncidenciasSoftware()
+        {
+            var incidenciasSW = GetConnection().Table<Incidencia_SW>().ToListAsync().Result;
+            return incidenciasSW.Select(sw => sw.id).ToList(); 
+        }
+
+        public List<int> ObtenerIdsDeIncidenciasRed()
+        {
+            var incidenciasRed = GetConnection().Table<Incidencia_Red>().ToListAsync().Result;
+            return incidenciasRed.Select(red => red.id).ToList(); 
+        }
+
+        public async Task<List<Incidencia>> FiltrarIncidenciasAsync(string estado = null, string profesorDni = null, string tipoIncidencia = null)
+        {
+            var incidencias = await GetConnection().Table<Incidencia>().ToListAsync();
+
+            // Filtrar por estado
+            if (!string.IsNullOrEmpty(estado))
+            {
+                incidencias = incidencias.Where(i => i.estado == estado).ToList();
+            }
+
+            // Filtrar por profesor
+            if (!string.IsNullOrEmpty(profesorDni))
+            {
+                incidencias = incidencias.Where(i => i.profesorDni == profesorDni).ToList();
+            }
+
+            // Filtrar por tipo de incidencia
+            if (!string.IsNullOrEmpty(tipoIncidencia))
+            {
+                List<int> ids = tipoIncidencia switch
+                {
+                    "Hardware" => (await GetConnection().Table<Incidencia_HW>().ToListAsync()).Select(hw => hw.id).ToList(),
+                    "Software" => (await GetConnection().Table<Incidencia_SW>().ToListAsync()).Select(sw => sw.id).ToList(),
+                    "Red" => (await GetConnection().Table<Incidencia_Red>().ToListAsync()).Select(red => red.id).ToList(),
+                    _ => new List<int>()
+                };
+
+                incidencias = incidencias.Where(i => ids.Contains(i.id)).ToList();
+            }
+
+            return incidencias;
+        }
+
+        public async Task<Dictionary<string, int>> ObtenerEstadisticasPorTipoAsync()
+        {
+            var hardwareCount = (await GetConnection().Table<Incidencia_HW>().ToListAsync()).Count;
+            var softwareCount = (await GetConnection().Table<Incidencia_SW>().ToListAsync()).Count;
+            var redCount = (await GetConnection().Table<Incidencia_Red>().ToListAsync()).Count;
+
+            return new Dictionary<string, int>
+    {
+        { "Hardware", hardwareCount },
+        { "Software", softwareCount },
+        { "Red", redCount }
+    };
+        }
+
+
+        public async Task<Dictionary<string, int>> ObtenerEstadisticasPorEstadoAsync()
+        {
+            // Obtener todas las incidencias desde la base de datos
+            var incidencias = await GetConnection().Table<Incidencia>().ToListAsync();
+
+            // Agrupar y contar por estado en memoria
+            var estadisticas = incidencias
+                .GroupBy(i => i.estado)
+                .ToDictionary(g => g.Key, g => g.Count());
+
+            return estadisticas;
+        }
+
+
+        public async Task<int> ObtenerTotalIncidenciasAsync()
+        {
+            return await GetConnection().Table<Incidencia>().CountAsync();
+        }
+
+
+
 
 
     }

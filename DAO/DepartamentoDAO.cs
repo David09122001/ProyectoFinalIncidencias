@@ -29,7 +29,10 @@ namespace ProjecteFinal.DAO
             return await GetConnection().Table<Departamento>().FirstOrDefaultAsync(d => d.codigo == codigo);
         }
 
-
+        public async Task<List<Departamento>> BuscarTodosAsync()
+        {
+            return await GetConnection().Table<Departamento>().ToListAsync();
+        }
         public async Task EliminarDepartamentoAsync(Departamento departamento)
         {
             await GetConnection().DeleteAsync(departamento);

@@ -23,12 +23,20 @@ namespace ProjecteFinal.DAO
             GetConnection().InsertAsync(rol).Wait();
         }
 
-        public ObservableCollection<Rol> ObtenerRoles()
+        public async Task<ObservableCollection<Rol>> ObtenerRolesAsync()
         {
-            var rolesQuery = GetConnection().Table<Rol>();
-            var roles = rolesQuery.ToListAsync().Result;
-            return new ObservableCollection<Rol>(roles);
+            try
+            {
+                var roles = await GetConnection().Table<Rol>().ToListAsync();
+                return new ObservableCollection<Rol>(roles);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al obtener roles: {ex.Message}");
+                return new ObservableCollection<Rol>(); 
+            }
         }
+
 
         public void EliminarRol(Rol rol)
         {

@@ -24,10 +24,8 @@ public class SeleccionarProfesorVM : BaseViewModel
         }
     }
 
-    // Evento para notificar la selección del profesor
     public event Action<Profesor> ProfesorSeleccionado;
 
-    // Comando para seleccionar un profesor
     public ICommand SeleccionarProfesorCommand { get; }
 
     public SeleccionarProfesorVM()
@@ -35,12 +33,10 @@ public class SeleccionarProfesorVM : BaseViewModel
         CargarProfesores();
         SeleccionarProfesorCommand = new Command<Profesor>(profesor =>
         {
-            // Notificar al suscriptor que se ha seleccionado un profesor
             ProfesorSeleccionado?.Invoke(profesor);
         });
     }
 
-    // Cargar todos los profesores desde la base de datos
     private async void CargarProfesores()
     {
         var profesores = await profesorDAO.BuscarTodosAsync();
@@ -48,17 +44,14 @@ public class SeleccionarProfesorVM : BaseViewModel
         OnPropertyChanged(nameof(ProfesoresFiltrados));
     }
 
-    // Filtrar los profesores en tiempo real
     private void FiltrarProfesores()
     {
         if (string.IsNullOrWhiteSpace(Filtro))
         {
-            // Si el filtro está vacío, recargar la lista completa
             CargarProfesores();
         }
         else
         {
-            // Filtrar profesores por nombre o email
             var profesores = ProfesoresFiltrados.Where(p =>
                 p.nombre.Contains(Filtro, StringComparison.OrdinalIgnoreCase) ||
                 p.email.Contains(Filtro, StringComparison.OrdinalIgnoreCase))

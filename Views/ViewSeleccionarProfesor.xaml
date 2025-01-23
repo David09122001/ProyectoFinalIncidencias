@@ -16,9 +16,7 @@
         <Frame BackgroundColor="White" CornerRadius="15" Padding="0" HasShadow="True" HorizontalOptions="FillAndExpand" HeightRequest="70">
             <Grid Padding="10">
                 <Grid.ColumnDefinitions>
-                    <!-- Columna para el icono -->
                     <ColumnDefinition Width="Auto" />
-                    <!-- Columna para el Entry -->
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
@@ -41,7 +39,7 @@
             </Grid>
         </Frame>
 
-        <!-- Lista de profesores (scrolleable) -->
+        <!-- Lista de profesores -->
         <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
             <ScrollView>
                 <CollectionView ItemsSource="{Binding ProfesoresFiltrados}" SelectionMode="Single"

@@ -29,7 +29,7 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-        public string NombreTipo { get; set; } // Entrada para guardar un nuevo tipo
+        public string NombreTipo { get; set; } 
 
         public TiposHWVM()
         {

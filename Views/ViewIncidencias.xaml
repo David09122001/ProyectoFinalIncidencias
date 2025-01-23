@@ -3,23 +3,95 @@
              x:Class="ProjecteFinal.Views.ViewIncidencias"
              Title="Gestión de Incidencias"
              BackgroundColor="#F8F9FA">
-    <StackLayout Padding="20" Spacing="15">
+    <StackLayout Padding="15" Spacing="10">
+
+        <!-- Barra de búsqueda -->
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="10" HasShadow="True">
+            <Grid ColumnSpacing="8" VerticalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1.5*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- SearchBar -->
+                <SearchBar Placeholder="Buscar..." Text="{Binding FiltroBusqueda}" 
+                           Grid.Column="0" SearchButtonPressed="OnSearchButtonPressed" HeightRequest="40" Margin="0,0,5,0" />
+
+                <!-- Picker para tipo de búsqueda -->
+                <Picker Title="Buscar por" ItemsSource="{Binding OpcionesBusqueda}" 
+                        SelectedItem="{Binding TipoBusqueda}" Grid.Column="1" 
+                        WidthRequest="220" HeightRequest="60" FontSize="14" />
+
+                <!-- Botón Más Filtros -->
+                <Button Text="Más filtros" Clicked="OnToggleFiltrosClicked"
+                        Grid.Column="2" HeightRequest="40" WidthRequest="120" />
+            </Grid>
+        </Frame>
+
+        <!-- Filtros adicionales -->
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="10" HasShadow="True" 
+       IsVisible="{Binding isFiltros}">
+            <VerticalStackLayout>
+                <Grid ColumnSpacing="10" RowSpacing="8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Filtro de Responsable Asignado -->
+                    <Picker Title="Responsable asignado" ItemsSource="{Binding OpcionesResponsable}"
+                    SelectedItem="{Binding FiltroResponsable}" Grid.Column="0" 
+                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+
+                    <!-- Filtro de Estado -->
+                    <Picker Title="Estado" ItemsSource="{Binding Estados}"
+                    SelectedItem="{Binding FiltroEstado}" Grid.Column="1" 
+                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+
+                    <!-- Filtro de Tipo -->
+                    <Picker Title="Tipo de Incidencia" ItemsSource="{Binding TiposIncidencia}"
+                    SelectedItem="{Binding FiltroTipoIncidencia}" Grid.Column="2" 
+                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+
+                    <!-- Filtro de Ordenación -->
+                    <Picker Title="Ordenar por" ItemsSource="{Binding OpcionesOrdenacion}"
+                    SelectedItem="{Binding FiltroOrdenacion}" Grid.Column="3" 
+                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+                </Grid>
+
+                <!-- Botón Generar Informes -->
+                <Button Text="Generar Informes"
+                        Command="{Binding GenerarInformeCommand}"
+                        Style="{StaticResource SecondaryButtonStyle}" 
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Margin="0,15,0,0" />
+
+                <!-- Botón Borrar Filtros -->
+                <Button Text="Borrar filtros"
+                        HorizontalOptions="End"
+                        VerticalOptions="Center"
+                        Margin="0,10,0,0"
+                        WidthRequest="150"
+                        HeightRequest="40"
+                        Clicked="OnBorrarFiltrosClicked" />
+            </VerticalStackLayout>
+        </Frame>
+
         <!-- Lista de incidencias -->
-        <CollectionView ItemsSource="{Binding Incidencias}" SelectionMode="Single">
+        <CollectionView ItemsSource="{Binding IncidenciasFiltradas}" SelectionMode="Single">
             <!-- Header -->
             <CollectionView.Header>
                 <Grid ColumnSpacing="0" Padding="10, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*" />
-                        <!-- Incidencia -->
                         <ColumnDefinition Width="1.2*" />
-                        <!-- Estado -->
                         <ColumnDefinition Width="1.8*" />
-                        <!-- Responsable -->
                         <ColumnDefinition Width="1.2*" />
-                        <!-- Modificar -->
                         <ColumnDefinition Width="1.2*" />
-                        <!-- Eliminar -->
                     </Grid.ColumnDefinitions>
 
                     <!-- Encabezados -->
@@ -32,7 +104,6 @@
                     <Label Text="Responsable" FontAttributes="Bold" Grid.Column="2"
                            HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
                            Padding="5, 0, 0, 0" />
-
                 </Grid>
             </CollectionView.Header>
 
@@ -42,13 +113,9 @@
                     <Grid ColumnSpacing="10" Padding="10, 5">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="2*" />
-                            <!-- Incidencia -->
                             <ColumnDefinition Width="1.2*" />
-                            <!-- Estado -->
                             <ColumnDefinition Width="1.8*" />
-                            <!-- Responsable -->
                             <ColumnDefinition Width="2.4*" />
-                            <!-- Botones juntos -->
                         </Grid.ColumnDefinitions>
                         <Label Text="{Binding descripcionDetallada}" Grid.Column="0" 
                        HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
@@ -57,7 +124,6 @@
                                 <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
                             </Label.GestureRecognizers>
                         </Label>
-
                         <!-- Estado -->
                         <Label Text="{Binding estado}" Grid.Column="1"
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
@@ -66,7 +132,6 @@
                                 <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
                             </Label.GestureRecognizers>
                         </Label>
-
                         <!-- Responsable -->
                         <Label Text="{Binding responsableDni, TargetNullValue='Ningún profesor asignado'}" Grid.Column="2"
                    HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
@@ -75,22 +140,22 @@
                                 <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
                             </Label.GestureRecognizers>
                         </Label>
-
-                        <!-- Botones Modificar y Eliminar -->
                         <StackLayout Orientation="Horizontal" Grid.Column="3" HorizontalOptions="EndAndExpand" Spacing="5">
                             <Button Text="Modificar" Clicked="OnEditClicked" CommandParameter="{Binding .}" 
-                        Style="{StaticResource ModifyButtonStyle}" />
+                                    Style="{StaticResource ModifyButtonStyle}" />
                             <Button Text="Eliminar" Clicked="OnDeleteClicked" CommandParameter="{Binding .}" 
-                        Style="{StaticResource DeleteButtonStyle}" />
+                                    Style="{StaticResource DeleteButtonStyle}" />
                         </StackLayout>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-
         </CollectionView>
 
         <!-- Botón para añadir incidencia -->
-        <Button Text="Añadir Incidencia" Clicked="OnAddClicked" Style="{StaticResource PrimaryButtonStyle}" 
-                HorizontalOptions="Center" VerticalOptions="End" />
+        <Button Text="Añadir Incidencia" 
+                Clicked="OnAddClicked" 
+                Style="{StaticResource PrimaryButtonStyle}" 
+                HorizontalOptions="Center" 
+                VerticalOptions="End" />
     </StackLayout>
 </ContentPage>

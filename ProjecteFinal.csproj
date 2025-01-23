@@ -60,6 +60,7 @@
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+		<PackageReference Include="PdfSharpCore" Version="1.3.65" />
 		<PackageReference Include="sqlite-net-pcl" Version="1.9.172" />
 		<PackageReference Include="SQLiteNetExtensions" Version="2.1.0" />
 		<PackageReference Include="SQLiteNetExtensions.Async" Version="2.1.0" />
@@ -67,6 +68,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ViewProfesores.xaml.cs">
+	    <DependentUpon>ViewProfesores.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ViewInformes.xaml.cs">
+	    <DependentUpon>ViewInformes.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ViewLogs.xaml.cs">
 	    <DependentUpon>ViewLogs.xaml</DependentUpon>
 	  </Compile>
@@ -94,6 +101,9 @@
 	  <MauiXaml Update="Views\ViewInsertarModificarDepartamento.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewInsertarModificarProfesor.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewPerfil.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -106,7 +116,7 @@
 	  <MauiXaml Update="Views\ViewIncidencias.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Informes.xaml">
+	  <MauiXaml Update="Views\ViewInformes.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewLogin.xaml">
@@ -118,7 +128,7 @@
 	  <MauiXaml Update="Views\MainMenu.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\Profesores.xaml">
+	  <MauiXaml Update="Views\ViewProfesores.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewInsertarIncidencia.xaml">

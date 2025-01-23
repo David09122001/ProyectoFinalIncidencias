@@ -28,10 +28,28 @@ namespace ProjecteFinal.DAO
             return await GetConnection().Table<Profesor>().ToListAsync();
         }
 
+        public void EliminarProfesor(Profesor profesor)
+        {
+            GetConnection().DeleteAsync(profesor).Wait();
+        }
         public async Task<Profesor> BuscarPorDniAsync(string dni)
         {
             return await GetConnection().Table<Profesor>().FirstOrDefaultAsync(p => p.dni == dni);
         }
+        public async Task<List<Profesor>> BuscarPorDepartamento(string departamentoCodigo)
+        {
+            return await GetConnection()
+                .Table<Profesor>()
+                .Where(p => p.departamentoCodigo == departamentoCodigo)
+                .ToListAsync();
+        }
+
+        public async Task InsertarProfesorAsync(Profesor profesor)
+        {
+            await GetConnection().InsertOrReplaceAsync(profesor);
+        }
+
+
 
     }
 }
