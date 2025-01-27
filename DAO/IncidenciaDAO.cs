@@ -45,13 +45,16 @@ namespace ProjecteFinal.DAO
         {
             return await GetConnection().Table<Incidencia>().FirstOrDefaultAsync(i => i.id == id);
         }
-
         public ObservableCollection<Incidencia> ObtenerIncidenciasPorProfesor(string profesorDni)
         {
-            var incidenciasQuery = GetConnection().Table<Incidencia>().Where(i => i.profesorDni == profesorDni);
+            var incidenciasQuery = GetConnection()
+                .Table<Incidencia>()
+                .Where(i => i.profesorDni == profesorDni);
+
             var incidencias = incidenciasQuery.ToListAsync().Result;
             return new ObservableCollection<Incidencia>(incidencias);
         }
+
 
         public ObservableCollection<Incidencia> ObtenerIncidenciasPorEstado(string estado)
         {

@@ -80,41 +80,47 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Rol { nombre = "Administrador" }).Wait();
             GetConnection().InsertAsync(new Rol { nombre = "Directivo" }).Wait();
 
-            // Insertar permisos
-            GetConnection().InsertAsync(new Permiso { descripcion = "Añadir incidencias" }).Wait();
-            GetConnection().InsertAsync(new Permiso { descripcion = "Modificar/borrar incidencias" }).Wait();
-            GetConnection().InsertAsync(new Permiso { descripcion = "Modificar/borrar mis incidencias" }).Wait();
-            GetConnection().InsertAsync(new Permiso { descripcion = "Añadir/borrar/modificar tipo de HW" }).Wait();
-            GetConnection().InsertAsync(new Permiso { descripcion = "Alta/baja/modificar roles y permisos" }).Wait();
-            GetConnection().InsertAsync(new Permiso { descripcion = "Operaciones importación y exportación" }).Wait();
-            GetConnection().InsertAsync(new Permiso { descripcion = "Informes sobre incidencias" }).Wait();
+            //Insertar permisos
+            GetConnection().InsertAsync(new Permiso { descripcion = "Añadir Incidencias" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Modificar/Eliminar Incidencias" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar hardware" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar permisos y roles" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Generar informes" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar profesores" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar departamentos" }).Wait();
+
 
             // Insertar relaciones roles-permisos
-        
+
             //Profesor
             GetConnection().InsertAsync(new RolPermiso { rolId = 1, permisoCodigo = 1 }).Wait();
-            GetConnection().InsertAsync(new RolPermiso { rolId = 1, permisoCodigo = 3 }).Wait();
-            GetConnection().InsertAsync(new RolPermiso { rolId = 1, permisoCodigo = 7 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 1, permisoCodigo = 2 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 1, permisoCodigo = 5 }).Wait();
+           
             //Mantenimiento TIC
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 1 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 2 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 3 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 4 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 5 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 7 }).Wait();
-         
+
             //Administrador
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 1 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 2 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 3 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 4 }).Wait();
-            GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 5 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 7 }).Wait();
+
             //Directivo
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 1 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 2 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 3 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 4 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 5 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 7 }).Wait();
 
             // Insertar profesores
@@ -126,6 +132,16 @@ namespace ProjecteFinal.BaseDatos
                 email = "1",
                 contrasena = "1",
                 rol_id = 3
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "20881922X",
+                nombre = "Tester Profesor",
+                departamentoCodigo = "INF",
+                email = "2",
+                contrasena = "2",
+                rol_id = 1
             }).Wait();
 
             GetConnection().InsertAsync(new Profesor
@@ -207,7 +223,7 @@ namespace ProjecteFinal.BaseDatos
             {
                 fechaIncidencia = DateTime.Now.AddDays(-1),
                 fechaIntroduccion = DateTime.Now,
-                profesorDni = "20761603X",
+                profesorDni = "20881900X",
                 aulaUbicacion = "1",
                 descripcionDetallada = "1",
                 observaciones = "1",
@@ -228,7 +244,7 @@ namespace ProjecteFinal.BaseDatos
             {
                 fechaIncidencia = DateTime.Now.AddDays(-2),
                 fechaIntroduccion = DateTime.Now,
-                profesorDni = "20889987X",
+                profesorDni = "20881900X",
                 responsableDni = "20761603X",
                 aulaUbicacion = "Aula 202",
                 descripcionDetallada = "No funciona el software",
@@ -289,7 +305,6 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Log { id = 2, incidenciaId = 1, estado = "Comunicada", fecha = DateTime.Now }).Wait();
             GetConnection().InsertAsync(new Log { id = 3, incidenciaId = 2, estado = "Pendiente", fecha = DateTime.Now }).Wait();
             GetConnection().InsertAsync(new Log { id = 4, incidenciaId = 2, estado = "Comunicada", fecha = DateTime.Now }).Wait();
-
 
         }
     }

@@ -22,6 +22,9 @@
 
                     <Label Text="DNI" FontAttributes="Bold" TextColor="#2C3E50" />
                     <Label Text="{Binding Profesor.dni}" FontSize="18" TextColor="Black" />
+
+                    <Label Text="Rol" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Label Text="{Binding NombreRol}" FontSize="18" TextColor="Black" />
                 </VerticalStackLayout>
             </Frame>
 

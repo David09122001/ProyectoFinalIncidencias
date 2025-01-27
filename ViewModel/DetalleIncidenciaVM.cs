@@ -131,53 +131,49 @@ namespace ProjecteFinal.ViewModels
                 var graphics = XGraphics.FromPdfPage(page);
 
                 // Fuentes y estilos
-                var fontTitle = new XFont("Arial", 20, XFontStyle.Bold);
-                var fontSection = new XFont("Arial", 16, XFontStyle.Bold);
+                var fontTitle = new XFont("Arial", 22, XFontStyle.Bold);
+                var fontSubtitle = new XFont("Arial", 16, XFontStyle.Bold);
                 var fontRegular = new XFont("Arial", 12, XFontStyle.Regular);
                 var fontBold = new XFont("Arial", 12, XFontStyle.Bold);
-                var corporateBlueBrush = new XSolidBrush(XColor.FromArgb(0, 51, 102)); // Azul corporativo oscuro
+                var blueBrush = new XSolidBrush(XColor.FromArgb(0, 51, 102)); // Azul corporativo
                 var blackBrush = XBrushes.Black;
 
                 // Márgenes y posicionamiento inicial
-                double margin = 40;
+                double margin = 50;
                 double currentY = margin;
 
                 // Encabezado del documento
-                graphics.DrawString("Informe de Incidencia", fontTitle, corporateBlueBrush,
-                    new XRect(0, currentY, page.Width, page.Height), XStringFormats.TopCenter);
-                currentY += 50;
+                graphics.DrawRectangle(XBrushes.LightGray, 0, 0, page.Width, 60); // Fondo gris claro del encabezado
+                graphics.DrawString("Informe Detallado de Incidencia", fontTitle, blackBrush,
+                    new XRect(0, 0, page.Width, 60), XStringFormats.Center);
 
-                // Información general con una tabla
-                graphics.DrawString("Información General", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
+                currentY += 80;
+
+                // ** Bloque: Descripción Detallada **
+                graphics.DrawString("Descripción Detallada", fontSubtitle, blueBrush, new XPoint(margin, currentY));
                 currentY += 20;
 
-                var tableStartY = currentY;
-                double rowHeight = 20;
+                // ** Estado y Aula **
+                graphics.DrawString("Estado:", fontBold, blackBrush, new XPoint(margin, currentY));
+                graphics.DrawString(Incidencia.estado, fontRegular, blackBrush, new XPoint(margin + 100, currentY));
+                currentY += 20;
 
-                // Dibujar líneas de tabla
-                graphics.DrawLine(XPens.Black, margin, tableStartY, page.Width - margin, tableStartY);
-                currentY += rowHeight;
-                graphics.DrawLine(XPens.Black, margin, currentY, page.Width - margin, currentY);
-                currentY += rowHeight;
-                graphics.DrawLine(XPens.Black, margin, currentY, page.Width - margin, currentY);
-                currentY += rowHeight;
+                graphics.DrawString("Aula:", fontBold, blackBrush, new XPoint(margin, currentY));
+                graphics.DrawString(Incidencia.aulaUbicacion, fontRegular, blackBrush, new XPoint(margin + 100, currentY));
+                currentY += 20;
 
-                // Dibujar contenido de la tabla
-                double col1X = margin;
-                double col2X = margin + 120;
+                // ** Descripción Detallada **
+                graphics.DrawString("Descripción:", fontBold, blackBrush, new XPoint(margin, currentY));
+                currentY += 20;
 
-                graphics.DrawString("ID:", fontBold, blackBrush, new XPoint(col1X, tableStartY + rowHeight - 5));
-                graphics.DrawString(Incidencia.id.ToString(), fontRegular, blackBrush, new XPoint(col2X, tableStartY + rowHeight - 5));
+                graphics.DrawString(Incidencia.descripcionDetallada, fontRegular, blackBrush,
+                    new XRect(margin, currentY, page.Width - 2 * margin, page.Height - currentY), XStringFormats.TopLeft);
+                currentY += 60;
 
-                graphics.DrawString("Estado:", fontBold, blackBrush, new XPoint(col1X, tableStartY + 2 * rowHeight - 5));
-                graphics.DrawString(Incidencia.estado, fontRegular, blackBrush, new XPoint(col2X, tableStartY + 2 * rowHeight - 5));
+                // ** Bloque: Fechas **
+                graphics.DrawString("Fechas", fontSubtitle, blueBrush, new XPoint(margin, currentY));
+                currentY += 20;
 
-                graphics.DrawString("Aula:", fontBold, blackBrush, new XPoint(col1X, tableStartY + 3 * rowHeight - 5));
-                graphics.DrawString(Incidencia.aulaUbicacion, fontRegular, blackBrush, new XPoint(col2X, tableStartY + 3 * rowHeight - 5));
-
-                currentY = tableStartY + 3 * rowHeight + 20;
-
-                // Fechas y Tiempo
                 graphics.DrawString($"Fecha de Incidencia: {Incidencia.fechaIncidencia:dd/MM/yyyy}", fontRegular, blackBrush, new XPoint(margin, currentY));
                 currentY += 20;
 
@@ -188,70 +184,25 @@ namespace ProjecteFinal.ViewModels
                 }
 
                 graphics.DrawString($"Tiempo Invertido: {Incidencia.tiempoInvertido} minutos", fontRegular, blackBrush, new XPoint(margin, currentY));
-                currentY += 30;
+                currentY += 40;
 
-                // Profesor Responsable
-                graphics.DrawString("Responsable de la Incidencia", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
+                // ** Bloque: Responsable de la Incidencia **
+                graphics.DrawString("Responsable de la Incidencia", fontSubtitle, blueBrush, new XPoint(margin, currentY));
                 currentY += 20;
 
                 graphics.DrawString($"Profesor: {Profesor?.nombre ?? "Ningún profesor asignado"}", fontRegular, blackBrush, new XPoint(margin, currentY));
                 currentY += 20;
+
                 if (!string.IsNullOrWhiteSpace(Profesor?.email))
                 {
                     graphics.DrawString($"Correo Electrónico: {Profesor.email}", fontRegular, blackBrush, new XPoint(margin, currentY));
                     currentY += 20;
                 }
 
-                // Separador
-                currentY += 10;
-                graphics.DrawLine(XPens.Black, margin, currentY, page.Width - margin, currentY);
+                // Separador visual
                 currentY += 20;
-
-                // Descripción Detallada
-                graphics.DrawString("Descripción Detallada", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
+                graphics.DrawLine(XPens.LightGray, margin, currentY, page.Width - margin, currentY);
                 currentY += 20;
-                graphics.DrawString(Incidencia.descripcionDetallada, fontRegular, blackBrush,
-                    new XRect(margin, currentY, page.Width - 2 * margin, page.Height - currentY), XStringFormats.TopLeft);
-                currentY += 40;
-
-                // Observaciones
-                if (!string.IsNullOrWhiteSpace(Incidencia.observaciones))
-                {
-                    graphics.DrawString("Observaciones", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString(Incidencia.observaciones, fontRegular, blackBrush,
-                        new XRect(margin, currentY, page.Width - 2 * margin, page.Height - currentY), XStringFormats.TopLeft);
-                    currentY += 40;
-                }
-
-                // Especialización: Hardware, Software o Red
-                if (IncidenciaHW != null)
-                {
-                    graphics.DrawString("Detalles de Hardware", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString($"Dispositivo: {IncidenciaHW.dispositivo}", fontRegular, blackBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString($"Modelo: {IncidenciaHW.modelo}", fontRegular, blackBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString($"Número de Serie: {IncidenciaHW.numeroSerie}", fontRegular, blackBrush, new XPoint(margin, currentY));
-                    currentY += 40;
-                }
-                else if (IncidenciaSW != null)
-                {
-                    graphics.DrawString("Detalles de Software", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString($"Sistema Operativo: {IncidenciaSW.sistemaOperativo}", fontRegular, blackBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString($"Aplicación: {IncidenciaSW.aplicacion}", fontRegular, blackBrush, new XPoint(margin, currentY));
-                    currentY += 40;
-                }
-                else if (IncidenciaRed != null)
-                {
-                    graphics.DrawString("Detalles de Red", fontSection, corporateBlueBrush, new XPoint(margin, currentY));
-                    currentY += 20;
-                    graphics.DrawString($"Dispositivo Afectado: {IncidenciaRed.dispositivoAfectado}", fontRegular, blackBrush, new XPoint(margin, currentY));
-                    currentY += 40;
-                }
 
                 // Guardar el archivo PDF
                 var filePath = @"C:\Users\David\Desktop\Projecte Final\informes\InformeDetalleIncidencia.pdf";
@@ -265,6 +216,8 @@ namespace ProjecteFinal.ViewModels
                 Application.Current.MainPage.DisplayAlert("Error", $"No se pudo generar el informe: {ex.Message}", "Aceptar");
             }
         }
+
+
 
 
 

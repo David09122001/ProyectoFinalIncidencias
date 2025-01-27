@@ -21,11 +21,41 @@ public partial class ViewLogin : ContentPage
 
         if (usuario != null)
         {
-            await Shell.Current.GoToAsync($"{nameof(MainMenu)}",
-                new Dictionary<string, object>
+            // Obtener información del rol
+            var rolDao = new RolDAO();
+            var permisoDao = new PermisoDAO();
+            var rol = await rolDao.ObtenerRolPorIdAsync(usuario.rol_id);
+
+            if (rol != null)
+            {
+                // Comprobar si el rol tiene permisos específicos
+                var permisos = await permisoDao.ObtenerPermisosPorRolAsync(rol.id);
+
+                // Determinar el menú según permisos/rol
+                if (rol.nombre == "Profesor" )
                 {
-                    { "Profesor", usuario }
-                });
+                    // Redirigir a RestrictedMenu
+                    await Shell.Current.GoToAsync($"{nameof(ProfesorMenu)}",
+                        new Dictionary<string, object>
+                        {
+                        { "Profesor", usuario }
+                        });
+                }
+                else
+                {
+                    // Redirigir al menú completo
+                    await Shell.Current.GoToAsync($"{nameof(MainMenu)}",
+                        new Dictionary<string, object>
+                        {
+                        { "Profesor", usuario }
+                        });
+                }
+            }
+            else
+            {
+                ErrorLabel.Text = "Error al obtener el rol del usuario.";
+                ErrorLabel.IsVisible = true;
+            }
         }
         else
         {
@@ -33,6 +63,7 @@ public partial class ViewLogin : ContentPage
             ErrorLabel.IsVisible = vm.HayError;
         }
     }
+
 
 
 }

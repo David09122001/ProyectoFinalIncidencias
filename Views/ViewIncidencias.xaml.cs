@@ -6,20 +6,18 @@ namespace ProjecteFinal.Views;
 [QueryProperty(nameof(Profesor), "Profesor")]
 public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
 {
-    private Profesor _profesor;
 
+    private IncidenciasVM vm;
+
+    private Profesor _profesor;
     public Profesor Profesor
     {
         get => _profesor;
         set
         {
             _profesor = value;
-            OnPropertyChanged();
         }
     }
-
-    
-    private IncidenciasVM vm;
 
     public ViewIncidencias()
     {
@@ -36,6 +34,7 @@ public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
     {
         BindingContext = vm = new IncidenciasVM();
         Loaded -= OnLoaded;
+        vm.CargarIncidenciasAsync(_profesor);
     }
 
     private async void OnAddClicked(object sender, EventArgs e)

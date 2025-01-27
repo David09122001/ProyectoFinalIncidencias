@@ -9,9 +9,11 @@ namespace ProjecteFinal.ViewModel
     public class PerfilVM : BaseViewModel
     {
         private ProfesorDAO profesorDAO;
+        private RolDAO rolDAO;
 
         public Profesor Profesor { get; private set; }
 
+        public string NombreRol { get; private set; }
         public string ContraseñaActual { get; set; }
         public string NuevaContraseña { get; set; }
         public string ConfirmarNuevaContraseña { get; set; }
@@ -19,7 +21,16 @@ namespace ProjecteFinal.ViewModel
         public PerfilVM(Profesor profesor)
         {
             profesorDAO = new ProfesorDAO();
+            rolDAO = new RolDAO();
             Profesor = profesor;
+            _ = CargarRolAsync(profesor.rol_id);
+        }
+
+        private async Task CargarRolAsync(int rolId)
+        {
+            var rol = await rolDAO.ObtenerRolPorIdAsync(rolId);
+            NombreRol = rol?.nombre ?? "Rol no asignado";
+            OnPropertyChanged(nameof(NombreRol));
         }
 
         public async Task CargarProfesorPorCorreoAsync(string correo)

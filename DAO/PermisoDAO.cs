@@ -1,43 +1,45 @@
 ﻿using ProjecteFinal.Models;
 using SQLite;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ProjecteFinal.DAO
 {
     public class PermisoDAO
     {
-        private static SQLiteAsyncConnection connection;
+        private SQLiteAsyncConnection connection;
 
-        public static SQLiteAsyncConnection GetConnection()
+        public PermisoDAO()
         {
-            return BaseDatos.BaseDatos.GetConnection();
+            connection = BaseDatos.BaseDatos.GetConnection();
         }
 
-        public void AñadirPermiso(Permiso permiso)
+        public async Task EliminarPermisosPorRolAsync(int rolId)
         {
-            GetConnection().InsertAsync(permiso).Wait();
+            await connection.Table<RolPermiso>()
+                            .Where(rp => rp.rolId == rolId)
+                            .DeleteAsync();
         }
 
-        public ObservableCollection<Permiso> ObtenerPermisos()
+        public async Task InsertarRolPermisoAsync(RolPermiso rolPermiso)
         {
-            var permisosQuery = GetConnection().Table<Permiso>();
-            var permisos = permisosQuery.ToListAsync().Result;
-            return new ObservableCollection<Permiso>(permisos);
+            await connection.InsertAsync(rolPermiso);
         }
 
-        public void EliminarPermiso(Permiso permiso)
+        public async Task<List<Permiso>> ObtenerPermisosAsync()
         {
-            GetConnection().DeleteAsync(permiso).Wait();
+            return await connection.Table<Permiso>().ToListAsync();
         }
 
-        public void ActualizarPermiso(Permiso permiso)
+        public async Task<List<Permiso>> ObtenerPermisosPorRolAsync(int rolId)
         {
-            GetConnection().UpdateAsync(permiso).Wait();
+            var rolPermisos = await connection.Table<RolPermiso>()
+                                                .Where(rp => rp.rolId == rolId)
+                                                .ToListAsync();
+            var permisoIds = rolPermisos.Select(rp => rp.permisoCodigo).ToList();
+            return await connection.Table<Permiso>()
+                                   .Where(p => permisoIds.Contains(p.codigo))
+                                   .ToListAsync();
         }
     }
 }

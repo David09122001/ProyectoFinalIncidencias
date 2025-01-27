@@ -25,13 +25,13 @@
 
                 <!-- Botón Más Filtros -->
                 <Button Text="Más filtros" Clicked="OnToggleFiltrosClicked"
-                        Grid.Column="2" HeightRequest="40" WidthRequest="120" />
+                         Style="{StaticResource PrimaryButtonStyle}"  Grid.Column="2" HeightRequest="40" WidthRequest="120" />
             </Grid>
         </Frame>
 
         <!-- Filtros adicionales -->
         <Frame BackgroundColor="White" CornerRadius="10" Padding="10" HasShadow="True" 
-       IsVisible="{Binding isFiltros}">
+               IsVisible="{Binding isFiltros}">
             <VerticalStackLayout>
                 <Grid ColumnSpacing="10" RowSpacing="8">
                     <Grid.ColumnDefinitions>
@@ -43,23 +43,23 @@
 
                     <!-- Filtro de Responsable Asignado -->
                     <Picker Title="Responsable asignado" ItemsSource="{Binding OpcionesResponsable}"
-                    SelectedItem="{Binding FiltroResponsable}" Grid.Column="0" 
-                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+                            SelectedItem="{Binding FiltroResponsable}" Grid.Column="0" 
+                            HeightRequest="60" WidthRequest="220" FontSize="14" />
 
                     <!-- Filtro de Estado -->
                     <Picker Title="Estado" ItemsSource="{Binding Estados}"
-                    SelectedItem="{Binding FiltroEstado}" Grid.Column="1" 
-                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+                            SelectedItem="{Binding FiltroEstado}" Grid.Column="1" 
+                            HeightRequest="60" WidthRequest="220" FontSize="14" />
 
                     <!-- Filtro de Tipo -->
                     <Picker Title="Tipo de Incidencia" ItemsSource="{Binding TiposIncidencia}"
-                    SelectedItem="{Binding FiltroTipoIncidencia}" Grid.Column="2" 
-                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+                            SelectedItem="{Binding FiltroTipoIncidencia}" Grid.Column="2" 
+                            HeightRequest="60" WidthRequest="220" FontSize="14" />
 
                     <!-- Filtro de Ordenación -->
                     <Picker Title="Ordenar por" ItemsSource="{Binding OpcionesOrdenacion}"
-                    SelectedItem="{Binding FiltroOrdenacion}" Grid.Column="3" 
-                    HeightRequest="60" WidthRequest="220" FontSize="14" />
+                            SelectedItem="{Binding FiltroOrdenacion}" Grid.Column="3" 
+                            HeightRequest="60" WidthRequest="220" FontSize="14" />
                 </Grid>
 
                 <!-- Botón Generar Informes -->
@@ -77,79 +77,110 @@
                         Margin="0,10,0,0"
                         WidthRequest="150"
                         HeightRequest="40"
+                        Style="{StaticResource DeleteButtonStyle}"
                         Clicked="OnBorrarFiltrosClicked" />
             </VerticalStackLayout>
         </Frame>
 
-        <!-- Lista de incidencias -->
-        <CollectionView ItemsSource="{Binding IncidenciasFiltradas}" SelectionMode="Single">
-            <!-- Header -->
-            <CollectionView.Header>
-                <Grid ColumnSpacing="0" Padding="10, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="1.2*" />
-                        <ColumnDefinition Width="1.8*" />
-                        <ColumnDefinition Width="1.2*" />
-                        <ColumnDefinition Width="1.2*" />
-                    </Grid.ColumnDefinitions>
+        <!-- Frame con scroll para la lista -->
+        <Frame BackgroundColor="White" CornerRadius="10" Padding="5" HasShadow="True" VerticalOptions="FillAndExpand">
+            <ScrollView>
+                <CollectionView ItemsSource="{Binding IncidenciasFiltradas}" SelectionMode="Single">
+                    <!-- Header -->
+                    <CollectionView.Header>
+                        <Grid ColumnSpacing="0" Padding="10, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1.2*" />
+                                <ColumnDefinition Width="2*" />
+                                <ColumnDefinition Width="1.2*" />
+                                <ColumnDefinition Width="1.8*" />
+                                <ColumnDefinition Width="2.4*" />
+                            </Grid.ColumnDefinitions>
 
-                    <!-- Encabezados -->
-                    <Label Text="Incidencia" FontAttributes="Bold" Grid.Column="0"
-                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                           Padding="5, 0, 0, 0" />
-                    <Label Text="Estado" FontAttributes="Bold" Grid.Column="1"
-                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                           Padding="5, 0, 0, 0" />
-                    <Label Text="Responsable" FontAttributes="Bold" Grid.Column="2"
-                           HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                           Padding="5, 0, 0, 0" />
-                </Grid>
-            </CollectionView.Header>
+                            <!-- Encabezados -->
+                            <Label Text="Fecha" FontAttributes="Bold" Grid.Column="0"
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                   Padding="5, 0, 0, 0" />
+                            <Label Text="Incidencia" FontAttributes="Bold" Grid.Column="1"
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                   Padding="5, 0, 0, 0" />
+                            <Label Text="Estado" FontAttributes="Bold" Grid.Column="2"
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                   Padding="5, 0, 0, 0" />
+                            <Label Text="Responsable" FontAttributes="Bold" Grid.Column="3"
+                                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                   Padding="5, 0, 0, 0" />
+                        </Grid>
+                    </CollectionView.Header>
 
-            <!-- Template -->
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <Grid ColumnSpacing="10" Padding="10, 5">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="2*" />
-                            <ColumnDefinition Width="1.2*" />
-                            <ColumnDefinition Width="1.8*" />
-                            <ColumnDefinition Width="2.4*" />
-                        </Grid.ColumnDefinitions>
-                        <Label Text="{Binding descripcionDetallada}" Grid.Column="0" 
-                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
-                       Padding="5, 0, 0, 0">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <!-- Estado -->
-                        <Label Text="{Binding estado}" Grid.Column="1"
-                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                   Padding="5, 0, 0, 0" >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <!-- Responsable -->
-                        <Label Text="{Binding responsableDni, TargetNullValue='Ningún profesor asignado'}" Grid.Column="2"
-                   HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
-                   Padding="5, 0, 0, 0" >
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
-                            </Label.GestureRecognizers>
-                        </Label>
-                        <StackLayout Orientation="Horizontal" Grid.Column="3" HorizontalOptions="EndAndExpand" Spacing="5">
-                            <Button Text="Modificar" Clicked="OnEditClicked" CommandParameter="{Binding .}" 
-                                    Style="{StaticResource ModifyButtonStyle}" />
-                            <Button Text="Eliminar" Clicked="OnDeleteClicked" CommandParameter="{Binding .}" 
-                                    Style="{StaticResource DeleteButtonStyle}" />
-                        </StackLayout>
-                    </Grid>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                    <!-- Template -->
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnSpacing="10" Padding="10, 5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1.2*" />
+                                    <ColumnDefinition Width="2*" />
+                                    <ColumnDefinition Width="1.2*" />
+                                    <ColumnDefinition Width="1.8*" />
+                                    <ColumnDefinition Width="2.4*" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- Apply a DataTrigger to change background based on condition -->
+                                <Grid.Triggers>
+                                    <DataTrigger TargetType="Grid" Binding="{Binding responsableDni}" Value="{x:Null}">
+                                        <Setter Property="BackgroundColor" Value="#FFCCCC" />
+                                        <!-- Red for no responsible -->
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Grid" Binding="{Binding responsableDni}" Value="Ningún profesor asignado">
+                                        <Setter Property="BackgroundColor" Value="#FFCCCC" />
+                                        <!-- Red for "Ningún profesor asignado" -->
+                                    </DataTrigger>
+                                </Grid.Triggers>
+
+                                <!-- Fecha -->
+                                <Label Text="{Binding fechaIncidencia, StringFormat='{0:dd/MM/yyyy}'}" Grid.Column="0"
+                                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                       Padding="5, 0, 0, 0" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <!-- Descripción -->
+                                <Label Text="{Binding descripcionDetallada}" Grid.Column="1" 
+                                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center" 
+                                       Padding="5, 0, 0, 0">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <!-- Estado -->
+                                <Label Text="{Binding estado}" Grid.Column="2"
+                                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Padding="5, 0, 0, 0" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <!-- Responsable -->
+                                <Label Text="{Binding responsableDni, TargetNullValue='Ningún profesor asignado'}" Grid.Column="3"
+                                       HorizontalTextAlignment="Start" VerticalTextAlignment="Center"
+                                       Padding="5, 0, 0, 0" >
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <StackLayout Orientation="Horizontal" Grid.Column="4" HorizontalOptions="EndAndExpand" Spacing="5">
+                                    <Button Text="Modificar" Clicked="OnEditClicked" CommandParameter="{Binding .}" 
+                                            Style="{StaticResource ModifyButtonStyle}" />
+                                    <Button Text="Eliminar" Clicked="OnDeleteClicked" CommandParameter="{Binding .}" 
+                                            Style="{StaticResource DeleteButtonStyle}" />
+                                </StackLayout>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Frame>
 
         <!-- Botón para añadir incidencia -->
         <Button Text="Añadir Incidencia" 

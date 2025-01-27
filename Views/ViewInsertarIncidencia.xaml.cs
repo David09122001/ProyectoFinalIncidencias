@@ -54,7 +54,7 @@ namespace ProjecteFinal.Views
                 if (Shell.Current.Navigation.NavigationStack.OfType<ViewIncidencias>().FirstOrDefault() is ViewIncidencias viewIncidencias &&
                     viewIncidencias.BindingContext is IncidenciasVM incidenciasVM)
                 {
-                    incidenciasVM.CargarIncidenciasAsync();
+                    incidenciasVM.CargarIncidenciasAsync(Profesor);
                 }
 
                 await Navigation.PopAsync();

@@ -12,40 +12,65 @@ namespace ProjecteFinal.DAO
     public class RolDAO
     {
         private static SQLiteAsyncConnection connection;
-
         public static SQLiteAsyncConnection GetConnection()
         {
             return BaseDatos.BaseDatos.GetConnection();
         }
 
-        public void AñadirRol(Rol rol)
+        public async Task<List<Rol>> ObtenerRolesAsync()
         {
-            GetConnection().InsertAsync(rol).Wait();
+            return await GetConnection().Table<Rol>().ToListAsync();
         }
 
-        public async Task<ObservableCollection<Rol>> ObtenerRolesAsync()
+        public async Task GuardarRolAsync(Rol rol)
         {
-            try
+            await GetConnection().InsertOrReplaceAsync(rol);
+        }
+
+        public async Task<Rol> ObtenerRolPorNombreAsync(string nombre)
+        {
+            return await GetConnection().Table<Rol>().FirstOrDefaultAsync(r => r.nombre == nombre);
+        }
+
+        public async Task<List<Rol>> BuscarTodosAsync()
+        {
+            return await GetConnection().Table<Rol>().ToListAsync();
+        }
+
+        public async Task EliminarRolAsync(Rol rol)
+        {
+            await GetConnection().DeleteAsync(rol);
+        }
+
+        // Asignar permisos a un rol
+        public async Task AsignarPermisosAsync(int rolId, List<int> permisosIds)
+        {
+            // Eliminar los permisos existentes para este rol
+            await GetConnection().Table<RolPermiso>().DeleteAsync(rp => rp.rolId == rolId);
+
+            // Insertar los nuevos permisos
+            foreach (var permisoId in permisosIds)
             {
-                var roles = await GetConnection().Table<Rol>().ToListAsync();
-                return new ObservableCollection<Rol>(roles);
+                var rolPermiso = new RolPermiso
+                {
+                    rolId = rolId,
+                    permisoCodigo = permisoId
+                };
+                await GetConnection().InsertAsync(rolPermiso);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al obtener roles: {ex.Message}");
-                return new ObservableCollection<Rol>(); 
-            }
         }
 
-
-        public void EliminarRol(Rol rol)
+        // Eliminar permisos asignados a un rol
+        public async Task EliminarPermisosPorRolAsync(int rolId)
         {
-            GetConnection().DeleteAsync(rol).Wait();
+            await GetConnection().Table<RolPermiso>().DeleteAsync(rp => rp.rolId == rolId);
         }
 
-        public void ActualizarRol(Rol rol)
+        public async Task<Rol> ObtenerRolPorIdAsync(int rolId)
         {
-            GetConnection().UpdateAsync(rol).Wait();
+            return await GetConnection().Table<Rol>().FirstOrDefaultAsync(r => r.id == rolId);
         }
+
+
     }
 }

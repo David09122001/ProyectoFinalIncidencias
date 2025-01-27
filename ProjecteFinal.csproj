@@ -71,8 +71,8 @@
 	  <Compile Update="Views\ViewProfesores.xaml.cs">
 	    <DependentUpon>ViewProfesores.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\ViewInformes.xaml.cs">
-	    <DependentUpon>ViewInformes.xaml</DependentUpon>
+	  <Compile Update="Views\ViewRoles.xaml.cs">
+	    <DependentUpon>ViewRoles.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\ViewLogs.xaml.cs">
 	    <DependentUpon>ViewLogs.xaml</DependentUpon>
@@ -92,6 +92,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="Views\ProfesorMenu.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewDepartamentos.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -102,6 +105,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewInsertarModificarProfesor.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewInsertarModificarRol.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewPerfil.xaml">
@@ -116,7 +122,7 @@
 	  <MauiXaml Update="Views\ViewIncidencias.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewInformes.xaml">
+	  <MauiXaml Update="Views\ViewRoles.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewLogin.xaml">

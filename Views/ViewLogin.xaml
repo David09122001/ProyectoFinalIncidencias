@@ -4,12 +4,38 @@
              x:Class="ProjecteFinal.Views.ViewLogin"
              Title=""
              BackgroundColor="#F8F9FA">
-    <VerticalStackLayout Padding="30" Spacing="20" VerticalOptions="Center">
-        <!-- Título -->
-        <Label Text="Iniciar Sesión" FontSize="28" FontAttributes="Bold" HorizontalOptions="Center" TextColor="#2C3E50" />
 
-        <!-- Icono -->
-        <Image Source="login.png" WidthRequest="100" HeightRequest="100" HorizontalOptions="Center" />
+    <!-- Contenedor principal -->
+    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+
+        <!-- Contenedor de logo y título -->
+        <HorizontalStackLayout Spacing="15" VerticalOptions="Center" HorizontalOptions="Center">
+
+            <!-- Título principal -->
+            <Label Text="GESTOR DE INCIDENCIAS"
+                   FontSize="40"
+                   FontAttributes="Bold"
+                   TextColor="#1E88E5"
+                   VerticalOptions="Center"
+                   HorizontalTextAlignment="Center" />
+        </HorizontalStackLayout>
+
+        <!-- Espaciado para separar visualmente -->
+        <BoxView HeightRequest="20" BackgroundColor="Transparent" />
+
+        <!-- Título "Iniciar Sesión" -->
+        <Label Text="Iniciar Sesión"
+               FontSize="28"
+               FontAttributes="Bold"
+               HorizontalOptions="Center"
+               TextColor="#2C3E50"
+               Margin="0,0,0,10" />
+
+        <!-- Icono del login -->
+        <Image Source="login.png"
+               WidthRequest="100"
+               HeightRequest="100"
+               HorizontalOptions="Center" />
 
         <!-- Campo de correo -->
         <Frame Style="{StaticResource EntryFrameStyle}">
@@ -19,9 +45,15 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Source="mail.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" Grid.Column="0" />
-                <Entry Placeholder="Correo electrónico" Text="{Binding Correo, Mode=TwoWay}" 
-               VerticalOptions="Center" Grid.Column="1" />
+                <Image Source="mail.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"
+                       Grid.Column="0" />
+                <Entry Placeholder="Correo electrónico"
+                       Text="{Binding Correo, Mode=TwoWay}"
+                       VerticalOptions="Center"
+                       Grid.Column="1" />
             </Grid>
         </Frame>
 
@@ -33,17 +65,28 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Source="password.png" WidthRequest="24" HeightRequest="24" VerticalOptions="Center" Grid.Column="0" />
-                <Entry Placeholder="Contraseña" Text="{Binding Contrasena, Mode=TwoWay}" IsPassword="True" 
-               VerticalOptions="Center" Grid.Column="1" />
+                <Image Source="password.png"
+                       WidthRequest="24"
+                       HeightRequest="24"
+                       VerticalOptions="Center"
+                       Grid.Column="0" />
+                <Entry Placeholder="Contraseña"
+                       Text="{Binding Contrasena, Mode=TwoWay}"
+                       IsPassword="True"
+                       VerticalOptions="Center"
+                       Grid.Column="1" />
             </Grid>
         </Frame>
 
-
         <!-- Botón de inicio de sesión -->
-        <Button Text="Iniciar Sesión" Clicked="IniciarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+        <Button Text="Iniciar Sesión"
+                Clicked="IniciarClicked"
+                Style="{StaticResource PrimaryButtonStyle}" />
 
         <!-- Mensaje de error -->
-        <Label x:Name="ErrorLabel" TextColor="Red" IsVisible="False" HorizontalOptions="Center" />
+        <Label x:Name="ErrorLabel"
+               TextColor="Red"
+               IsVisible="False"
+               HorizontalOptions="Center" />
     </VerticalStackLayout>
 </ContentPage>

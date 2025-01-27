@@ -5,6 +5,8 @@
              x:Class="ProjecteFinal.App">
     <Application.Resources>
         <ResourceDictionary>
+            
+            
             <!-- Estilo para los Frames -->
             <Style x:Key="ModernCardStyle" TargetType="Frame">
                 <Setter Property="BackgroundColor" Value="White" />

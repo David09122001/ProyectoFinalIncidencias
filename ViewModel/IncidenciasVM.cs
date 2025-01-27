@@ -152,7 +152,6 @@ namespace ProjecteFinal.ViewModel
 
             GenerarInformeCommand = new Command(async () => await GenerarInformeAsync());
             isFiltros = false;
-            CargarIncidenciasAsync();
         }
 
         private async Task GenerarInformeAsync()
@@ -170,8 +169,8 @@ namespace ProjecteFinal.ViewModel
                 page.Size = PdfSharpCore.PageSize.A4;
 
                 var gfx = XGraphics.FromPdfPage(page);
-                var fontRegular = new XFont("Verdana", 10, XFontStyle.Regular);
-                var fontBold = new XFont("Verdana", 12, XFontStyle.Bold);
+                var fontRegular = new XFont("Verdana", 8, XFontStyle.Regular); // Reducir tamaño de fuente
+                var fontBold = new XFont("Verdana", 10, XFontStyle.Bold);
 
                 double margin = 40;
                 double y = margin;
@@ -184,12 +183,12 @@ namespace ProjecteFinal.ViewModel
                 gfx.DrawString($"Número total de incidencias: {IncidenciasFiltradas.Count}", fontRegular, XBrushes.Black, new XRect(margin, y, page.Width - 2 * margin, page.Height), XStringFormats.TopLeft);
                 y += 40;
 
-                // Column widths
-                double colIdWidth = 50;
-                double colDescWidth = 200;
-                double colEstadoWidth = 100;
-                double colRespWidth = 150;
-                double colFechaWidth = 100;
+                // Column widths (ajustados)
+                double colIdWidth = 40;
+                double colDescWidth = 160; // Reducido
+                double colEstadoWidth = 80;
+                double colRespWidth = 120; // Reducido
+                double colFechaWidth = 80; // Más espacio para la fecha
 
                 // ** Tabla - Cabecera **
                 gfx.DrawString("ID", fontBold, XBrushes.Black, new XRect(margin, y, colIdWidth, 20), XStringFormats.TopLeft);
@@ -207,21 +206,22 @@ namespace ProjecteFinal.ViewModel
                 {
                     gfx.DrawString(incidencia.id.ToString(), fontRegular, XBrushes.Black, new XRect(margin, y, colIdWidth, 20), XStringFormats.TopLeft);
 
-                    string descripcion = incidencia.descripcionDetallada.Length > 35
-                        ? incidencia.descripcionDetallada.Substring(0, 35) + "..."
+                    string descripcion = incidencia.descripcionDetallada.Length > 25 // Ajustar truncamiento
+                        ? incidencia.descripcionDetallada.Substring(0, 25) + "..."
                         : incidencia.descripcionDetallada;
                     gfx.DrawString(descripcion, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth, y, colDescWidth, 20), XStringFormats.TopLeft);
 
                     gfx.DrawString(incidencia.estado, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth, y, colEstadoWidth, 20), XStringFormats.TopLeft);
 
                     string responsable = string.IsNullOrWhiteSpace(incidencia.responsableDni) ? "Ningún profesor asignado" : incidencia.responsableDni;
-                    if (responsable.Length > 20)
+                    if (responsable.Length > 15) // Ajustar truncamiento
                     {
-                        responsable = responsable.Substring(0, 20) + "...";
+                        responsable = responsable.Substring(0, 15) + "...";
                     }
                     gfx.DrawString(responsable, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth, y, colRespWidth, 20), XStringFormats.TopLeft);
 
-                    gfx.DrawString(incidencia.fechaIncidencia.ToString("dd/MM/yyyy"), fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth + colRespWidth, y, colFechaWidth, 20), XStringFormats.TopLeft);
+                    // Alinear la fecha al centro
+                    gfx.DrawString(incidencia.fechaIncidencia.ToString("dd/MM/yyyy"), fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth + colRespWidth, y, colFechaWidth, 20), XStringFormats.TopCenter);
 
                     y += 20;
 
@@ -254,20 +254,29 @@ namespace ProjecteFinal.ViewModel
         }
 
 
-
-
-        public async Task CargarIncidenciasAsync()
+        public async Task CargarIncidenciasAsync(Profesor profesor)
         {
             Incidencias.Clear();
-            var listaIncidencias = incidenciaDAO.ObtenerIncidencias();
+            List<Incidencia> listaIncidencias;
+
+            if (profesor.rol_id == 1) // Si el rol es "Profesor"
+            {
+                // Obtener solo las incidencias del profesor
+                listaIncidencias = incidenciaDAO.ObtenerIncidenciasPorProfesor(profesor.dni).ToList();
+            }
+            else
+            {
+                // Obtener todas las incidencias
+                listaIncidencias = incidenciaDAO.ObtenerIncidencias().ToList();
+            }
 
             foreach (var incidencia in listaIncidencias)
             {
                 // Obtener el nombre del profesor responsable
                 if (!string.IsNullOrWhiteSpace(incidencia.responsableDni))
                 {
-                    var profesor = await profesorDAO.BuscarPorDniAsync(incidencia.responsableDni);
-                    incidencia.responsableDni = profesor?.nombre ?? "Ningún profesor asignado";
+                    var responsable = await profesorDAO.BuscarPorDniAsync(incidencia.responsableDni);
+                    incidencia.responsableDni = responsable?.nombre ?? "Ningún profesor asignado";
                 }
                 else
                 {
@@ -275,18 +284,35 @@ namespace ProjecteFinal.ViewModel
                 }
 
                 Incidencias.Add(incidencia);
+                IncidenciasFiltradas.Add(incidencia);
             }
             AplicarFiltros();
         }
 
 
 
-
-        public void AñadirIncidencia(Incidencia nuevaIncidencia)
+        public async void AñadirIncidencia(Incidencia nuevaIncidencia, Profesor profesor)
         {
-            incidenciaDAO.AñadirIncidenciaAsync(nuevaIncidencia);
-            Incidencias.Add(nuevaIncidencia);
+            try
+            {
+                // Agregar la incidencia al DAO
+                await incidenciaDAO.AñadirIncidenciaAsync(nuevaIncidencia);
+
+                // Recargar las incidencias desde el DAO
+                await CargarIncidenciasAsync(profesor);
+
+                // Aplicar los filtros actuales
+                AplicarFiltros();
+
+                Console.WriteLine("Incidencia añadida correctamente y lista actualizada.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error al añadir incidencia: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo añadir la incidencia. Inténtalo de nuevo.", "Aceptar");
+            }
         }
+
 
         public void ActualizarIncidencia(Incidencia incidenciaModificada)
         {
@@ -310,6 +336,7 @@ namespace ProjecteFinal.ViewModel
             {
                 incidenciaDAO.EliminarIncidencia(incidencia);
                 Incidencias.Remove(incidencia);
+                IncidenciasFiltradas.Remove(incidencia);
                 return true;
             }
             catch
