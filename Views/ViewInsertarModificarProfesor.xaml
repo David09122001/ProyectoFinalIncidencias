@@ -20,6 +20,7 @@
                     <Entry Placeholder="Ejemplo: 12345678A" 
                            Text="{Binding Profesor.dni, Mode=TwoWay}" 
                            IsEnabled="{Binding IsDniEditable}" />
+                    <Label x:Name="DniErrorLabel" TextColor="Red" IsVisible="False" />
                 </VerticalStackLayout>
 
                 <!-- Nombre -->
@@ -42,15 +43,25 @@
                     <Label Text="Email" FontAttributes="Bold" TextColor="#2C3E50" />
                     <Entry Placeholder="Ejemplo: juan.perez@email.com" 
                            Text="{Binding Profesor.email, Mode=TwoWay}" />
+                    <Label x:Name="EmailErrorLabel" TextColor="Red" IsVisible="False" />
                 </VerticalStackLayout>
-
+                
                 <!-- Contraseña -->
                 <VerticalStackLayout>
                     <Label Text="Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
                     <Entry Placeholder="Escribir contraseña" 
-                           IsPassword="True" 
-                           Text="{Binding Profesor.contrasena, Mode=TwoWay}" />
+           IsPassword="True" 
+           Text="{Binding Profesor.contrasena, Mode=TwoWay}" />
                 </VerticalStackLayout>
+
+                <!-- Confirmar Contraseña -->
+                <VerticalStackLayout>
+                    <Label Text="Confirmar Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                    <Entry Placeholder="Confirmar contraseña" 
+           IsPassword="True" 
+           Text="{Binding ConfirmarContrasena, Mode=TwoWay}" />
+                </VerticalStackLayout>
+
 
                 <!-- Rol -->
                 <VerticalStackLayout>

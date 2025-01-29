@@ -79,6 +79,17 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
+        private Rol _nuevoRol;
+        public Rol NuevoRol
+        {
+            get => _nuevoRol;
+            set
+            {
+                _nuevoRol = value;
+                OnPropertyChanged();
+            }
+        }
+
         // Constructor
         public RolesVM()
         {
@@ -88,7 +99,7 @@ namespace ProjecteFinal.ViewModel
             Roles = new ObservableCollection<Rol>();
             RolesFiltrados = new ObservableCollection<Rol>();
             PermisosDisponibles = new ObservableCollection<Permiso>();
-
+            NuevoRol = new Rol();
             _ = CargarRolesAsync();
         }
 
@@ -99,6 +110,38 @@ namespace ProjecteFinal.ViewModel
             var roles = await rolDAO.ObtenerRolesAsync();
             Roles = new ObservableCollection<Rol>(roles);
         }
+
+
+        public async Task InsertarRolAsync()
+        {
+            if (string.IsNullOrWhiteSpace(NuevoRol.nombre))
+                throw new ArgumentException("El nombre del rol es obligatorio.");
+
+
+            await rolDAO.InsertarRolAsync(NuevoRol);
+
+            var rolCreado = await rolDAO.ObtenerRolPorNombreAsync(NuevoRol.nombre);
+
+            if (rolCreado == null)
+                throw new Exception("No se pudo recuperar el rol después de la inserción.");
+
+            var permisosSeleccionados = PermisosDisponibles
+                .Where(p => p.IsAssigned)
+                .Select(p => p.codigo)
+                .ToList();
+
+            foreach (var permisoCodigo in permisosSeleccionados)
+            {
+                var rolPermiso = new RolPermiso
+                {
+                    rolId = rolCreado.id, 
+                    permisoCodigo = permisoCodigo
+                };
+                await permisoDAO.InsertarRolPermisoAsync(rolPermiso);
+            }
+        }
+
+
 
         public async Task CargarPermisosAsync(int rolId)
         {
@@ -115,6 +158,21 @@ namespace ProjecteFinal.ViewModel
                 PermisosDisponibles.Add(permiso);
             }
         }
+
+        public async Task CargarPermisosAsyncN()
+        {
+            PermisosDisponibles.Clear();
+
+            // Cargar todos los permisos de la base de datos
+            var todosLosPermisos = await permisoDAO.ObtenerPermisosAsync();
+
+            foreach (var permiso in todosLosPermisos)
+            {
+                permiso.IsAssigned = false; 
+                PermisosDisponibles.Add(permiso);
+            }
+        }
+
 
         public async Task GuardarRolAsync()
         {

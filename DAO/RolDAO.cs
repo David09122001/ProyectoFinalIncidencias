@@ -27,6 +27,11 @@ namespace ProjecteFinal.DAO
             await GetConnection().InsertOrReplaceAsync(rol);
         }
 
+        public async Task InsertarRolAsync(Rol rol)
+        {
+            await GetConnection().InsertAsync(rol);
+        }
+
         public async Task<Rol> ObtenerRolPorNombreAsync(string nombre)
         {
             return await GetConnection().Table<Rol>().FirstOrDefaultAsync(r => r.nombre == nombre);

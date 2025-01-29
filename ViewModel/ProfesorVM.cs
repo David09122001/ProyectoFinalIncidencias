@@ -94,6 +94,20 @@ namespace ProjecteFinal.ViewModels
             }
         }
 
+        public async Task RecargarDatos()
+        {
+            var profesores = await profesorDAO.BuscarTodosAsync();
+            Profesores.Clear();
+
+            foreach (var profesor in profesores)
+            {
+                Profesores.Add(profesor);
+            }
+
+            AplicarFiltros(); 
+        }
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected virtual void OnPropertyChanged(string propertyName) =>

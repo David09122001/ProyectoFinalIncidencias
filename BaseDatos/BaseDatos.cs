@@ -88,6 +88,7 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Permiso { descripcion = "Generar informes" }).Wait();
             GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar profesores" }).Wait();
             GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar departamentos" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Ver logs" }).Wait();
 
 
             // Insertar relaciones roles-permisos
@@ -113,6 +114,7 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 4 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 7 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 8 }).Wait();
 
             //Directivo
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 1 }).Wait();
@@ -223,7 +225,7 @@ namespace ProjecteFinal.BaseDatos
             {
                 fechaIncidencia = DateTime.Now.AddDays(-1),
                 fechaIntroduccion = DateTime.Now,
-                profesorDni = "20881900X",
+                profesorDni = "20881922X",
                 aulaUbicacion = "1",
                 descripcionDetallada = "1",
                 observaciones = "1",
@@ -244,7 +246,7 @@ namespace ProjecteFinal.BaseDatos
             {
                 fechaIncidencia = DateTime.Now.AddDays(-2),
                 fechaIntroduccion = DateTime.Now,
-                profesorDni = "20881900X",
+                profesorDni = "20881922X",
                 responsableDni = "20761603X",
                 aulaUbicacion = "Aula 202",
                 descripcionDetallada = "No funciona el software",

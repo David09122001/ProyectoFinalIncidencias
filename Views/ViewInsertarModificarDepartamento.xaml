@@ -13,7 +13,10 @@
                 <!-- Código -->
                 <VerticalStackLayout>
                     <Label Text="Código" FontAttributes="Bold" TextColor="#2C3E50" />
-                    <Entry Placeholder="Ejemplo: INF" Text="{Binding Departamento.codigo, Mode=TwoWay}" />
+                    <Entry Placeholder="Ejemplo: INF"
+                       Text="{Binding Departamento.codigo, Mode=TwoWay}"
+                       IsEnabled="{Binding IsCodigoEditable}" />
+
                 </VerticalStackLayout>
 
                 <!-- Nombre -->

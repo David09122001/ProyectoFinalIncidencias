@@ -19,7 +19,8 @@
             Routing.RegisterRoute(nameof(Views.ViewPerfil), typeof(Views.ViewPerfil));
             Routing.RegisterRoute(nameof(Views.ViewSeleccionarProfesor), typeof(Views.ViewSeleccionarProfesor));
             Routing.RegisterRoute(nameof(Views.ViewDetalleIncidencia), typeof(Views.ViewDetalleIncidencia));
-            Routing.RegisterRoute(nameof(Views.ViewInsertarModificarRol), typeof(Views.ViewInsertarModificarRol));
+            Routing.RegisterRoute(nameof(Views.ViewModificarRol), typeof(Views.ViewModificarRol));
+            Routing.RegisterRoute(nameof(Views.ViewInsertarRol), typeof(Views.ViewInsertarRol));
             Routing.RegisterRoute(nameof(Views.ProfesorMenu), typeof(Views.ProfesorMenu));
         }
 

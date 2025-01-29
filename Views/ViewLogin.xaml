@@ -3,90 +3,123 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProjecteFinal.Views.ViewLogin"
              Title=""
-             BackgroundColor="#F8F9FA">
+             BackgroundColor="#F3F4F6">
 
     <!-- Contenedor principal -->
-    <VerticalStackLayout Padding="30" Spacing="25" VerticalOptions="Center">
+    <Grid>
+        <!-- Fondo de encabezado -->
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="260" VerticalOptions="Start" />
 
-        <!-- Contenedor de logo y título -->
-        <HorizontalStackLayout Spacing="15" VerticalOptions="Center" HorizontalOptions="Center">
+        <!-- Contenedor de contenido centrado -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="30" VerticalOptions="Center" HorizontalOptions="Center">
 
-            <!-- Título principal -->
-            <Label Text="GESTOR DE INCIDENCIAS"
-                   FontSize="40"
-                   FontAttributes="Bold"
-                   TextColor="#1E88E5"
-                   VerticalOptions="Center"
-                   HorizontalTextAlignment="Center" />
-        </HorizontalStackLayout>
+                <!-- Espaciado entre el encabezado -->
+                <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,20,0,40">
+                    <!-- Título principal -->
+                    <Label Text="Gestor de Incidencias"
+                           FontSize="42"
+                           FontAttributes="Bold"
+                           TextColor="White"
+                           HorizontalOptions="Center" />
+                    <!-- Subtítulo -->
+                    <Label Text="Administra y resuelve incidencias fácilmente"
+                           FontSize="20"
+                           TextColor="#E3F2FD"
+                           HorizontalOptions="Center" />
+                </VerticalStackLayout>
 
-        <!-- Espaciado para separar visualmente -->
-        <BoxView HeightRequest="20" BackgroundColor="Transparent" />
+                <!-- Tarjeta de inicio de sesión -->
+                <Frame BackgroundColor="White"
+                       CornerRadius="15"
+                       Padding="25"
+                       HasShadow="True"
+                       WidthRequest="400"
+                       Margin="0,40,0,0">
+                    <!-- Ancho y margen ajustados -->
+                    <VerticalStackLayout Spacing="20">
 
-        <!-- Título "Iniciar Sesión" -->
-        <Label Text="Iniciar Sesión"
-               FontSize="28"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
-               TextColor="#2C3E50"
-               Margin="0,0,0,10" />
+                        <!-- Icono -->
+                        <Image Source="login.png"
+                               WidthRequest="70"
+                               HeightRequest="70"
+                               HorizontalOptions="Center" />
 
-        <!-- Icono del login -->
-        <Image Source="login.png"
-               WidthRequest="100"
-               HeightRequest="100"
-               HorizontalOptions="Center" />
+                        <!-- Título -->
+                        <Label Text="Iniciar sesión"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               TextColor="#1E88E5"
+                               HorizontalOptions="Center" />
 
-        <!-- Campo de correo -->
-        <Frame Style="{StaticResource EntryFrameStyle}">
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                        <!-- Campo de correo -->
+                        <Frame BackgroundColor="#F9FAFB"
+                               CornerRadius="10"
+                               Padding="12"
+                               WidthRequest="360">
+                            <!-- Ancho ajustado -->
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="mail.png"
+                                       WidthRequest="20"
+                                       HeightRequest="20"
+                                       VerticalOptions="Center" />
+                                <Entry Placeholder="Correo electrónico"
+                                       Text="{Binding Correo, Mode=TwoWay}"
+                                       VerticalOptions="Center"
+                                       FontSize="14"
+                                       Grid.Column="1" />
+                            </Grid>
+                        </Frame>
 
-                <Image Source="mail.png"
-                       WidthRequest="24"
-                       HeightRequest="24"
-                       VerticalOptions="Center"
-                       Grid.Column="0" />
-                <Entry Placeholder="Correo electrónico"
-                       Text="{Binding Correo, Mode=TwoWay}"
-                       VerticalOptions="Center"
-                       Grid.Column="1" />
-            </Grid>
-        </Frame>
+                        <!-- Campo de contraseña -->
+                        <Frame BackgroundColor="#F9FAFB"
+                               CornerRadius="10"
+                               Padding="12"
+                               WidthRequest="360">
+                            <!-- Ancho ajustado -->
+                            <Grid ColumnSpacing="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="40" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Image Source="password.png"
+                                       WidthRequest="20"
+                                       HeightRequest="20"
+                                       VerticalOptions="Center" />
+                                <Entry Placeholder="Contraseña"
+                                       Text="{Binding Contrasena, Mode=TwoWay}"
+                                       IsPassword="True"
+                                       VerticalOptions="Center"
+                                       FontSize="14"
+                                       Grid.Column="1" />
+                            </Grid>
+                        </Frame>
 
-        <!-- Campo de contraseña -->
-        <Frame Style="{StaticResource EntryFrameStyle}">
-            <Grid ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="40" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                        <!-- Botón de inicio de sesión -->
+                        <Button Text="Iniciar Sesión"
+                                Clicked="IniciarClicked"
+                                BackgroundColor="#1E88E5"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                CornerRadius="10"
+                                Padding="12"
+                                HorizontalOptions="Fill" />
 
-                <Image Source="password.png"
-                       WidthRequest="24"
-                       HeightRequest="24"
-                       VerticalOptions="Center"
-                       Grid.Column="0" />
-                <Entry Placeholder="Contraseña"
-                       Text="{Binding Contrasena, Mode=TwoWay}"
-                       IsPassword="True"
-                       VerticalOptions="Center"
-                       Grid.Column="1" />
-            </Grid>
-        </Frame>
+                        <!-- Mensaje de error -->
+                        <Label x:Name="ErrorLabel"
+                               TextColor="Red"
+                               FontSize="12"
+                               IsVisible="False"
+                               HorizontalOptions="Center" />
 
-        <!-- Botón de inicio de sesión -->
-        <Button Text="Iniciar Sesión"
-                Clicked="IniciarClicked"
-                Style="{StaticResource PrimaryButtonStyle}" />
-
-        <!-- Mensaje de error -->
-        <Label x:Name="ErrorLabel"
-               TextColor="Red"
-               IsVisible="False"
-               HorizontalOptions="Center" />
-    </VerticalStackLayout>
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

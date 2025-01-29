@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 namespace ProjecteFinal.Views;
 
 [QueryProperty(nameof(Rol), "Rol")]
-public partial class ViewInsertarModificarRol : ContentPage
+public partial class ViewModificarRol : ContentPage
 {
     private RolesVM _vm;
 
@@ -23,7 +23,7 @@ public partial class ViewInsertarModificarRol : ContentPage
         }
     }
 
-    public ViewInsertarModificarRol()
+    public ViewModificarRol()
     {
         InitializeComponent();
 

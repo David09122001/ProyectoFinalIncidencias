@@ -19,9 +19,14 @@ namespace ProjecteFinal.DAO
             return await GetConnection().Table<Departamento>().ToListAsync();
         }
 
+        public async Task ActualizarDepartamentoAsync(Departamento departamento)
+        {
+            await GetConnection().UpdateAsync(departamento);
+        }
+
         public async Task GuardarDepartamentoAsync(Departamento departamento)
         {
-            await GetConnection().InsertOrReplaceAsync(departamento);
+            await GetConnection().InsertAsync(departamento);
         }
 
         public async Task<Departamento> ObtenerDepartamentoPorCodigoAsync(string codigo)
@@ -37,5 +42,6 @@ namespace ProjecteFinal.DAO
         {
             await GetConnection().DeleteAsync(departamento);
         }
+
     }
 }

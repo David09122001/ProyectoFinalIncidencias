@@ -49,11 +49,24 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
+        private bool _isCodigoEditable;
+        public bool IsCodigoEditable
+        {
+            get => _isCodigoEditable;
+            set
+            {
+                _isCodigoEditable = value;
+                OnPropertyChanged(nameof(IsCodigoEditable));
+            }
+        }
+
+
         public DepartamentosVM()
         {
             departamentoDAO = new DepartamentoDAO();
             Departamentos = new ObservableCollection<Departamento>();
             DepartamentosFiltrados = new ObservableCollection<Departamento>();
+
             _ = CargarDepartamentosAsync();
         }
 
@@ -108,15 +121,23 @@ namespace ProjecteFinal.ViewModel
             }
 
             var existente = await departamentoDAO.ObtenerDepartamentoPorCodigoAsync(departamento.codigo);
-            if (existente != null && existente != departamento)
-            {
-                throw new InvalidOperationException("Ya existe un departamento con este código.");
-            }
 
-            await departamentoDAO.GuardarDepartamentoAsync(departamento);
+            if (existente == null)
+            {
+                // Si no existe, lo insertamos
+                await departamentoDAO.GuardarDepartamentoAsync(departamento);
+            }
+            else
+            {
+                // Si existe, lo actualizamos
+                await departamentoDAO.ActualizarDepartamentoAsync(departamento);
+            }
 
             await CargarDepartamentosAsync();
         }
+
+
+
 
     }
 }

@@ -8,11 +8,15 @@ namespace ProjecteFinal.Views
     {
         private InsertarModificarProfesorVM vm;
 
-        public ViewInsertarModificarProfesor(Profesor profesor = null)
+        private readonly ProfesoresVM _profesoresVM;
+
+        public ViewInsertarModificarProfesor(Profesor profesor = null, ProfesoresVM profesoresVM = null)
         {
             InitializeComponent();
-            BindingContext = vm = new InsertarModificarProfesorVM(profesor);
+            BindingContext = new InsertarModificarProfesorVM(profesor);
+            _profesoresVM = profesoresVM;
         }
+
 
         private async void OnGuardarClicked(object sender, EventArgs e)
         {
@@ -21,6 +25,12 @@ namespace ProjecteFinal.Views
                 bool resultado = await vm.GuardarProfesorAsync();
                 if (resultado)
                 {
+                    // Recargar la lista de profesores
+                    if (_profesoresVM != null)
+                    {
+                        await _profesoresVM.RecargarDatos();
+                    }
+
                     await DisplayAlert("Éxito", "El profesor ha sido guardado correctamente.", "Aceptar");
                     await Navigation.PopAsync();
                 }
@@ -30,6 +40,7 @@ namespace ProjecteFinal.Views
                 }
             }
         }
+
 
 
         private async void OnCancelarClicked(object sender, EventArgs e)

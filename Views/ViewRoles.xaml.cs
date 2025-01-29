@@ -16,7 +16,7 @@ public partial class ViewRoles : ContentPage
     // Acción para insertar un nuevo rol
     private async void OnInsertarClicked(object sender, EventArgs e)
     {
-        await Shell.Current.GoToAsync(nameof(ViewInsertarModificarRol));
+        await Shell.Current.GoToAsync(nameof(ViewInsertarRol));
     }
 
     private async void OnModificarClicked(object sender, EventArgs e)
@@ -27,7 +27,7 @@ public partial class ViewRoles : ContentPage
         if (rol != null)
         {
             // Aquí pasas el objeto completo 'rol' como parámetro
-            await Shell.Current.GoToAsync($"{nameof(ViewInsertarModificarRol)}",
+            await Shell.Current.GoToAsync($"{nameof(ViewModificarRol)}",
                 new Dictionary<string, object>
                 {
                 { "Rol", rol }  // Pasa el objeto Rol completo

@@ -26,10 +26,8 @@
             <Grid Padding="20" RowSpacing="20" ColumnSpacing="20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
@@ -45,18 +43,7 @@
                     </Frame.GestureRecognizers>
                 </Frame>
 
-                <!-- Ver Logs -->
-                <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
-                    <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
-                        <Image Source="log.png" WidthRequest="50" HeightRequest="50" />
-                        <Label Text="Ver Logs" Style="{StaticResource CardLabelStyle}" />
-                    </VerticalStackLayout>
-                    <Frame.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="LogsTapped" />
-                        <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
-                    </Frame.GestureRecognizers>
-                </Frame>
-
+              
             </Grid>
         </VerticalStackLayout>
         <Frame x:Name="DropdownMenu"

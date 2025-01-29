@@ -73,7 +73,14 @@ public partial class MainMenu : ContentPage
 
     private async void LogsTapped(object sender, EventArgs e)
     {
+        if (TienePermiso("Ver logs"))
+        {
             await Shell.Current.GoToAsync($"{nameof(ViewLogs)}");
+        }
+        else
+        {
+            MostrarAlertaSinPermisos();
+        }
     }
 
     private async void ProfesoresTapped(object sender, EventArgs e)

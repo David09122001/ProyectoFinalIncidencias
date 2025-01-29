@@ -15,25 +15,21 @@ namespace ProjecteFinal.Views
             get => _departamento;
             set
             {
-                _departamento = value ?? new Departamento(); 
-                OnPropertyChanged(nameof(Departamento)); 
+                _departamento = value ?? new Departamento();
+                OnPropertyChanged(nameof(Departamento));
+                OnPropertyChanged(nameof(IsCodigoEditable));
             }
         }
+
+        public bool IsCodigoEditable => string.IsNullOrWhiteSpace(_departamento?.codigo);
 
         public ViewInsertarModificarDepartamento()
         {
             InitializeComponent();
             BindingContext = this;
 
-            if (Departamento == null)
-            {
-                Console.WriteLine("Departamento inicializado como null, creando nuevo objeto.");
-                Departamento = new Departamento(); 
-            }
-            else
-            {
-                Console.WriteLine($"Departamento cargado: {Departamento.codigo}, {Departamento.nombre}, {Departamento.ubicacion}");
-            }
+            if (_departamento == null)
+                Departamento = new Departamento();
         }
 
 
@@ -44,7 +40,7 @@ namespace ProjecteFinal.Views
                 if (Departamento == null)
                     throw new ArgumentException("El departamento no puede ser nulo.");
 
-                vm = new DepartamentosVM();
+                var vm = new DepartamentosVM();
                 await vm.GuardarDepartamentoAsync(Departamento);
                 await DisplayAlert("Éxito", "Departamento guardado correctamente.", "Aceptar");
                 await Navigation.PopAsync();
