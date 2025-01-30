@@ -228,10 +228,8 @@ namespace ProjecteFinal.DAO
 
         public async Task<Dictionary<string, int>> ObtenerEstadisticasPorEstadoAsync()
         {
-            // Obtener todas las incidencias desde la base de datos
             var incidencias = await GetConnection().Table<Incidencia>().ToListAsync();
 
-            // Agrupar y contar por estado en memoria
             var estadisticas = incidencias
                 .GroupBy(i => i.estado)
                 .ToDictionary(g => g.Key, g => g.Count());

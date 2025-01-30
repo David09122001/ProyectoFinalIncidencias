@@ -9,7 +9,7 @@ namespace ProjecteFinal.ViewModel
 {
     public class DepartamentosVM : BaseViewModel
     {
-        private DepartamentoDAO departamentoDAO;
+        public DepartamentoDAO departamentoDAO;
 
         private ObservableCollection<Departamento> _departamentos;
         public ObservableCollection<Departamento> Departamentos
@@ -120,21 +120,28 @@ namespace ProjecteFinal.ViewModel
                 throw new ArgumentException("Todos los campos son obligatorios.");
             }
 
+            // Verificar si ya existe un departamento con el mismo código
             var existente = await departamentoDAO.ObtenerDepartamentoPorCodigoAsync(departamento.codigo);
+
+            if (existente != null && existente.codigo == departamento.codigo)
+            {
+                throw new ArgumentException("Ya existe un departamento con este código.");
+            }
 
             if (existente == null)
             {
-                // Si no existe, lo insertamos
+                // Insertar nuevo departamento
                 await departamentoDAO.GuardarDepartamentoAsync(departamento);
             }
             else
             {
-                // Si existe, lo actualizamos
+                // Actualizar departamento existente
                 await departamentoDAO.ActualizarDepartamentoAsync(departamento);
             }
 
             await CargarDepartamentosAsync();
         }
+
 
 
 

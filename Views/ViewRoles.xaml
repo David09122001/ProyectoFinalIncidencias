@@ -3,78 +3,135 @@
              x:Class="ProjecteFinal.Views.ViewRoles"
              Title="Gestión de Roles"
              BackgroundColor="#F5F6F8">
-    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
-        <!-- Título -->
-        <Label Text="Gestión de Roles"
-               FontSize="30" 
-               FontAttributes="Bold" 
-               HorizontalOptions="Center" 
-               TextColor="#2C3E50" />
 
-        <!-- Barra de búsqueda -->
-        <Frame BackgroundColor="White" CornerRadius="15" Padding="0" HasShadow="True" HorizontalOptions="FillAndExpand" HeightRequest="70">
-            <Grid Padding="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+    <Grid>
+        <!-- Fondo de encabezado azul -->
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="180" VerticalOptions="Start" />
 
-                <!-- Icono de búsqueda -->
-                <Image Source="lupa.png" 
-                       WidthRequest="30" 
-                       HeightRequest="30" 
-                       VerticalOptions="Center" 
-                       Grid.Column="0" />
+        <VerticalStackLayout Padding="15" Spacing="10" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
 
-                <!-- Entrada de búsqueda -->
-                <Entry Placeholder="Buscar rol..." 
-                       Text="{Binding TextoBusqueda, Mode=TwoWay}" 
-                       FontSize="18" 
-                       BackgroundColor="Transparent"
-                       VerticalOptions="Center"
-                       HorizontalOptions="FillAndExpand"
-                       Grid.Column="1"
-                       HeightRequest="50" />
-            </Grid>
-        </Frame>
+            <!-- Título -->
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,15,0,30">
+                <Label Text="Gestión de Roles"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+                <Label Text="Administra los roles y permisos"
+                       FontSize="16"
+                       TextColor="#E3F2FD"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
 
-        <!-- Lista de roles -->
-        <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
-            <ScrollView>
-                <CollectionView ItemsSource="{Binding RolesFiltrados}" SelectionMode="Single" HeightRequest="300">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10" ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+            <!-- Barra de búsqueda -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="5" HasShadow="True"
+                   HorizontalOptions="FillAndExpand" HeightRequest="55">
+                <Grid Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                                <!-- Nombre del rol -->
-                                <Label Text="{Binding nombre}" FontSize="18" VerticalOptions="Center" />
+                    <!-- Icono de búsqueda -->
+                    <Image Source="lupa.png" WidthRequest="25" HeightRequest="25" 
+                           VerticalOptions="Center" Grid.Column="0" />
 
-                                <!-- Botón Modificar -->
-                                <Button Text="Modificar"
-                                        Style="{StaticResource ModifyButtonStyle}"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnModificarClicked"
-                                        Grid.Column="1" />
+                    <!-- Entrada de búsqueda -->
+                    <Entry Placeholder="Buscar rol..."
+                           Text="{Binding TextoBusqueda, Mode=TwoWay}"
+                           FontSize="16"
+                           BackgroundColor="Transparent"
+                           VerticalOptions="Center"
+                           HorizontalOptions="FillAndExpand"
+                           Grid.Column="1"
+                           HeightRequest="40" />
+                </Grid>
+            </Frame>
 
-                                <!-- Botón Eliminar -->
-                                <Button Text="Eliminar"
-                                        Style="{StaticResource DeleteButtonStyle}"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnEliminarClicked"
-                                        Grid.Column="2" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ScrollView>
-        </Frame>
+            <!-- Lista de departamentos con encabezado fijo -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="True"
+        WidthRequest="750" HeightRequest="380">
+                <Grid RowDefinitions="Auto, *">
+                    <!-- Encabezado fijo -->
+                    <Grid BackgroundColor="#F9F9F9" Padding="10" ColumnSpacing="10" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1.5*" />
+                        </Grid.ColumnDefinitions>
 
-        <!-- Botón para añadir rol -->
-        <Button Text="Añadir Rol" Clicked="OnInsertarClicked" Style="{StaticResource PrimaryButtonStyle}" />
-    </VerticalStackLayout>
+                        <!-- Encabezado centrado -->
+                        <Label Text="Rol"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    TextColor="#2C3E50"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Grid.Column="0" />
+                    </Grid>
+
+                    <!-- Lista de departamentos -->
+                    <ScrollView Grid.Row="1">
+                        <CollectionView ItemsSource="{Binding RolesFiltrados}" SelectionMode="Single">
+                            <!-- Filas -->
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" CornerRadius="8" Padding="10" Margin="0,4"
+                                HasShadow="True">
+                                        <Grid ColumnSpacing="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="1.5*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Nombre del departamento -->
+                                            <Label Text="{Binding nombre}"
+                                        FontSize="16"
+                                        TextColor="#34495E"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="Center"
+                                        Grid.Column="0" />
+
+                                            <!-- Botones -->
+                                            <HorizontalStackLayout Grid.Column="1" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Button Clicked="OnModificarClicked"
+                                             CommandParameter="{Binding .}"
+                                             BackgroundColor="#43A047"
+                                             WidthRequest="40" HeightRequest="40"
+                                             CornerRadius="20">
+                                                    <Button.ImageSource>
+                                                        <FontImageSource Glyph="✏️" Size="18" Color="White" />
+                                                    </Button.ImageSource>
+                                                </Button>
+
+                                                <Button Clicked="OnEliminarClicked"
+                                             CommandParameter="{Binding .}"
+                                             BackgroundColor="#E53935"
+                                             WidthRequest="40" HeightRequest="40"
+                                             CornerRadius="20">
+                                                    <Button.ImageSource>
+                                                        <FontImageSource Glyph="🗑️" Size="18" Color="White" />
+                                                    </Button.ImageSource>
+                                                </Button>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </Grid>
+            </Frame>
+
+            <!-- Botón para añadir rol -->
+            <Button Text="Añadir Rol"
+                    Clicked="OnInsertarClicked"
+                    BackgroundColor="#1E88E5"
+                    TextColor="White"
+                    WidthRequest="170"
+                    FontSize="18"
+                    CornerRadius="10"
+                    Padding="12"
+                    HorizontalOptions="Center" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

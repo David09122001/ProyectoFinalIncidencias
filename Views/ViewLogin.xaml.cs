@@ -63,6 +63,10 @@ public partial class ViewLogin : ContentPage
             ErrorLabel.IsVisible = vm.HayError;
         }
     }
+    private async void OlvidarContrasenaClicked(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new ViewRestablecerContrasena());
+    }
 
 
 

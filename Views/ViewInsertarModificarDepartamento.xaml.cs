@@ -41,6 +41,14 @@ namespace ProjecteFinal.Views
                     throw new ArgumentException("El departamento no puede ser nulo.");
 
                 var vm = new DepartamentosVM();
+
+                // Verificar si el código ya está en uso antes de guardar
+                var existente = await vm.departamentoDAO.ObtenerDepartamentoPorCodigoAsync(Departamento.codigo);
+                if (existente != null)
+                {
+                    throw new InvalidOperationException("Ya existe un departamento con este código.");
+                }
+
                 await vm.GuardarDepartamentoAsync(Departamento);
                 await DisplayAlert("Éxito", "Departamento guardado correctamente.", "Aceptar");
                 await Navigation.PopAsync();
@@ -48,6 +56,10 @@ namespace ProjecteFinal.Views
             catch (InvalidOperationException ex)
             {
                 await DisplayAlert("Aviso", ex.Message, "Aceptar");
+            }
+            catch (ArgumentException ex)
+            {
+                await DisplayAlert("Error", ex.Message, "Aceptar");
             }
             catch (Exception ex)
             {

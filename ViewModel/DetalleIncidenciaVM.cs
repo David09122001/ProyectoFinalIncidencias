@@ -11,7 +11,28 @@ namespace ProjecteFinal.ViewModels
 {
     public class DetalleIncidenciaVM : INotifyPropertyChanged
     {
-        public Incidencia Incidencia { get; set; }
+        private Incidencia _incidencia;
+        public Incidencia Incidencia
+        {
+            get => _incidencia;
+            set
+            {
+                _incidencia = value;
+                OnPropertyChanged(nameof(Incidencia));
+            }
+        }
+
+        private Profesor _profesor;
+        public Profesor Profesor
+        {
+            get => _profesor;
+            set
+            {
+                _profesor = value;
+                OnPropertyChanged(nameof(Profesor));
+            }
+        }
+
         public ObservableCollection<Adjunto> Adjuntos { get; set; } = new ObservableCollection<Adjunto>();
         public Incidencia_HW IncidenciaHW { get;  set; }
         public Incidencia_SW IncidenciaSW { get;  set; }
@@ -43,7 +64,6 @@ namespace ProjecteFinal.ViewModels
         private readonly IncidenciaSWDAO incidenciaSWDAO = new IncidenciaSWDAO();
         private readonly IncidenciaRedDAO incidenciaRedDAO = new IncidenciaRedDAO();
 
-        public Profesor Profesor { get;  set; } 
 
         private ProfesorDAO profesorDAO = new ProfesorDAO();
         public ICommand GenerarInformeCommand { get; }

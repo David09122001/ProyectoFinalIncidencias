@@ -8,7 +8,7 @@
     <!-- Contenedor principal -->
     <Grid>
         <!-- Fondo de encabezado -->
-        <BoxView BackgroundColor="#1E88E5" HeightRequest="260" VerticalOptions="Start" />
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="240" VerticalOptions="Start" />
 
         <!-- Contenedor de contenido centrado -->
         <ScrollView>
@@ -34,7 +34,7 @@
                        CornerRadius="15"
                        Padding="25"
                        HasShadow="True"
-                       WidthRequest="400"
+                       WidthRequest="450"
                        Margin="0,40,0,0">
                     <!-- Ancho y margen ajustados -->
                     <VerticalStackLayout Spacing="20">
@@ -99,23 +99,35 @@
                             </Grid>
                         </Frame>
 
-                        <!-- Botón de inicio de sesión -->
                         <Button Text="Iniciar Sesión"
-                                Clicked="IniciarClicked"
-                                BackgroundColor="#1E88E5"
-                                TextColor="White"
-                                FontAttributes="Bold"
-                                FontSize="16"
-                                CornerRadius="10"
-                                Padding="12"
-                                HorizontalOptions="Fill" />
+                        Clicked="IniciarClicked"
+                        BackgroundColor="#1E88E5"
+                        TextColor="White"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        WidthRequest="240"
+                        CornerRadius="10"
+                        Padding="12"
+                        HorizontalOptions="Fill" />
+
+                        <!-- Enlace para restablecer contraseña -->
+                        <Label Text="¿Has olvidado tu contraseña?"
+                               TextColor="#1E88E5"
+                               HorizontalOptions="Center"
+                               FontSize="14"
+                               Margin="0,0,0,0">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OlvidarContrasenaClicked" />
+                            </Label.GestureRecognizers>
+                        </Label>
 
                         <!-- Mensaje de error -->
                         <Label x:Name="ErrorLabel"
-                               TextColor="Red"
-                               FontSize="12"
-                               IsVisible="False"
-                               HorizontalOptions="Center" />
+                           TextColor="Red"
+                           FontSize="12"
+                           IsVisible="False"
+                           HorizontalOptions="Center" />
+
 
                     </VerticalStackLayout>
                 </Frame>

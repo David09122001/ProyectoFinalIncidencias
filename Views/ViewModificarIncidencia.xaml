@@ -140,8 +140,8 @@
 
             <!-- Botones -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
-                <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" WidthRequest="200" />
-                <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource DeleteButtonStyle}" WidthRequest="200" />
+                <Button Text="Guardar" FontAttributes="Bold" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+                <Button Text="Cancelar" FontAttributes="Bold" Clicked="OnCancelarClicked" Style="{StaticResource SecondaryButtonStyle}" />
             </StackLayout>
         </VerticalStackLayout>
     </ScrollView>

@@ -15,70 +15,119 @@
         <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
             <VerticalStackLayout Spacing="15">
                 <!-- DNI -->
-                <VerticalStackLayout>
-                    <Label Text="DNI" FontAttributes="Bold" TextColor="#2C3E50" />
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="DNI" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
                     <Entry Placeholder="Ejemplo: 12345678A" 
                            Text="{Binding Profesor.dni, Mode=TwoWay}" 
-                           IsEnabled="{Binding IsDniEditable}" />
-                    <Label x:Name="DniErrorLabel" TextColor="Red" IsVisible="False" />
-                </VerticalStackLayout>
+                           IsEnabled="{Binding IsDniEditable}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+                <Label x:Name="DniErrorLabel" TextColor="Red" IsVisible="False" />
 
                 <!-- Nombre -->
-                <VerticalStackLayout>
-                    <Label Text="Nombre" FontAttributes="Bold" TextColor="#2C3E50" />
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Nombre" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
                     <Entry Placeholder="Ejemplo: Juan Pérez" 
-                           Text="{Binding Profesor.nombre, Mode=TwoWay}" />
-                </VerticalStackLayout>
+                           Text="{Binding Profesor.nombre, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
 
                 <!-- Departamento -->
-                <VerticalStackLayout>
-                    <Label Text="Departamento" FontAttributes="Bold" TextColor="#2C3E50" />
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Departamento" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
                     <Picker Title="Seleccionar Departamento"
-                    ItemsSource="{Binding Departamentos}"
-                    SelectedItem="{Binding SelectedDepartamento, Mode=TwoWay}"
-                    ItemDisplayBinding="{Binding nombre}" />
-                </VerticalStackLayout>
+                            ItemsSource="{Binding Departamentos}"
+                            SelectedItem="{Binding SelectedDepartamento, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding nombre}" 
+                            WidthRequest="500" 
+                            HorizontalOptions="Center" 
+                            Grid.Column="1" />
+                </Grid>
+
                 <!-- Email -->
-                <VerticalStackLayout>
-                    <Label Text="Email" FontAttributes="Bold" TextColor="#2C3E50" />
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Email" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
                     <Entry Placeholder="Ejemplo: juan.perez@email.com" 
-                           Text="{Binding Profesor.email, Mode=TwoWay}" />
-                    <Label x:Name="EmailErrorLabel" TextColor="Red" IsVisible="False" />
-                </VerticalStackLayout>
-                
+                           Text="{Binding Profesor.email, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+                <Label x:Name="EmailErrorLabel" TextColor="Red" IsVisible="False" />
+
                 <!-- Contraseña -->
-                <VerticalStackLayout>
-                    <Label Text="Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Contraseña" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
                     <Entry Placeholder="Escribir contraseña" 
-           IsPassword="True" 
-           Text="{Binding Profesor.contrasena, Mode=TwoWay}" />
-                </VerticalStackLayout>
+                           IsPassword="True" 
+                           Text="{Binding Profesor.contrasena, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
 
                 <!-- Confirmar Contraseña -->
-                <VerticalStackLayout>
-                    <Label Text="Confirmar Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Confirmar Contraseña" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
                     <Entry Placeholder="Confirmar contraseña" 
-           IsPassword="True" 
-           Text="{Binding ConfirmarContrasena, Mode=TwoWay}" />
-                </VerticalStackLayout>
-
+                           IsPassword="True" 
+                           Text="{Binding ConfirmarContrasena, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
 
                 <!-- Rol -->
-                <VerticalStackLayout>
-                    <Label Text="Rol" FontAttributes="Bold" TextColor="#2C3E50" />
-                        <Picker Title="Seleccionar Rol" 
-                        ItemsSource="{Binding Roles}" 
-                        SelectedItem="{Binding SelectedRol, Mode=TwoWay}" 
-                        ItemDisplayBinding="{Binding nombre}" />        
-
-                    </VerticalStackLayout>
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Rol" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Picker Title="Seleccionar Rol" 
+                            ItemsSource="{Binding Roles}" 
+                            SelectedItem="{Binding SelectedRol, Mode=TwoWay}" 
+                            ItemDisplayBinding="{Binding nombre}" 
+                            WidthRequest="500" 
+                            HeightRequest="60"
+                            HorizontalOptions="Center" 
+                            Grid.Column="1" />
+                </Grid>
             </VerticalStackLayout>
         </Frame>
 
         <!-- Botones -->
         <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
             <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
-            <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource DeleteButtonStyle}" />
+            <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource SecondaryButtonStyle}" />
         </StackLayout>
     </VerticalStackLayout>
 </ContentPage>

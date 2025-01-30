@@ -159,11 +159,11 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Profesor
             {
                 dni = "20889987X",
-                nombre = "Profesor Prueba2",
+                nombre = "David",
                 departamentoCodigo = "INF",
-                email = "profesorprueba2@gmail.com",
-                contrasena = "1234",
-                rol_id = 1
+                email = "david.carcer09@gmail.com",
+                contrasena = "1",
+                rol_id = 3
             }).Wait();
 
             GetConnection().InsertAsync(new Profesor
@@ -276,6 +276,7 @@ namespace ProjecteFinal.BaseDatos
                 tiempoInvertido = 2,
                 comunicada = true
             }).Wait();
+
 
             GetConnection().InsertAsync(new Incidencia_Red
             {

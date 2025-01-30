@@ -43,7 +43,7 @@
         <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
             <ScrollView>
                 <CollectionView ItemsSource="{Binding ProfesoresFiltrados}" SelectionMode="Single"
-                                HeightRequest="300">
+                                HeightRequest="450">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Grid Padding="10" ColumnSpacing="10">

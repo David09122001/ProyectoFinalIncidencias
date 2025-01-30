@@ -5,12 +5,7 @@
              Title="Insertar Incidencia">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
-            <!-- Tipo de Incidencia -->
-            <Label Text="Tipo de Incidencia" FontAttributes="Bold" TextColor="#2C3E50" />
-            <Picker ItemsSource="{Binding Tipos}" 
-                    SelectedItem="{Binding TipoSeleccionado}" 
-                    Title="Seleccione un tipo de incidencia" 
-                    WidthRequest="500" />
+         
 
             <!-- Campos generales -->
             <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
@@ -67,6 +62,13 @@
                 </VerticalStackLayout>
             </Frame>
 
+            <!-- Tipo de Incidencia -->
+            <Label Text="Tipo de Incidencia" FontAttributes="Bold" TextColor="#2C3E50" />
+            <Picker ItemsSource="{Binding Tipos}" 
+           SelectedItem="{Binding TipoSeleccionado}" 
+           Title="Seleccione un tipo de incidencia" 
+           WidthRequest="500" />
+
             <!-- Formulario específico para cada tipo -->
             <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600" IsVisible="{Binding MostrarHW}">
                 <VerticalStackLayout>
@@ -104,7 +106,7 @@
             <!-- Botones -->
             <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
                 <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" WidthRequest="200" IsEnabled="{Binding IsGuardando}" />
-                <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource DeleteButtonStyle}" WidthRequest="200" />
+                <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource SecondaryButtonStyle}" WidthRequest="200" />
             </StackLayout>
         </VerticalStackLayout>
     </ScrollView>

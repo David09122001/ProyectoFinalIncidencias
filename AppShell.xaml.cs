@@ -22,6 +22,9 @@
             Routing.RegisterRoute(nameof(Views.ViewModificarRol), typeof(Views.ViewModificarRol));
             Routing.RegisterRoute(nameof(Views.ViewInsertarRol), typeof(Views.ViewInsertarRol));
             Routing.RegisterRoute(nameof(Views.ProfesorMenu), typeof(Views.ProfesorMenu));
+            Routing.RegisterRoute(nameof(Views.ViewRestablecerContrasena), typeof(Views.ViewRestablecerContrasena));
+            Routing.RegisterRoute(nameof(Views.ViewVerificarCodigo), typeof(Views.ViewVerificarCodigo));
+            Routing.RegisterRoute(nameof(Views.ViewCambiarContrasena), typeof(Views.ViewCambiarContrasena));
         }
 
 

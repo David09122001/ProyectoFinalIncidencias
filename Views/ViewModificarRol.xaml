@@ -3,76 +3,116 @@
              x:Class="ProjecteFinal.Views.ViewModificarRol"
              Title="Modificar Rol"
              BackgroundColor="#F9FAFB">
-    <Grid RowDefinitions="Auto, *, Auto" Padding="20" RowSpacing="15">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
         <!-- Título -->
-        <Label Grid.Row="0"
-               Text="Gestión de Permisos"
-               FontSize="24"
-               FontAttributes="Bold"
-               HorizontalOptions="Center"
+        <Label Text="Gestión de Permisos" 
+               FontSize="24" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
                TextColor="#2C3E50" />
 
-        <!-- Contenido principal -->
-        <VerticalStackLayout Grid.Row="1" Spacing="15">
-            <!-- Nombre del Rol -->
-            <Frame BackgroundColor="White" CornerRadius="15" Padding="10" HasShadow="True">
-                <VerticalStackLayout>
-                    <Label Text="Nombre del Rol" FontAttributes="Bold" TextColor="#2C3E50" />
-                    <Entry Placeholder="Introduce el nombre del rol"
-                           Text="{Binding RolSeleccionado.nombre, Mode=TwoWay}" />
-                </VerticalStackLayout>
-            </Frame>
+        <!-- Frame contenedor de los campos -->
+        <Frame BackgroundColor="White" 
+               CornerRadius="15" 
+               Padding="20" 
+               HasShadow="True" 
+               WidthRequest="800">
+            <VerticalStackLayout Spacing="20">
+                <!-- Nombre del Rol -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Nombre del Rol" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Introduce el nombre del rol" 
+                           Text="{Binding RolSeleccionado.nombre, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
 
-            <!-- Lista de Permisos (con altura limitada) -->
-            <Label Text="Permisos" FontAttributes="Bold" TextColor="#2C3E50" />
-            <CollectionView ItemsSource="{Binding PermisosDisponibles}" SelectionMode="None" HeightRequest="400">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame BackgroundColor="White" CornerRadius="15" Padding="10" Margin="0,5" HasShadow="True">
-                            <Grid ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+        <!-- Lista de Permisos -->
+        <Label Text="Permisos" 
+               FontAttributes="Bold" 
+               FontSize="18" 
+               TextColor="#2C3E50" 
+               HorizontalOptions="Center" />
 
-                                <!-- Nombre del Permiso -->
-                                <Label Text="{Binding descripcion}" FontSize="18" VerticalOptions="Center" TextColor="#2C3E50" />
+        <Frame BackgroundColor="White" 
+               CornerRadius="15" 
+               Padding="10" 
+               HasShadow="True" 
+               WidthRequest="800" 
+               HeightRequest="400">
+            <ScrollView>
+                <CollectionView ItemsSource="{Binding PermisosDisponibles}" SelectionMode="None">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White" 
+                                   CornerRadius="10" 
+                                   Padding="15" 
+                                   Margin="0,5" 
+                                   HasShadow="True">
+                                <Grid ColumnSpacing="10">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
 
-                                <!-- Botón Asignar/Quitar -->
-                                <Button Text="Asignar"
-                                        FontAttributes="Bold"
-                                        CornerRadius="10"
-                                        Clicked="OnPermisoClicked"
-                                        Grid.Column="1"
-                                        Padding="10,5"
-                                        WidthRequest="120"
-                                        HeightRequest="40"
-                                        HorizontalOptions="Center"
-                                        VerticalOptions="Center">
-                                    <Button.Triggers>
-                                        <DataTrigger TargetType="Button" Binding="{Binding IsAssigned}" Value="True">
-                                            <Setter Property="Text" Value="Quitar" />
-                                            <Setter Property="BackgroundColor" Value="#4CAF50" />
-                                            <Setter Property="TextColor" Value="White" />
-                                        </DataTrigger>
-                                        <DataTrigger TargetType="Button" Binding="{Binding IsAssigned}" Value="False">
-                                            <Setter Property="Text" Value="Asignar" />
-                                            <Setter Property="BackgroundColor" Value="#9E9E9E" />
-                                            <Setter Property="TextColor" Value="White" />
-                                        </DataTrigger>
-                                    </Button.Triggers>
-                                </Button>
-                            </Grid>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </VerticalStackLayout>
+                                    <!-- Nombre del Permiso -->
+                                    <Label Text="{Binding descripcion}" 
+                                           FontSize="16" 
+                                           VerticalOptions="Center" 
+                                           TextColor="#2C3E50" 
+                                           Grid.Column="0" />
 
-        <!-- Botones (siempre visibles) -->
-        <StackLayout Grid.Row="2" Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
-            <Button Text="Guardar" FontAttributes="Bold" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
-            <Button Text="Cancelar" FontAttributes="Bold" Clicked="OnCancelarClicked" Style="{StaticResource SecondaryButtonStyle}" />
-        </StackLayout>
-    </Grid>
+                                    <!-- Botón Asignar/Quitar -->
+                                    <Button Text="Asignar"
+                                            FontAttributes="Bold"
+                                            CornerRadius="10"
+                                            Clicked="OnPermisoClicked"
+                                            Grid.Column="1"
+                                            Padding="10,5"
+                                            WidthRequest="100"
+                                            HeightRequest="40"
+                                            HorizontalOptions="Center"
+                                            VerticalOptions="Center">
+                                        <Button.Triggers>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsAssigned}" Value="True">
+                                                <Setter Property="Text" Value="Quitar" />
+                                                <Setter Property="BackgroundColor" Value="#4CAF50" />
+                                                <Setter Property="TextColor" Value="White" />
+                                            </DataTrigger>
+                                            <DataTrigger TargetType="Button" Binding="{Binding IsAssigned}" Value="False">
+                                                <Setter Property="Text" Value="Asignar" />
+                                                <Setter Property="BackgroundColor" Value="#9E9E9E" />
+                                                <Setter Property="TextColor" Value="White" />
+                                            </DataTrigger>
+                                        </Button.Triggers>
+                                    </Button>
+                                </Grid>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </ScrollView>
+        </Frame>
+
+        <!-- Botones -->
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10">
+            <Button Text="Guardar" 
+                    FontAttributes="Bold" 
+                    Clicked="OnGuardarClicked" 
+                    Style="{StaticResource PrimaryButtonStyle}" 
+                    WidthRequest="140" />
+            <Button Text="Cancelar" 
+                    FontAttributes="Bold" 
+                    Clicked="OnCancelarClicked" 
+                    Style="{StaticResource SecondaryButtonStyle}" 
+                    WidthRequest="140" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
 </ContentPage>

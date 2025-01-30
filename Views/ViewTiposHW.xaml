@@ -3,85 +3,161 @@
              x:Class="ProjecteFinal.Views.ViewTiposHW"
              Title="Gestión de Tipos de Hardware"
              BackgroundColor="#F5F6F8">
-    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
-        <!-- Título -->
-        <Label Text="Gestión de Tipos de Hardware" 
-               FontSize="30" 
-               FontAttributes="Bold" 
-               HorizontalOptions="Center" 
-               TextColor="#2C3E50" />
 
-        <!-- Barra de búsqueda -->
-        <Frame BackgroundColor="White" CornerRadius="15" Padding="0" HasShadow="True" WidthRequest="800" HeightRequest="60" HorizontalOptions="Center">
-            <Grid Padding="10" ColumnSpacing="10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+    <Grid>
 
-                <Image Source="lupa.png" 
-               WidthRequest="30" 
-               HeightRequest="30" 
-               VerticalOptions="Center" 
-               Grid.Column="0" />
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="180" VerticalOptions="Start" />
 
-                <Entry Placeholder="Buscar tipo de hardware..." 
-               Text="{Binding TextoBusqueda, Mode=TwoWay}" 
-               FontSize="18" 
-               BackgroundColor="Transparent"
-               VerticalOptions="Center"
-               Grid.Column="1" />
-            </Grid>
-        </Frame>
+        <VerticalStackLayout Padding="15" Spacing="10" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
 
-
-
-
-        <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
-            <ScrollView>
-                <CollectionView ItemsSource="{Binding TiposFiltrados}" SelectionMode="Single"
-                                HeightRequest="300">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Padding="10" ColumnSpacing="10">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-
-                                <!-- Nombre del tipo -->
-                                <Label Text="{Binding dispositivo}" FontSize="18" VerticalOptions="Center" />
-
-                                <!-- Botón Modificar -->
-                                <Button Text="Modificar"
-                                        Style="{StaticResource ModifyButtonStyle}"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnModificarClicked"
-                                        Grid.Column="1" />
-
-                                <!-- Botón Eliminar -->
-                                <Button Text="Eliminar"
-                                        Style="{StaticResource DeleteButtonStyle}"
-                                        CommandParameter="{Binding .}"
-                                        Clicked="OnEliminarClicked"
-                                        Grid.Column="2" />
-                            </Grid>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </ScrollView>
-        </Frame>
-
-        <!-- Formulario para añadir tipos -->
-        <Frame BackgroundColor="White" CornerRadius="20" Padding="15" HasShadow="True" WidthRequest="800">
-            <VerticalStackLayout Spacing="10">
-                <Label Text="Nombre del Tipo de Hardware" FontAttributes="Bold" TextColor="#34495E" />
-                <Entry Placeholder="Ejemplo: Router" Text="{Binding NombreTipo}" />
-
-                <!-- Botón Guardar -->
-                <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+            <!-- Título -->
+            <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,15,0,30">
+                <Label Text="Gestión de Tipos de Hardware"
+                       FontSize="26"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+                <Label Text="Administra los tipos de hardware disponibles"
+                       FontSize="16"
+                       TextColor="#E3F2FD"
+                       HorizontalOptions="Center" />
             </VerticalStackLayout>
-        </Frame>
-    </VerticalStackLayout>
+
+            <!-- Barra de búsqueda (Reducida) -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="5" HasShadow="True"
+             HorizontalOptions="FillAndExpand" HeightRequest="55">
+                <Grid Padding="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Icono de búsqueda -->
+                    <Image Source="lupa.png" WidthRequest="25" HeightRequest="25" 
+                VerticalOptions="Center" Grid.Column="0" />
+
+                    <!-- Entrada de búsqueda -->
+                    <Entry Placeholder="Buscar tipo de hardware..."
+                Text="{Binding TextoBusqueda, Mode=TwoWay}"
+                FontSize="16"
+                BackgroundColor="Transparent"
+                VerticalOptions="Center"
+                HorizontalOptions="FillAndExpand"
+                Grid.Column="1"
+                HeightRequest="40" />
+                </Grid>
+            </Frame>
+
+            <!-- Lista de Tipos de Hardware con ScrollView -->
+            <!-- Lista de departamentos con encabezado fijo -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="True"
+        WidthRequest="750" HeightRequest="380">
+                <Grid RowDefinitions="Auto, *">
+                    <!-- Encabezado fijo -->
+                    <Grid BackgroundColor="#F9F9F9" Padding="10" ColumnSpacing="10" Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="3*" />
+                            <ColumnDefinition Width="1.5*" />
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Encabezado centrado -->
+                        <Label Text="Tipo HW"
+                    FontAttributes="Bold"
+                    FontSize="16"
+                    TextColor="#2C3E50"
+                    HorizontalTextAlignment="Center"
+                    VerticalTextAlignment="Center"
+                    Grid.Column="0" />
+                    </Grid>
+
+                    <!-- Lista de hw -->
+                    <ScrollView Grid.Row="1">
+                        <CollectionView ItemsSource="{Binding TiposFiltrados}" SelectionMode="Single">
+                            <!-- Filas -->
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame BackgroundColor="White" CornerRadius="8" Padding="10" Margin="0,4"
+                                HasShadow="True">
+                                        <Grid ColumnSpacing="10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*" />
+                                                <ColumnDefinition Width="1.5*" />
+                                            </Grid.ColumnDefinitions>
+
+                                            <!-- Nombre del hw -->
+                                            <Label Text="{Binding dispositivo}"
+                                        FontSize="16"
+                                        TextColor="#34495E"
+                                        HorizontalTextAlignment="Center"
+                                        VerticalOptions="Center"
+                                        Grid.Column="0" />
+
+                                            <!-- Botones -->
+                                            <HorizontalStackLayout Grid.Column="1" Spacing="10" HorizontalOptions="Center" VerticalOptions="Center">
+                                                <Button Clicked="OnModificarClicked"
+                                             CommandParameter="{Binding .}"
+                                             BackgroundColor="#43A047"
+                                             WidthRequest="40" HeightRequest="40"
+                                             CornerRadius="20">
+                                                    <Button.ImageSource>
+                                                        <FontImageSource Glyph="✏️" Size="18" Color="White" />
+                                                    </Button.ImageSource>
+                                                </Button>
+
+                                                <Button Clicked="OnEliminarClicked"
+                                             CommandParameter="{Binding .}"
+                                             BackgroundColor="#E53935"
+                                             WidthRequest="40" HeightRequest="40"
+                                             CornerRadius="20">
+                                                    <Button.ImageSource>
+                                                        <FontImageSource Glyph="🗑️" Size="18" Color="White" />
+                                                    </Button.ImageSource>
+                                                </Button>
+                                            </HorizontalStackLayout>
+                                        </Grid>
+                                    </Frame>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </ScrollView>
+                </Grid>
+            </Frame>
+
+            <!-- Formulario para añadir tipos de hardware (Optimizado) -->
+            <Frame BackgroundColor="White" CornerRadius="10" Padding="10" HasShadow="True"
+                   WidthRequest="750">
+                <Grid Padding="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2.5*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Label -->
+                    <Label Text="Nuevo Tipo de Hardware" FontAttributes="Bold" TextColor="#34495E"
+                           Grid.Row="0" Grid.Column="0" />
+
+                    <!-- Entrada de texto -->
+                    <Entry Placeholder="Ejemplo: Router" Text="{Binding NombreTipo}" 
+                           FontSize="16" BackgroundColor="#F5F6F8"
+                           Grid.Row="1" Grid.Column="0" />
+
+                    <!-- Botón Guardar -->
+                    <Button Text="Guardar"
+                            Clicked="OnGuardarClicked"
+                            BackgroundColor="#1E88E5"
+                            TextColor="White"
+                            FontSize="16"
+                            WidthRequest="120"
+                            CornerRadius="8"
+                            Padding="10"
+                            HorizontalOptions="End"
+                            Grid.Row="1" Grid.Column="1" />
+                </Grid>
+            </Frame>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

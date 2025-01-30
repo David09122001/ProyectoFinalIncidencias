@@ -12,7 +12,6 @@ namespace ProjecteFinal.ViewModel
         private readonly RolDAO rolDAO;
         private readonly PermisoDAO permisoDAO;
 
-        // Roles
         private ObservableCollection<Rol> _roles;
         public ObservableCollection<Rol> Roles
         {
@@ -90,7 +89,6 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-        // Constructor
         public RolesVM()
         {
             rolDAO = new RolDAO();
@@ -104,7 +102,6 @@ namespace ProjecteFinal.ViewModel
         }
 
 
-        // Métodos
         public async Task CargarRolesAsync()
         {
             var roles = await rolDAO.ObtenerRolesAsync();
@@ -117,6 +114,12 @@ namespace ProjecteFinal.ViewModel
             if (string.IsNullOrWhiteSpace(NuevoRol.nombre))
                 throw new ArgumentException("El nombre del rol es obligatorio.");
 
+            // Verificar si ya existe un rol con el mismo nombre 
+            var existente = await rolDAO.ObtenerRolPorNombreAsync(NuevoRol.nombre);
+            if (existente != null)
+            {
+                throw new InvalidOperationException("Ya existe un rol con este nombre.");
+            }
 
             await rolDAO.InsertarRolAsync(NuevoRol);
 
@@ -134,13 +137,12 @@ namespace ProjecteFinal.ViewModel
             {
                 var rolPermiso = new RolPermiso
                 {
-                    rolId = rolCreado.id, 
+                    rolId = rolCreado.id,
                     permisoCodigo = permisoCodigo
                 };
                 await permisoDAO.InsertarRolPermisoAsync(rolPermiso);
             }
         }
-
 
 
         public async Task CargarPermisosAsync(int rolId)
@@ -163,7 +165,7 @@ namespace ProjecteFinal.ViewModel
         {
             PermisosDisponibles.Clear();
 
-            // Cargar todos los permisos de la base de datos
+            // Cargar todos los permisos 
             var todosLosPermisos = await permisoDAO.ObtenerPermisosAsync();
 
             foreach (var permiso in todosLosPermisos)
@@ -182,10 +184,16 @@ namespace ProjecteFinal.ViewModel
             if (string.IsNullOrWhiteSpace(RolSeleccionado.nombre))
                 throw new ArgumentException("El nombre del rol es obligatorio.");
 
-            // Guardamos el rol
+            // Verificar si ya existe un rol con el mismo nombre (controla mayusculas)
+            var existente = await rolDAO.ObtenerRolPorNombreAsync(RolSeleccionado.nombre);
+            if (existente != null && existente.id != RolSeleccionado.id)
+            {
+                throw new InvalidOperationException("Ya existe un rol con este nombre.");
+            }
+
             await rolDAO.GuardarRolAsync(RolSeleccionado);
 
-            // Guardamos los permisos asignados
+            // Guardar permisos asignados
             var permisosSeleccionados = PermisosDisponibles
                 .Where(p => p.IsAssigned)
                 .Select(p => p.codigo)

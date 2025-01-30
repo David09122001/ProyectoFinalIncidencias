@@ -34,7 +34,9 @@ namespace ProjecteFinal.DAO
 
         public async Task<Rol> ObtenerRolPorNombreAsync(string nombre)
         {
-            return await GetConnection().Table<Rol>().FirstOrDefaultAsync(r => r.nombre == nombre);
+            return await GetConnection()
+                .Table<Rol>()
+                .FirstOrDefaultAsync(r => r.nombre.ToLower() == nombre.ToLower());
         }
 
         public async Task<List<Rol>> BuscarTodosAsync()

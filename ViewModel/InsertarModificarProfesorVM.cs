@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ProjecteFinal.ViewModels
+namespace ProjecteFinal.ViewModel
 {
     public class InsertarModificarProfesorVM : INotifyPropertyChanged
     {
@@ -102,19 +102,43 @@ namespace ProjecteFinal.ViewModels
                 Roles.Add(rol);
             }
 
-            // Sincronizar valores seleccionados
+            // Sincronizar valores
             SelectedDepartamento = Departamentos.FirstOrDefault(d => d.codigo == Profesor.departamentoCodigo);
             SelectedRol = Roles.FirstOrDefault(r => r.id == Profesor.rol_id);
 
             OnPropertyChanged(nameof(Departamentos));
             OnPropertyChanged(nameof(Roles));
         }
-
-        // Validación de correo electrónico
-        private bool ValidarEmail(string email)
+        private async Task<bool> ValidarEmail(string email)
         {
-            return email.EndsWith("@edu.gva");
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "El email es incorrecto.", "Aceptar");
+                return false;
+            }
+
+            if (!email.Contains("@") || email.IndexOf("@") == 0) { 
+            await Application.Current.MainPage.DisplayAlert("Error", "El email es incorrecto.", "Aceptar");
+                return false;
+            }
+            
+
+            if (!email.EndsWith("@edu.gva"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "El email es incorrecto.", "Aceptar");
+                return false;
+            }
+
+            var profesorExistente = await profesorDAO.ObtenerProfesorPorCorreoAsync(email);
+            if (profesorExistente != null)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "El email ya está en uso.", "Aceptar");
+                return false;
+            }
+
+            return true;
         }
+
 
         // Validación de DNI
         private bool ValidarDNI(string dni)
@@ -132,7 +156,6 @@ namespace ProjecteFinal.ViewModels
             return dni[8].ToString().ToUpper() == letraCalculada.ToString();
         }
 
-        // Método de guardado
         public async Task<bool> GuardarProfesorAsync()
         {
             try
@@ -140,7 +163,6 @@ namespace ProjecteFinal.ViewModels
                 Console.WriteLine($"Departamento seleccionado: {Profesor.departamentoCodigo}");
                 Console.WriteLine($"Rol seleccionado: {Profesor.rol_id}");
 
-                // Validación de campos obligatorios
                 if (Profesor == null || string.IsNullOrWhiteSpace(Profesor.dni) ||
                     string.IsNullOrWhiteSpace(Profesor.nombre) ||
                     string.IsNullOrWhiteSpace(Profesor.email) ||
@@ -150,10 +172,18 @@ namespace ProjecteFinal.ViewModels
                     return false;
                 }
 
-                // Validación del correo electrónico
-                if (!ValidarEmail(Profesor.email))
+                // Validación del email
+                if (!await ValidarEmail(Profesor.email))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "El correo electrónico debe terminar con '@edu.gva'", "Aceptar");
+                    return false; 
+                }
+
+                var profesorExistente = await profesorDAO.BuscarPorDniAsync(Profesor.dni);
+
+                // Validación dni
+                if (profesorExistente != null && profesorExistente.dni == Profesor.dni)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Ya existe un profesor con este DNI.", "Aceptar");
                     return false;
                 }
 
@@ -174,7 +204,6 @@ namespace ProjecteFinal.ViewModels
                     }
                 }
 
-                // Guardar el profesor
                 await profesorDAO.InsertarProfesorAsync(Profesor);
                 return true;
             }

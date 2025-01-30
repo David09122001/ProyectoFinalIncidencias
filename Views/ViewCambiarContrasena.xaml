@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewCambiarContrasena"
+             Title="Cambiar Contraseña"
+             BackgroundColor="#F3F4F6">
+
+    <Grid>
+        <!-- Encabezado azul -->
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="240" VerticalOptions="Start" />
+
+
+        <!-- Espaciado entre el encabezado -->
+        <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Start" Margin="0,40,0,20">
+            <!-- Título principal -->
+            <Label Text="Gestor de Incidencias"
+                   FontSize="42"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
+            <!-- Subtítulo -->
+            <Label Text="Administra y resuelve incidencias fácilmente"
+                   FontSize="20"
+                   TextColor="#E3F2FD"
+                   HorizontalOptions="Center" />
+        </VerticalStackLayout>
+
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="30" VerticalOptions="Center" HorizontalOptions="Center">
+
+                <Frame BackgroundColor="White"
+                       CornerRadius="15"
+                       Padding="25"
+                       HasShadow="True"
+                       WidthRequest="500"
+                       Margin="0,40,0,0">
+
+                    <VerticalStackLayout Spacing="20">
+                        <Label Text="Nueva Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                        <Entry x:Name="NuevaContrasenaEntry"
+                               Placeholder="Introduce tu nueva contraseña"
+                               IsPassword="True"
+                               BackgroundColor="White"/>
+
+                        <Label Text="Confirmar Contraseña" FontAttributes="Bold" TextColor="#2C3E50" />
+                        <Entry x:Name="ConfirmarContrasenaEntry"
+                               Placeholder="Confirma tu nueva contraseña"
+                               IsPassword="True"
+                               BackgroundColor="White" />
+
+                        <Button Text="Guardar nueva contraseña"
+                                Clicked="GuardarContrasenaClicked"
+                                BackgroundColor="#1E88E5"
+                                TextColor="White"
+                                FontAttributes="Bold"
+                                FontSize="16"
+                                CornerRadius="10"
+                                Padding="12"
+                                WidthRequest="300"
+                                HorizontalOptions="Fill" />
+
+                        <Label x:Name="ErrorLabel"
+                               TextColor="Red"
+                               FontSize="12"
+                               IsVisible="False"
+                               HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Frame>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

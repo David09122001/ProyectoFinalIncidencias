@@ -48,7 +48,7 @@
             </Frame>
 
             <!-- Botón Guardar -->
-            <Button Text="Guardar Contraseña" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Text="Guardar Contraseña" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" WidthRequest="200" />
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>
