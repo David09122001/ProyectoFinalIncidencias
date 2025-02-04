@@ -68,6 +68,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Views\ViewModificarProfesor.xaml.cs">
+	    <DependentUpon>ViewModificarProfesor.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\ViewModificarDepartamento.xaml.cs">
+	    <DependentUpon>ViewModificarDepartamento.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="Views\ViewModificarRol.xaml.cs">
 	    <DependentUpon>ViewModificarRol.xaml</DependentUpon>
 	  </Compile>
@@ -107,10 +113,16 @@
 	  <MauiXaml Update="Views\ViewDetalleIncidencia.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewInsertarModificarDepartamento.xaml">
+	  <MauiXaml Update="Views\ViewInsertarDepartamento.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Views\ViewInsertarModificarProfesor.xaml">
+	  <MauiXaml Update="Views\ViewInsertarProfesor.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewModificarDepartamento.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\ViewModificarProfesor.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\ViewInsertarRol.xaml">

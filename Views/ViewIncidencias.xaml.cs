@@ -25,6 +25,12 @@ public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
         Loaded += OnLoaded;
 
     }
+    protected override async void OnAppearing()
+    {
+        base.OnAppearing();
+        await RefrescarIncidencias();
+    }
+
     private void OnToggleFiltrosClicked(object sender, EventArgs e)
     {
         vm.isFiltros = !vm.isFiltros;
@@ -62,9 +68,6 @@ public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
         }
     }
 
-
-
-
     private async void OnEditClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -88,6 +91,18 @@ public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
              await Navigation.PushAsync(new ViewDetalleIncidencia(incidenciaSeleccionada));
         }
     }
+
+    public async Task RefrescarIncidencias()
+    {
+        if (BindingContext is IncidenciasVM vm)
+        {
+            vm.Incidencias.Clear();
+            vm.IncidenciasFiltradas.Clear();
+
+            await vm.CargarIncidenciasAsync(Profesor);
+        }
+    }
+
 
     private async void OnDeleteClicked(object sender, EventArgs e)
     {

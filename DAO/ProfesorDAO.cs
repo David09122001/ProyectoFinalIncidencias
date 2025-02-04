@@ -17,7 +17,7 @@ namespace ProjecteFinal.DAO
         {
             await GetConnection().UpdateAsync(profesor);
         }
-
+      
         public async Task<Profesor> ObtenerProfesorPorCorreoAsync(string correo)
         {
             return await GetConnection().Table<Profesor>().FirstOrDefaultAsync(p => p.email == correo);
@@ -34,22 +34,16 @@ namespace ProjecteFinal.DAO
         }
         public async Task<Profesor> BuscarPorDniAsync(string dni)
         {
-            return await GetConnection().Table<Profesor>().FirstOrDefaultAsync(p => p.dni == dni);
-        }
-        public async Task<List<Profesor>> BuscarPorDepartamento(string departamentoCodigo)
-        {
-            return await GetConnection()
-                .Table<Profesor>()
-                .Where(p => p.departamentoCodigo == departamentoCodigo)
-                .ToListAsync();
+            var profesor = await GetConnection().Table<Profesor>()
+                              .FirstOrDefaultAsync(p => p.dni == dni);
+
+            return profesor;
         }
 
         public async Task InsertarProfesorAsync(Profesor profesor)
         {
             await GetConnection().InsertOrReplaceAsync(profesor);
         }
-
-
 
     }
 }

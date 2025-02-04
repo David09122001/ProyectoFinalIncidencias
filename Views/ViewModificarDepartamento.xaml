@@ -1,0 +1,77 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewModificarDepartamento"
+             Title="Modificar Departamento"
+             BackgroundColor="#F5F6F8">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+
+        <Label Text="Formulario de Departamento" 
+               FontSize="24" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               TextColor="#2C3E50" />
+
+        <Frame BackgroundColor="White" 
+               CornerRadius="15" 
+               Padding="20" 
+               HasShadow="True" 
+               WidthRequest="800">
+            <VerticalStackLayout Spacing="15">
+                <!-- Código -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Código" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Ejemplo: INF" 
+                           Text="{Binding Departamento.codigo, Mode=TwoWay}" 
+                           IsEnabled="{Binding IsCodigoEditable}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+
+                <!-- Nombre -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Nombre" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Ejemplo: Informática" 
+                           Text="{Binding Departamento.nombre, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+
+                <!-- Ubicación -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Ubicación" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Ejemplo: Aula 204" 
+                           Text="{Binding Departamento.ubicacion, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Botones -->
+        <HorizontalStackLayout HorizontalOptions="Center" Spacing="20">
+            <Button Text="Guardar" 
+                    FontAttributes="Bold" 
+                    Clicked="OnGuardarClicked" 
+                    Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Text="Cancelar" 
+                    FontAttributes="Bold" 
+                    Clicked="OnCancelarClicked" 
+                    Style="{StaticResource SecondaryButtonStyle}" />
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

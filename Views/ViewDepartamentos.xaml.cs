@@ -16,7 +16,7 @@ namespace ProjecteFinal.Views
 
         private async void OnInsertarClicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync(nameof(ViewInsertarModificarDepartamento));
+            await Shell.Current.GoToAsync(nameof(ViewInsertarDepartamento));
         }
 
         private async void OnModificarClicked(object sender, EventArgs e)
@@ -26,7 +26,7 @@ namespace ProjecteFinal.Views
 
             if (departamento != null)
             {
-                await Shell.Current.GoToAsync($"{nameof(ViewInsertarModificarDepartamento)}",
+                await Shell.Current.GoToAsync($"{nameof(ViewModificarDepartamento)}",
                     new Dictionary<string, object>
                     {
                         { "Departamento", departamento }

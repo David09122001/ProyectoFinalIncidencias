@@ -6,11 +6,8 @@
              BackgroundColor="#F3F4F6">
 
     <Grid>
-        <!-- Encabezado azul -->
         <BoxView BackgroundColor="#1E88E5" HeightRequest="240" VerticalOptions="Start" />
 
-
-        <!-- Espaciado entre el encabezado -->
         <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Start" Margin="0,40,0,20">
             <Label Text="Gestor de Incidencias"
                    FontSize="42"

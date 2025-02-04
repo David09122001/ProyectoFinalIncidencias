@@ -21,12 +21,6 @@ namespace ProjecteFinal.DAO
             await GetConnection().InsertAsync(incidencia);
         }
 
-        public async Task<ObservableCollection<Incidencia_HW>> ObtenerIncidenciasHWAsync()
-        {
-            var incidencias = await GetConnection().Table<Incidencia_HW>().Where(i => i.id > 0).ToListAsync();
-            return new ObservableCollection<Incidencia_HW>(incidencias);
-        }
-
         public async Task<ObservableCollection<Incidencia_HW>> ObtenerTiposHWAsync()
         {
             var tipos = await GetConnection().Table<Incidencia_HW>().Where(i => i.id < 0).ToListAsync();

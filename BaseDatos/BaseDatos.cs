@@ -73,6 +73,16 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Departamento { codigo = "INF", nombre = "Informática", ubicacion = "Aula 204" }).Wait();
             GetConnection().InsertAsync(new Departamento { codigo = "ADM", nombre = "Administración", ubicacion = "Aula 208" }).Wait();
             GetConnection().InsertAsync(new Departamento { codigo = "MAT", nombre = "Matemáticas", ubicacion = "Aula 210" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "BIO", nombre = "Biología", ubicacion = "Aula 103" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "LEN", nombre = "Lengua y Literatura", ubicacion = "Aula 201" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "ING", nombre = "Inglés", ubicacion = "Aula 202" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "HIS", nombre = "Historia", ubicacion = "Aula 203" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "GEO", nombre = "Geografía", ubicacion = "Aula 205" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "EDF", nombre = "Educación Física", ubicacion = "Gimnasio" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "MUS", nombre = "Música", ubicacion = "Aula de Música" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "FIL", nombre = "Filosofía", ubicacion = "Aula 206" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "ECO", nombre = "Economía", ubicacion = "Aula 207" }).Wait();
+            GetConnection().InsertAsync(new Departamento { codigo = "TEC", nombre = "Tecnología", ubicacion = "Taller de Tecnología" }).Wait();
 
             // Insertar roles
             GetConnection().InsertAsync(new Rol { nombre = "Profesor" }).Wait();
@@ -89,6 +99,7 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar profesores" }).Wait();
             GetConnection().InsertAsync(new Permiso { descripcion = "Gestionar departamentos" }).Wait();
             GetConnection().InsertAsync(new Permiso { descripcion = "Ver logs" }).Wait();
+            GetConnection().InsertAsync(new Permiso { descripcion = "Asignar responsable" }).Wait();
 
 
             // Insertar relaciones roles-permisos
@@ -106,6 +117,7 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 5 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 7 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 2, permisoCodigo = 9 }).Wait();
 
             //Administrador
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 1 }).Wait();
@@ -115,6 +127,7 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 7 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 8 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 9 }).Wait();
 
             //Directivo
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 1 }).Wait();
@@ -128,37 +141,119 @@ namespace ProjecteFinal.BaseDatos
             // Insertar profesores
             GetConnection().InsertAsync(new Profesor
             {
-                dni = "20881900X",
-                nombre = "Tester",
+                dni = "20881963X",
+                nombre = "Admin",
                 departamentoCodigo = "INF",
                 email = "1",
                 contrasena = "1",
                 rol_id = 3
             }).Wait();
 
-            GetConnection().InsertAsync(new Profesor
-            {
-                dni = "20881922X",
-                nombre = "Tester Profesor",
-                departamentoCodigo = "INF",
-                email = "2",
-                contrasena = "2",
-                rol_id = 1
-            }).Wait();
 
+            // Insertar profesores estándar con DNIs correctos y correos @edu.gva
             GetConnection().InsertAsync(new Profesor
             {
-                dni = "20761603X",
-                nombre = "Profesor Prueba",
+                dni = "86157907E",
+                nombre = "Ana Pérez",
                 departamentoCodigo = "INF",
-                email = "profesorprueba@gmail.com",
+                email = "ana.perez@edu.gva",
                 contrasena = "1234",
                 rol_id = 1
             }).Wait();
 
             GetConnection().InsertAsync(new Profesor
             {
-                dni = "20889987X",
+                dni = "82092814H",
+                nombre = "Carlos Gómez",
+                departamentoCodigo = "ADM",
+                email = "carlos.gomez@edu.gva",
+                contrasena = "1234",
+                rol_id = 2
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "12821444W",
+                nombre = "Elena Fernández",
+                departamentoCodigo = "MAT",
+                email = "elena.fernandez@edu.gva",
+                contrasena = "1234",
+                rol_id = 1
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "51936794B",
+                nombre = "Javier Ruiz",
+                departamentoCodigo = "BIO",
+                email = "javier.ruiz@edu.gva",
+                contrasena = "1234",
+                rol_id = 3
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "87884040M",
+                nombre = "Lucía Ortega",
+                departamentoCodigo = "TEC",
+                email = "lucia.ortega@edu.gva",
+                contrasena = "1234",
+                rol_id = 4
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "38866809Y",
+                nombre = "Manuel García",
+                departamentoCodigo = "HIS",
+                email = "manuel.garcia@edu.gva",
+                contrasena = "1234",
+                rol_id = 2
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "95508638B",
+                nombre = "Sara López",
+                departamentoCodigo = "LEN",
+                email = "sara.lopez@edu.gva",
+                contrasena = "1234",
+                rol_id = 3
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "24884764Y",
+                nombre = "Pedro Domínguez",
+                departamentoCodigo = "GEO",
+                email = "pedro.dominguez@edu.gva",
+                contrasena = "1234",
+                rol_id = 1
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "13211237Z",
+                nombre = "Marta Navarro",
+                departamentoCodigo = "EDF",
+                email = "marta.navarro@edu.gva",
+                contrasena = "1234",
+                rol_id = 4
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "25474715F",
+                nombre = "David Martín",
+                departamentoCodigo = "ECO",
+                email = "david.martin@edu.gva",
+                contrasena = "1234",
+                rol_id = 2
+            }).Wait();
+
+            GetConnection().InsertAsync(new Profesor
+            {
+                dni = "20423550X",
                 nombre = "David",
                 departamentoCodigo = "INF",
                 email = "david.carcer09@gmail.com",
@@ -166,74 +261,91 @@ namespace ProjecteFinal.BaseDatos
                 rol_id = 3
             }).Wait();
 
-            GetConnection().InsertAsync(new Profesor
-            {
-                dni = "20761223X",
-                nombre = "Profesor Prueba3",
-                departamentoCodigo = "INF",
-                email = "profesorprueba3@gmail.com",
-                contrasena = "1234",
-                rol_id = 1
-            }).Wait();
-
-            GetConnection().InsertAsync(new Profesor
-            {
-                dni = "87654321B",
-                nombre = "MantenimientoTIC Prueba",
-                departamentoCodigo = "ADM",
-                email = "mantenimientoticprueba@gmail.com",
-                contrasena = "1234",
-                rol_id = 2
-            }).Wait();
-
-            GetConnection().InsertAsync(new Profesor
-            {
-                dni = "20762603X",
-                nombre = "Administrador Prueba",
-                departamentoCodigo = "INF",
-                email = "administradorprueba@gmail.com",
-                contrasena = "1234",
-                rol_id = 3
-            }).Wait();
-
-            GetConnection().InsertAsync(new Profesor
-            {
-                dni = "87454321B",
-                nombre = "Directivo Prueba",
-                departamentoCodigo = "ADM",
-                email = "directivoprueba@gmail.com",
-                contrasena = "1234",
-                rol_id = 4
-            }).Wait();
 
             // Insertar incidencias
             GetConnection().InsertAsync(new Incidencia
             {
-                fechaIncidencia = DateTime.Now.AddDays(-1),
+                fechaIncidencia = DateTime.Now.AddDays(-5),
                 fechaIntroduccion = DateTime.Now,
-                profesorDni = "20761603X",
-                responsableDni = "20761603X",
+                profesorDni = "86157907E", // Ana Pérez (INF)
                 aulaUbicacion = "Aula 101",
                 descripcionDetallada = "El ordenador no enciende",
-                observaciones = "Revisar fuente de alimentación",
-                estado = EstadoIncidencia.Comunicada.ToString(),
-                tiempoInvertido = 0,
-                comunicada = false
+                estado = "Sin asignar"
             }).Wait();
 
             GetConnection().InsertAsync(new Incidencia
             {
-                fechaIncidencia = DateTime.Now.AddDays(-1),
+                fechaIncidencia = DateTime.Now.AddDays(-3),
                 fechaIntroduccion = DateTime.Now,
-                profesorDni = "20881922X",
-                aulaUbicacion = "1",
-                descripcionDetallada = "1",
-                observaciones = "1",
-                estado = EstadoIncidencia.Pendiente.ToString(),
-                tiempoInvertido = 0,
-                comunicada = false
+                profesorDni = "12821444W", // Elena Fernández (MAT)
+                aulaUbicacion = "Aula 302",
+                descripcionDetallada = "No se detecta conexión a internet",
+                estado = "Sin asignar"
             }).Wait();
 
+            GetConnection().InsertAsync(new Incidencia
+            {
+                fechaIncidencia = DateTime.Now.AddDays(-4),
+                fechaIntroduccion = DateTime.Now,
+                profesorDni = "51936794B", // Javier Ruiz (BIO)
+                responsableDni = "82092814H", // Carlos Gómez (ADM)
+                aulaUbicacion = "Aula 202",
+                descripcionDetallada = "El proyector no funciona",
+                observaciones = "Revisar conexiones de HDMI",
+                estado = "Asignada"
+            }).Wait();
+
+            GetConnection().InsertAsync(new Incidencia
+            {
+                fechaIncidencia = DateTime.Now.AddDays(-7),
+                fechaIntroduccion = DateTime.Now,
+                profesorDni = "38866809Y", // Manuel García (HIS)
+                responsableDni = "13211237Z", // Marta Navarro (EDF)
+                aulaUbicacion = "Gimnasio",
+                descripcionDetallada = "Altavoz del aula no emite sonido",
+                observaciones = "Puede ser problema de cableado",
+                estado = "Asignada"
+            }).Wait();
+
+            GetConnection().InsertAsync(new Incidencia
+            {
+                fechaIncidencia = DateTime.Now.AddDays(-6),
+                fechaIntroduccion = DateTime.Now,
+                profesorDni = "95508638B", // Sara López (LEN)
+                responsableDni = "24884764Y", // Pedro Domínguez (GEO)
+                aulaUbicacion = "Aula 402",
+                descripcionDetallada = "El software de gestión de alumnos no carga",
+                observaciones = "Reinstalando la aplicación",
+                estado = "En proceso"
+            }).Wait();
+
+            GetConnection().InsertAsync(new Incidencia
+            {
+                fechaIncidencia = DateTime.Now.AddDays(-2),
+                fechaIntroduccion = DateTime.Now,
+                profesorDni = "25474715F", // David Martín (ECO)
+                responsableDni = "87884040M", // Lucía Ortega (TEC)
+                aulaUbicacion = "Laboratorio 2",
+                descripcionDetallada = "Fallo en switch de red, no conecta",
+                observaciones = "Pendiente de cambiar switch",
+                estado = "Pendiente"
+            }).Wait();
+
+            GetConnection().InsertAsync(new Incidencia
+            {
+                fechaIncidencia = DateTime.Now.AddDays(-10),
+                fechaIntroduccion = DateTime.Now,
+                profesorDni = "13211237Z", // Marta Navarro (EDF)
+                responsableDni = "51936794B", // Javier Ruiz (BIO)
+                aulaUbicacion = "Aula 103",
+                descripcionDetallada = "La impresora no imprime correctamente",
+                observaciones = "Se ha reemplazado el cartucho de tinta",
+                estado = "Resuelta",
+                tiempoInvertido = 225,
+                fechaResolucion = DateTime.Now.AddDays(-1)
+            }).Wait();
+
+            // Hardware (HW)
             GetConnection().InsertAsync(new Incidencia_HW
             {
                 id = 1,
@@ -242,53 +354,43 @@ namespace ProjecteFinal.BaseDatos
                 numeroSerie = "12345-67890"
             }).Wait();
 
-            GetConnection().InsertAsync(new Incidencia
+            GetConnection().InsertAsync(new Incidencia_HW
             {
-                fechaIncidencia = DateTime.Now.AddDays(-2),
-                fechaIntroduccion = DateTime.Now,
-                profesorDni = "20881922X",
-                responsableDni = "20761603X",
-                aulaUbicacion = "Aula 202",
-                descripcionDetallada = "No funciona el software",
-                observaciones = "Actualizar software",
-                estado = EstadoIncidencia.Resolviendo.ToString(),
-                tiempoInvertido = 2,
-                comunicada = true
+                id = 2,
+                dispositivo = "Proyector",
+                modelo = "Epson EB-X41",
+                numeroSerie = "PJT-987654"
+            }).Wait();
+
+            // Software (SW)
+            GetConnection().InsertAsync(new Incidencia_SW
+            {
+                id = 3,
+                sistemaOperativo = "Windows 10",
+                aplicacion = "Microsoft Teams"
             }).Wait();
 
             GetConnection().InsertAsync(new Incidencia_SW
             {
-                id = 2,
-                sistemaOperativo = "Windows 10",
-                aplicacion = "Office 365"
-            }).Wait();
-
-
-            GetConnection().InsertAsync(new Incidencia
-            {
-                fechaIncidencia = DateTime.Now.AddDays(-2),
-                fechaIntroduccion = DateTime.Now,
-                profesorDni = "20761223X",
-                aulaUbicacion = "Aula 212",
-                descripcionDetallada = "No funciona el internet",
-                observaciones = "He abierto el navegador y dice que no hay acceso a la red",
-                estado = EstadoIncidencia.Resolviendo.ToString(),
-                tiempoInvertido = 2,
-                comunicada = true
-            }).Wait();
-
-
-            GetConnection().InsertAsync(new Incidencia_Red
-            {
-                id = 3,
-                dispositivoAfectado = "Ordenador HP sobremesa"
-            }).Wait();
-
-            GetConnection().InsertAsync(new Incidencia_Red
-            {
                 id = 4,
-                dispositivoAfectado = "Ordenador HP sobremesa"
+                sistemaOperativo = "Ubuntu 20.04",
+                aplicacion = "LibreOffice"
             }).Wait();
+
+            // Red
+            GetConnection().InsertAsync(new Incidencia_Red
+            {
+                id = 5,
+                dispositivoAfectado = "Switch Cisco 2960"
+            }).Wait();
+
+            GetConnection().InsertAsync(new Incidencia_Red
+            {
+                id = 6,
+                dispositivoAfectado = "Punto de acceso WiFi"
+            }).Wait();
+
+
 
             //Insertar tipos HW
             GetConnection().InsertAsync(new Incidencia_HW { id = -1, dispositivo = "Servidor" }).Wait();
@@ -303,11 +405,34 @@ namespace ProjecteFinal.BaseDatos
             GetConnection().InsertAsync(new Incidencia_HW { id = -10, dispositivo = "Altavoces" }).Wait();
             GetConnection().InsertAsync(new Incidencia_HW { id = -11, dispositivo = "Otro tipo de HW" }).Wait();
 
-            //Insertar logs //id incidenciaId estado fecha
-            GetConnection().InsertAsync(new Log { id = 1, incidenciaId = 1, estado="Pendiente",fecha= DateTime.Now }).Wait();
-            GetConnection().InsertAsync(new Log { id = 2, incidenciaId = 1, estado = "Comunicada", fecha = DateTime.Now }).Wait();
-            GetConnection().InsertAsync(new Log { id = 3, incidenciaId = 2, estado = "Pendiente", fecha = DateTime.Now }).Wait();
-            GetConnection().InsertAsync(new Log { id = 4, incidenciaId = 2, estado = "Comunicada", fecha = DateTime.Now }).Wait();
+            // LOGS
+            GetConnection().InsertAsync(new Log { incidenciaId = 1, estado = "Sin asignar", fecha = DateTime.Now.AddDays(-5) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 1, estado = "Asignada", fecha = DateTime.Now.AddDays(-4) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 1, estado = "En proceso", fecha = DateTime.Now.AddDays(-3) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 1, estado = "Pendiente", fecha = DateTime.Now.AddDays(-2) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 1, estado = "Resuelta", fecha = DateTime.Now.AddDays(-1) }).Wait();
+
+            GetConnection().InsertAsync(new Log { incidenciaId = 2, estado = "Sin asignar", fecha = DateTime.Now.AddDays(-3) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 2, estado = "Asignada", fecha = DateTime.Now.AddDays(-2) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 2, estado = "En proceso", fecha = DateTime.Now.AddDays(-1) }).Wait();
+
+            GetConnection().InsertAsync(new Log { incidenciaId = 3, estado = "Sin asignar", fecha = DateTime.Now.AddDays(-7) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 3, estado = "Asignada", fecha = DateTime.Now.AddDays(-6) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 3, estado = "En proceso", fecha = DateTime.Now.AddDays(-5) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 3, estado = "Pendiente", fecha = DateTime.Now.AddDays(-2) }).Wait();
+
+            GetConnection().InsertAsync(new Log { incidenciaId = 4, estado = "Sin asignar", fecha = DateTime.Now.AddDays(-4) }).Wait();
+
+            GetConnection().InsertAsync(new Log { incidenciaId = 5, estado = "Sin asignar", fecha = DateTime.Now.AddDays(-3) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 5, estado = "Asignada", fecha = DateTime.Now.AddDays(-2) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 5, estado = "Pendiente", fecha = DateTime.Now.AddDays(-1) }).Wait();
+
+            GetConnection().InsertAsync(new Log { incidenciaId = 6, estado = "Sin asignar", fecha = DateTime.Now.AddDays(-10) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 6, estado = "Asignada", fecha = DateTime.Now.AddDays(-8) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 6, estado = "En proceso", fecha = DateTime.Now.AddDays(-6) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 6, estado = "Pendiente", fecha = DateTime.Now.AddDays(-4) }).Wait();
+            GetConnection().InsertAsync(new Log { incidenciaId = 6, estado = "Resuelta", fecha = DateTime.Now.AddDays(-1) }).Wait();
+
 
         }
     }

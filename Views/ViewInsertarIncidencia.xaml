@@ -6,8 +6,6 @@
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center">
          
-
-            <!-- Campos generales -->
             <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Descripción Detallada" FontAttributes="Bold" TextColor="#2C3E50" />

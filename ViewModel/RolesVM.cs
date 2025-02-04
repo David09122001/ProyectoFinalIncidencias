@@ -61,8 +61,6 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-
-
         private Rol _rolSeleccionado;
         public Rol RolSeleccionado
         {

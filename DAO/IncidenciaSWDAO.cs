@@ -22,24 +22,6 @@ namespace ProjecteFinal.DAO
         {
             await GetConnection().InsertAsync(incidencia);
         }
-
-        public ObservableCollection<Incidencia_SW> ObtenerIncidenciasSW()
-        {
-            var incidenciasQuery = GetConnection().Table<Incidencia_SW>();
-            var incidencias = incidenciasQuery.ToListAsync().Result;
-            return new ObservableCollection<Incidencia_SW>(incidencias);
-        }
-
-        public void EliminarIncidenciaSW(Incidencia_SW incidencia)
-        {
-            GetConnection().DeleteAsync(incidencia).Wait();
-        }
-
-        public void ActualizarIncidenciaSW(Incidencia_SW incidencia)
-        {
-            GetConnection().UpdateAsync(incidencia).Wait();
-        }
-
         public async Task<Incidencia_SW> ObtenerIncidenciaSWPorId(int id)
         {
             return await GetConnection().Table<Incidencia_SW>().FirstOrDefaultAsync(i => i.id == id);

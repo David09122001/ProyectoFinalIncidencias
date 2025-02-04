@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ProjecteFinal.ViewModel
 {
-    public class InsertarModificarProfesorVM : INotifyPropertyChanged
+    public class ModificarProfesorVM : INotifyPropertyChanged
     {
         private readonly ProfesorDAO profesorDAO;
         private readonly DepartamentoDAO departamentoDAO;
@@ -64,7 +64,7 @@ namespace ProjecteFinal.ViewModel
         }
 
 
-        public InsertarModificarProfesorVM(Profesor profesor = null)
+        public ModificarProfesorVM(Profesor profesor = null)
         {
             profesorDAO = new ProfesorDAO();
             departamentoDAO = new DepartamentoDAO();
@@ -102,13 +102,26 @@ namespace ProjecteFinal.ViewModel
                 Roles.Add(rol);
             }
 
-            // Sincronizar valores
+            var profesorActualizado = await profesorDAO.BuscarPorDniAsync(Profesor.dni);
+            if (profesorActualizado != null)
+            {
+                Profesor.nombre = profesorActualizado.nombre;
+                Profesor.email = profesorActualizado.email;
+                Profesor.departamentoCodigo = profesorActualizado.departamentoCodigo;
+                Profesor.rol_id = profesorActualizado.rol_id;
+                Profesor.contrasena = profesorActualizado.contrasena;
+            }
+
             SelectedDepartamento = Departamentos.FirstOrDefault(d => d.codigo == Profesor.departamentoCodigo);
             SelectedRol = Roles.FirstOrDefault(r => r.id == Profesor.rol_id);
 
+            OnPropertyChanged(nameof(Profesor));
+            OnPropertyChanged(nameof(SelectedDepartamento));
+            OnPropertyChanged(nameof(SelectedRol));
             OnPropertyChanged(nameof(Departamentos));
             OnPropertyChanged(nameof(Roles));
         }
+
         private async Task<bool> ValidarEmail(string email)
         {
             if (string.IsNullOrWhiteSpace(email))
@@ -117,11 +130,11 @@ namespace ProjecteFinal.ViewModel
                 return false;
             }
 
-            if (!email.Contains("@") || email.IndexOf("@") == 0) { 
-            await Application.Current.MainPage.DisplayAlert("Error", "El email es incorrecto.", "Aceptar");
+            if (!email.Contains("@") || email.IndexOf("@") == 0)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "El email es incorrecto.", "Aceptar");
                 return false;
             }
-            
 
             if (!email.EndsWith("@edu.gva"))
             {
@@ -130,7 +143,9 @@ namespace ProjecteFinal.ViewModel
             }
 
             var profesorExistente = await profesorDAO.ObtenerProfesorPorCorreoAsync(email);
-            if (profesorExistente != null)
+
+            // Si el email ya existe pero es el mismo del profesor actual, no hay problema
+            if (profesorExistente != null && profesorExistente.dni != Profesor.dni)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", "El email ya está en uso.", "Aceptar");
                 return false;
@@ -140,28 +155,11 @@ namespace ProjecteFinal.ViewModel
         }
 
 
-        // Validación de DNI
-        private bool ValidarDNI(string dni)
-        {
-            var dniPattern = @"^\d{8}[A-Za-z]$";  // 8 números + 1 letra
-            if (!Regex.IsMatch(dni, dniPattern))
-                return false;
-
-            // Cálculo de la letra del DNI
-            string letras = "TRWAGMYFPDXBNJZSQVHLCKE";
-            int numero = int.Parse(dni.Substring(0, 8));
-            char letraCalculada = letras[numero % 23];
-
-            // Verifica si la letra calculada coincide con la letra del DNI
-            return dni[8].ToString().ToUpper() == letraCalculada.ToString();
-        }
 
         public async Task<bool> GuardarProfesorAsync()
         {
             try
             {
-                Console.WriteLine($"Departamento seleccionado: {Profesor.departamentoCodigo}");
-                Console.WriteLine($"Rol seleccionado: {Profesor.rol_id}");
 
                 if (Profesor == null || string.IsNullOrWhiteSpace(Profesor.dni) ||
                     string.IsNullOrWhiteSpace(Profesor.nombre) ||
@@ -178,21 +176,6 @@ namespace ProjecteFinal.ViewModel
                     return false; 
                 }
 
-                var profesorExistente = await profesorDAO.BuscarPorDniAsync(Profesor.dni);
-
-                // Validación dni
-                if (profesorExistente != null && profesorExistente.dni == Profesor.dni)
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Ya existe un profesor con este DNI.", "Aceptar");
-                    return false;
-                }
-
-                // Validación del DNI
-                if (!ValidarDNI(Profesor.dni))
-                {
-                    await Application.Current.MainPage.DisplayAlert("Error", "El DNI es incorrecto. Debe tener 8 números y una letra válida.", "Aceptar");
-                    return false;
-                }
 
                 // Validación de contraseñas
                 if (!string.IsNullOrWhiteSpace(Profesor.contrasena) || !string.IsNullOrWhiteSpace(ConfirmarContrasena))
@@ -209,7 +192,6 @@ namespace ProjecteFinal.ViewModel
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al guardar el profesor: {ex.Message}");
                 await Application.Current.MainPage.DisplayAlert("Error", "Ocurrió un error al guardar el profesor.", "Aceptar");
                 return false;
             }

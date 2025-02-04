@@ -1,4 +1,4 @@
-using ProjecteFinal.DAO;
+ï»¿using ProjecteFinal.DAO;
 using ProjecteFinal.Models;
 using ProjecteFinal.ViewModel;
 using System;
@@ -21,20 +21,21 @@ public partial class ViewLogin : ContentPage
 
         if (usuario != null)
         {
-            // Obtener información del rol
+            Preferences.Set("UsuarioEmail", usuario.email);
+
+            // Obtener informaciÃ³n del rol
             var rolDao = new RolDAO();
             var permisoDao = new PermisoDAO();
             var rol = await rolDao.ObtenerRolPorIdAsync(usuario.rol_id);
 
             if (rol != null)
             {
-                // Comprobar si el rol tiene permisos específicos
+                // Comprobar si el rol tiene permisos especÃ­ficos
                 var permisos = await permisoDao.ObtenerPermisosPorRolAsync(rol.id);
 
-                // Determinar el menú según permisos/rol
-                if (rol.nombre == "Profesor" )
+                if (rol.nombre == "Profesor")
                 {
-                    // Redirigir a RestrictedMenu
+                    // Redirigir a ProfesorMenu
                     await Shell.Current.GoToAsync($"{nameof(ProfesorMenu)}",
                         new Dictionary<string, object>
                         {
@@ -43,7 +44,7 @@ public partial class ViewLogin : ContentPage
                 }
                 else
                 {
-                    // Redirigir al menú completo
+                    // Redirigir al menÃº completo
                     await Shell.Current.GoToAsync($"{nameof(MainMenu)}",
                         new Dictionary<string, object>
                         {
@@ -63,6 +64,7 @@ public partial class ViewLogin : ContentPage
             ErrorLabel.IsVisible = vm.HayError;
         }
     }
+
     private async void OlvidarContrasenaClicked(object sender, EventArgs e)
     {
         await Navigation.PushAsync(new ViewRestablecerContrasena());

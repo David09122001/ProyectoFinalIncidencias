@@ -1,17 +1,15 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProjecteFinal.Views.ViewInsertarModificarProfesor"
-             Title="Insertar/Modificar Profesor"
+             x:Class="ProjecteFinal.Views.ViewInsertarProfesor"
+             Title="Insertar Profesor"
              BackgroundColor="#F5F6F8">
     <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
-        <!-- Título -->
         <Label Text="Formulario de Profesor" 
                FontSize="24" 
                FontAttributes="Bold" 
                HorizontalOptions="Center" 
                TextColor="#2C3E50" />
 
-        <!-- Frame contenedor de los campos -->
         <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
             <VerticalStackLayout Spacing="15">
                 <!-- DNI -->
@@ -23,7 +21,6 @@
                            Grid.Column="0" />
                     <Entry Placeholder="Ejemplo: 12345678A" 
                            Text="{Binding Profesor.dni, Mode=TwoWay}" 
-                           IsEnabled="{Binding IsDniEditable}" 
                            WidthRequest="500" 
                            HorizontalOptions="Center" 
                            Grid.Column="1" />
@@ -52,12 +49,13 @@
                            VerticalOptions="Center" 
                            Grid.Column="0" />
                     <Picker Title="Seleccionar Departamento"
-                            ItemsSource="{Binding Departamentos}"
-                            SelectedItem="{Binding SelectedDepartamento, Mode=TwoWay}"
-                            ItemDisplayBinding="{Binding nombre}" 
-                            WidthRequest="500" 
-                            HorizontalOptions="Center" 
-                            Grid.Column="1" />
+                        ItemsSource="{Binding Departamentos}"
+                        SelectedItem="{Binding SelectedDepartamento, Mode=TwoWay}"
+                        ItemDisplayBinding="{Binding nombre}"
+                        WidthRequest="500"
+                        HorizontalOptions="Center"
+                        Grid.Column="1"/>
+
                 </Grid>
 
                 <!-- Email -->

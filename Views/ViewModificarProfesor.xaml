@@ -1,0 +1,131 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ProjecteFinal.Views.ViewModificarProfesor"
+             Title="Insertar/Modificar Profesor"
+             BackgroundColor="#F5F6F8">
+    <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
+        <Label Text="Formulario de Profesor" 
+               FontSize="24" 
+               FontAttributes="Bold" 
+               HorizontalOptions="Center" 
+               TextColor="#2C3E50" />
+
+        <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="800">
+            <VerticalStackLayout Spacing="15">
+                <!-- DNI -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="DNI" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Ejemplo: 12345678A" 
+                           Text="{Binding Profesor.dni, Mode=TwoWay}" 
+                           IsEnabled="{Binding IsDniEditable}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+                <Label x:Name="DniErrorLabel" TextColor="Red" IsVisible="False" />
+
+                <!-- Nombre -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Nombre" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Ejemplo: Juan Pérez" 
+                           Text="{Binding Profesor.nombre, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+
+                <!-- Departamento -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Departamento" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Picker Title="Seleccionar Departamento"
+                            ItemsSource="{Binding Departamentos}"
+                            SelectedItem="{Binding SelectedDepartamento, Mode=TwoWay}"
+                            ItemDisplayBinding="{Binding nombre}" 
+                            WidthRequest="500" 
+                            HorizontalOptions="Center" 
+                            Grid.Column="1" />
+                </Grid>
+
+                <!-- Email -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Email" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Ejemplo: juan.perez@email.com" 
+                           Text="{Binding Profesor.email, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+                <Label x:Name="EmailErrorLabel" TextColor="Red" IsVisible="False" />
+
+                <!-- Contraseña -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Contraseña" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Escribir contraseña" 
+                           IsPassword="True" 
+                           Text="{Binding Profesor.contrasena, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+
+                <!-- Confirmar Contraseña -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Confirmar Contraseña" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Entry Placeholder="Confirmar contraseña" 
+                           IsPassword="True" 
+                           Text="{Binding ConfirmarContrasena, Mode=TwoWay}" 
+                           WidthRequest="500" 
+                           HorizontalOptions="Center" 
+                           Grid.Column="1" />
+                </Grid>
+
+                <!-- Rol -->
+                <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
+                    <Label Text="Rol" 
+                           FontAttributes="Bold" 
+                           TextColor="#2C3E50" 
+                           VerticalOptions="Center" 
+                           Grid.Column="0" />
+                    <Picker Title="Seleccionar Rol" 
+                            ItemsSource="{Binding Roles}" 
+                            SelectedItem="{Binding SelectedRol, Mode=TwoWay}" 
+                            ItemDisplayBinding="{Binding nombre}" 
+                            WidthRequest="500" 
+                            HeightRequest="60"
+                            HorizontalOptions="Center" 
+                            Grid.Column="1" />
+                </Grid>
+            </VerticalStackLayout>
+        </Frame>
+
+        <!-- Botones -->
+        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="20">
+            <Button Text="Guardar" Clicked="OnGuardarClicked" Style="{StaticResource PrimaryButtonStyle}" />
+            <Button Text="Cancelar" Clicked="OnCancelarClicked" Style="{StaticResource SecondaryButtonStyle}" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

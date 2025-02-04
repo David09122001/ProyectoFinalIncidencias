@@ -17,7 +17,7 @@ namespace ProjecteFinal.Views
 
         private async void OnInsertarClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new ViewInsertarModificarProfesor(null, vm));
+            await Navigation.PushAsync(new ViewInsertarProfesor(vm));
         }
 
         private async void OnModificarClicked(object sender, EventArgs e)
@@ -27,7 +27,7 @@ namespace ProjecteFinal.Views
 
             if (profesor != null)
             {
-                await Navigation.PushAsync(new ViewInsertarModificarProfesor(profesor, vm));
+                await Navigation.PushAsync(new ViewModificarProfesor(profesor, vm));
             }
         }
 

@@ -5,11 +5,9 @@
              BackgroundColor="#F8F9FA">
 
     <Grid RowDefinitions="Auto, *">
-        <!-- Fondo azul del encabezado -->
         <Grid RowDefinitions="Auto, Auto" BackgroundColor="#1E88E5">
             <BoxView BackgroundColor="#1E88E5" HeightRequest="50" Grid.Row="0"/>
 
-            <!-- Título -->
             <VerticalStackLayout HorizontalOptions="Center" Margin="0,5,0,20" Grid.Row="1">
                 <Label Text="Gestión de Incidencias"
                        FontSize="28"
@@ -49,16 +47,16 @@
                             </Grid.ColumnDefinitions>
 
                             <Label Text="Buscar por"
-               FontSize="14"
-               TextColor="Black"
-               VerticalOptions="Center"
-               HorizontalOptions="End" />
+                                   FontSize="14"
+                                   TextColor="Black"
+                                   VerticalOptions="Center"
+                                   HorizontalOptions="End" />
 
                             <Picker ItemsSource="{Binding OpcionesBusqueda}" 
-                SelectedItem="{Binding TipoBusqueda}"
-                BackgroundColor="Transparent" TextColor="#2C3E50"
-                FontSize="14" HeightRequest="40"
-                Grid.Column="1" />
+                                    SelectedItem="{Binding TipoBusqueda}"
+                                    BackgroundColor="Transparent" TextColor="#2C3E50"
+                                    FontSize="14" HeightRequest="40"
+                                    Grid.Column="1" />  
                         </Grid>
 
                         <!-- Botón Más Filtros -->
@@ -164,13 +162,11 @@
                                     </Grid.ColumnDefinitions>
 
                                     <Grid.Triggers>
-                                        <DataTrigger TargetType="Grid" Binding="{Binding responsableDni}" Value="{x:Null}">
+                                        <DataTrigger TargetType="Grid" Binding="{Binding NombreResponsable}" Value="{x:Null}">
                                             <Setter Property="BackgroundColor" Value="#FFCCCC" />
-                                            <!-- Red for no responsible -->
                                         </DataTrigger>
-                                        <DataTrigger TargetType="Grid" Binding="{Binding responsableDni}" Value="Ningún profesor asignado">
+                                        <DataTrigger TargetType="Grid" Binding="{Binding NombreResponsable}" Value="Ningún profesor asignado">
                                             <Setter Property="BackgroundColor" Value="#FFCCCC" />
-                                            <!-- Red for "Ningún profesor asignado" -->
                                         </DataTrigger>
                                     </Grid.Triggers>
 
@@ -192,7 +188,7 @@
                                             <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />
                                         </Label.GestureRecognizers>
                                     </Label>
-                                    <Label Text="{Binding responsableDni, TargetNullValue='Ningún profesor asignado'}" Grid.Column="3"
+                                    <Label Text="{Binding NombreResponsable, TargetNullValue='Ningún profesor asignado'}" Grid.Column="3"
                                            TextColor="#34495E" FontSize="14" >
                                         <Label.GestureRecognizers>
                                             <TapGestureRecognizer Tapped="OnIncidenciaTapped" CommandParameter="{Binding .}" />

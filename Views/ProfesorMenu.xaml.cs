@@ -74,21 +74,18 @@ public partial class ProfesorMenu : ContentPage
         DropdownMenu.IsVisible = !DropdownMenu.IsVisible;
     }
 
-    // Evento para la opción "Perfil"
     private async void OnPerfilTapped(object sender, EventArgs e)
     {
-        DropdownMenu.IsVisible = false; // Ocultar el menú
+        DropdownMenu.IsVisible = false; 
         await Shell.Current.GoToAsync($"{nameof(ViewPerfil)}",
           new Dictionary<string, object>
           {
             { "Profesor", Profesor }
           });
     }
-
-    // Evento para la opción "Cerrar sesión"
     private async void OnCerrarSesionTapped(object sender, EventArgs e)
     {
-        DropdownMenu.IsVisible = false; // Ocultar el menú
+        DropdownMenu.IsVisible = false;
         bool confirm = await DisplayAlert("Cerrar sesión", "¿Estás seguro de que deseas cerrar sesión?", "Sí", "No");
         if (confirm)
         {

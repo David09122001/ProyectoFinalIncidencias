@@ -10,29 +10,28 @@
                     IconImageSource="login.png"
                     Clicked="OnOpcionesClicked" />
     </ContentPage.ToolbarItems>
-    <!-- Contenedor principal -->
+
     <Grid>
-        <!-- Contenido del menú principal -->
-        <VerticalStackLayout Padding="20">
-            <!-- Mensaje de bienvenida -->
-            <Label Text="{Binding MensajeBienvenida}" 
-                  FontSize="28" 
-                  FontAttributes="Bold" 
-                  HorizontalOptions="Center" 
-                  TextColor="#1E88E5" 
-                  Margin="0,20,0,40" />
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="180" VerticalOptions="Start" />
 
-            <!-- Grid de opciones del menú -->
-            <Grid Padding="20" RowSpacing="20" ColumnSpacing="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
+        <Grid Padding="20">
 
-                <!-- Gestión de Incidencias -->
-                <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
+            <VerticalStackLayout HorizontalOptions="Center" Margin="0,30,0,20">
+                <Label Text="MENÚ PRINCIPAL"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalOptions="Center" />
+                <Label Text="Accede a la gestión de incidencias"
+                    FontSize="16"
+                    TextColor="#E3F2FD"
+                    HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <Grid VerticalOptions="Start" HorizontalOptions="Center" Margin="0,170,0,0">
+                <Frame Style="{StaticResource ModernCardStyle}" BackgroundColor="White" 
+                       WidthRequest="500" HeightRequest="150" 
+                       VerticalOptions="Start" HorizontalOptions="Center">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="incidencias.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Gestión de Incidencias" Style="{StaticResource CardLabelStyle}" />
@@ -42,29 +41,28 @@
                         <PointerGestureRecognizer PointerEntered="OnPointerEntered" PointerExited="OnPointerExited" />
                     </Frame.GestureRecognizers>
                 </Frame>
-
-              
             </Grid>
-        </VerticalStackLayout>
+        </Grid>
+
         <Frame x:Name="DropdownMenu"
-        IsVisible="False"
-        BackgroundColor="White"
-        CornerRadius="10"
-        HasShadow="True"
-        Padding="10"
-        WidthRequest="200"
-        HorizontalOptions="End"
-        VerticalOptions="Start"
-        Margin="0,00,20,0">
+            IsVisible="False"
+            BackgroundColor="White"
+            CornerRadius="10"
+            HasShadow="True"
+            Padding="10"
+            WidthRequest="200"
+            HorizontalOptions="End"
+            VerticalOptions="Start"
+            Margin="0,00,20,0">
             <StackLayout>
                 <Label Text="Perfil"
-                Padding="10">
+                    Padding="10">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnPerfilTapped" />
                     </Label.GestureRecognizers>
                 </Label>
                 <Label Text="Cerrar sesión"
-                Padding="10">
+                    Padding="10">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="OnCerrarSesionTapped" />
                     </Label.GestureRecognizers>

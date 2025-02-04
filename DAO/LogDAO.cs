@@ -34,16 +34,5 @@ namespace ProjecteFinal.DAO
             return new ObservableCollection<Log>(logs);
         }
 
-        public async Task EliminarLogAsync(Log log)
-        {
-            await connection.DeleteAsync(log);
-            Console.WriteLine($"Log eliminado: Id = {log.id}");
-        }
-
-        public async Task ActualizarLogAsync(Log log)
-        {
-            await connection.UpdateAsync(log);
-            Console.WriteLine($"Log actualizado: Id = {log.id}");
-        }
     }
 }

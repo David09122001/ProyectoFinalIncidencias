@@ -120,29 +120,10 @@ namespace ProjecteFinal.ViewModel
                 throw new ArgumentException("Todos los campos son obligatorios.");
             }
 
-            // Verificar si ya existe un departamento con el mismo código
-            var existente = await departamentoDAO.ObtenerDepartamentoPorCodigoAsync(departamento.codigo);
-
-            if (existente != null && existente.codigo == departamento.codigo)
-            {
-                throw new ArgumentException("Ya existe un departamento con este código.");
-            }
-
-            if (existente == null)
-            {
-                // Insertar nuevo departamento
-                await departamentoDAO.GuardarDepartamentoAsync(departamento);
-            }
-            else
-            {
-                // Actualizar departamento existente
-                await departamentoDAO.ActualizarDepartamentoAsync(departamento);
-            }
+            await departamentoDAO.ActualizarDepartamentoAsync(departamento);
 
             await CargarDepartamentosAsync();
         }
-
-
 
 
 

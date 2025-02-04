@@ -5,7 +5,6 @@
              BackgroundColor="#F5F6F8"
              x:Name="ParentPage">
     <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
-        <!-- Título -->
         <Label Text="Seleccionar Profesor"
                FontSize="30"
                FontAttributes="Bold"
@@ -19,15 +18,11 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-
-                <!-- Icono de búsqueda -->
                 <Image Source="lupa.png"
                        WidthRequest="30"
                        HeightRequest="30"
                        VerticalOptions="Center"
                        Grid.Column="0" />
-
-                <!-- Entrada de búsqueda -->
                 <Entry Placeholder="Buscar profesor..."
                        Text="{Binding Filtro, Mode=TwoWay}"
                        FontSize="18"

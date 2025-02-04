@@ -5,12 +5,10 @@
              BackgroundColor="#F5F6F8">
 
     <Grid>
-        <!-- Fondo de encabezado azul -->
         <BoxView BackgroundColor="#1E88E5" HeightRequest="180" VerticalOptions="Start" />
 
         <VerticalStackLayout Padding="15" Spacing="10" HorizontalOptions="Center" VerticalOptions="FillAndExpand">
 
-            <!-- Título -->
             <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,15,0,30">
                 <Label Text="Gestión de Departamentos"
                        FontSize="26"
@@ -23,7 +21,6 @@
                        HorizontalOptions="Center" />
             </VerticalStackLayout>
 
-            <!-- Barra de búsqueda -->
             <Frame BackgroundColor="White" CornerRadius="10" Padding="5" HasShadow="True"
                    HorizontalOptions="FillAndExpand" HeightRequest="55">
                 <Grid Padding="5">
@@ -31,12 +28,8 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-
-                    <!-- Icono de búsqueda -->
                     <Image Source="lupa.png" WidthRequest="25" HeightRequest="25" 
                            VerticalOptions="Center" Grid.Column="0" />
-
-                    <!-- Entrada de búsqueda -->
                     <Entry Placeholder="Buscar departamento..."
                            Text="{Binding TextoBusqueda, Mode=TwoWay}"
                            FontSize="16"
@@ -48,18 +41,15 @@
                 </Grid>
             </Frame>
 
-            <!-- Lista de departamentos con encabezado fijo -->
             <Frame BackgroundColor="White" CornerRadius="10" Padding="0" HasShadow="True"
                    WidthRequest="750" HeightRequest="380">
                 <Grid RowDefinitions="Auto, *">
-                    <!-- Encabezado fijo -->
                     <Grid BackgroundColor="#F9F9F9" Padding="10" ColumnSpacing="10" Grid.Row="0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="3*" />
                             <ColumnDefinition Width="1.5*" />
                         </Grid.ColumnDefinitions>
 
-                        <!-- Encabezado centrado -->
                         <Label Text="Nombre"
                                FontAttributes="Bold"
                                FontSize="16"
@@ -72,7 +62,6 @@
                     <!-- Lista de departamentos -->
                     <ScrollView Grid.Row="1">
                         <CollectionView ItemsSource="{Binding DepartamentosFiltrados}" SelectionMode="Single">
-                            <!-- Filas -->
                             <CollectionView.ItemTemplate>
                                 <DataTemplate>
                                     <Frame BackgroundColor="White" CornerRadius="8" Padding="10" Margin="0,4"
@@ -122,7 +111,6 @@
                 </Grid>
             </Frame>
 
-            <!-- Botón para añadir departamento -->
             <Button Text="Añadir Departamento"
                     Clicked="OnInsertarClicked"
                     BackgroundColor="#1E88E5"

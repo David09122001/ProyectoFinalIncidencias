@@ -4,21 +4,20 @@
              Title="Modificar Rol"
              BackgroundColor="#F9FAFB">
     <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">
-        <!-- Título -->
+
         <Label Text="Gestión de Permisos" 
                FontSize="24" 
                FontAttributes="Bold" 
                HorizontalOptions="Center" 
                TextColor="#2C3E50" />
 
-        <!-- Frame contenedor de los campos -->
         <Frame BackgroundColor="White" 
                CornerRadius="15" 
                Padding="20" 
                HasShadow="True" 
                WidthRequest="800">
             <VerticalStackLayout Spacing="20">
-                <!-- Nombre del Rol -->
+
                 <Grid ColumnDefinitions="150, *" HorizontalOptions="Center" VerticalOptions="Center">
                     <Label Text="Nombre del Rol" 
                            FontAttributes="Bold" 
@@ -34,7 +33,6 @@
             </VerticalStackLayout>
         </Frame>
 
-        <!-- Lista de Permisos -->
         <Label Text="Permisos" 
                FontAttributes="Bold" 
                FontSize="18" 
@@ -62,14 +60,12 @@
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
 
-                                    <!-- Nombre del Permiso -->
                                     <Label Text="{Binding descripcion}" 
                                            FontSize="16" 
                                            VerticalOptions="Center" 
                                            TextColor="#2C3E50" 
                                            Grid.Column="0" />
 
-                                    <!-- Botón Asignar/Quitar -->
                                     <Button Text="Asignar"
                                             FontAttributes="Bold"
                                             CornerRadius="10"
@@ -101,7 +97,6 @@
             </ScrollView>
         </Frame>
 
-        <!-- Botones -->
         <HorizontalStackLayout HorizontalOptions="Center" Spacing="20" Padding="10">
             <Button Text="Guardar" 
                     FontAttributes="Bold" 

@@ -55,14 +55,6 @@ namespace ProjecteFinal.DAO
             return new ObservableCollection<Incidencia>(incidencias);
         }
 
-
-        public ObservableCollection<Incidencia> ObtenerIncidenciasPorEstado(string estado)
-        {
-            var incidenciasQuery = GetConnection().Table<Incidencia>().Where(i => i.estado == estado);
-            var incidencias = incidenciasQuery.ToListAsync().Result;
-            return new ObservableCollection<Incidencia>(incidencias);
-        }
-
         public bool EsIncidenciaHardware(int incidenciaId)
         {
             var hw = GetConnection().Table<Incidencia_HW>().FirstOrDefaultAsync(h => h.id == incidenciaId).Result;
@@ -139,24 +131,18 @@ namespace ProjecteFinal.DAO
             await GetConnection().InsertAsync(incidenciaRed);
         }
 
-        private static readonly object _dbLock = new object();
+        private static readonly SemaphoreSlim _dbSemaphore = new SemaphoreSlim(1, 1);
 
         public async Task ActualizarIncidenciaAsync(Incidencia incidencia)
         {
-            lock (_dbLock)
+            await _dbSemaphore.WaitAsync(); // Bloquea otros accesos a la BD
+            try
             {
-                GetConnection().InsertOrReplaceAsync(incidencia).Wait();
+                await GetConnection().InsertOrReplaceAsync(incidencia);
             }
-        }
-
-
-        public async Task AsignarResponsableAsync(int incidenciaId, string profesorDni)
-        {
-            var incidencia = await ObtenerIncidenciaPorId(incidenciaId);
-            if (incidencia != null)
+            finally
             {
-                incidencia.responsableDni = profesorDni;
-                await GetConnection().UpdateAsync(incidencia);
+                _dbSemaphore.Release(); // Libera el acceso
             }
         }
 
@@ -178,74 +164,7 @@ namespace ProjecteFinal.DAO
             return incidenciasRed.Select(red => red.id).ToList(); 
         }
 
-        public async Task<List<Incidencia>> FiltrarIncidenciasAsync(string estado = null, string profesorDni = null, string tipoIncidencia = null)
-        {
-            var incidencias = await GetConnection().Table<Incidencia>().ToListAsync();
-
-            // Filtrar por estado
-            if (!string.IsNullOrEmpty(estado))
-            {
-                incidencias = incidencias.Where(i => i.estado == estado).ToList();
-            }
-
-            // Filtrar por profesor
-            if (!string.IsNullOrEmpty(profesorDni))
-            {
-                incidencias = incidencias.Where(i => i.profesorDni == profesorDni).ToList();
-            }
-
-            // Filtrar por tipo de incidencia
-            if (!string.IsNullOrEmpty(tipoIncidencia))
-            {
-                List<int> ids = tipoIncidencia switch
-                {
-                    "Hardware" => (await GetConnection().Table<Incidencia_HW>().ToListAsync()).Select(hw => hw.id).ToList(),
-                    "Software" => (await GetConnection().Table<Incidencia_SW>().ToListAsync()).Select(sw => sw.id).ToList(),
-                    "Red" => (await GetConnection().Table<Incidencia_Red>().ToListAsync()).Select(red => red.id).ToList(),
-                    _ => new List<int>()
-                };
-
-                incidencias = incidencias.Where(i => ids.Contains(i.id)).ToList();
-            }
-
-            return incidencias;
-        }
-
-        public async Task<Dictionary<string, int>> ObtenerEstadisticasPorTipoAsync()
-        {
-            var hardwareCount = (await GetConnection().Table<Incidencia_HW>().ToListAsync()).Count;
-            var softwareCount = (await GetConnection().Table<Incidencia_SW>().ToListAsync()).Count;
-            var redCount = (await GetConnection().Table<Incidencia_Red>().ToListAsync()).Count;
-
-            return new Dictionary<string, int>
-    {
-        { "Hardware", hardwareCount },
-        { "Software", softwareCount },
-        { "Red", redCount }
-    };
-        }
-
-
-        public async Task<Dictionary<string, int>> ObtenerEstadisticasPorEstadoAsync()
-        {
-            var incidencias = await GetConnection().Table<Incidencia>().ToListAsync();
-
-            var estadisticas = incidencias
-                .GroupBy(i => i.estado)
-                .ToDictionary(g => g.Key, g => g.Count());
-
-            return estadisticas;
-        }
-
-
-        public async Task<int> ObtenerTotalIncidenciasAsync()
-        {
-            return await GetConnection().Table<Incidencia>().CountAsync();
-        }
-
-
-
-
+     
 
     }
 }

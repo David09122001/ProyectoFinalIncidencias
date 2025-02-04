@@ -5,23 +5,23 @@ using System;
 
 namespace ProjecteFinal.Views
 {
-    public partial class ViewInsertarModificarProfesor : ContentPage
+    public partial class ViewModificarProfesor : ContentPage
     {
-        private InsertarModificarProfesorVM vm;
+        private ModificarProfesorVM vm;
 
         private readonly ProfesoresVM _profesoresVM;
 
-        public ViewInsertarModificarProfesor(Profesor profesor = null, ProfesoresVM profesoresVM = null)
+        public ViewModificarProfesor(Profesor profesor = null, ProfesoresVM profesoresVM = null)
         {
             InitializeComponent();
-            BindingContext = new InsertarModificarProfesorVM(profesor);
+            BindingContext = new ModificarProfesorVM(profesor);
             _profesoresVM = profesoresVM;
         }
 
 
         private async void OnGuardarClicked(object sender, EventArgs e)
         {
-            if (BindingContext is InsertarModificarProfesorVM vm)
+            if (BindingContext is ModificarProfesorVM vm)
             {
                 bool resultado = await vm.GuardarProfesorAsync();
                 if (resultado)

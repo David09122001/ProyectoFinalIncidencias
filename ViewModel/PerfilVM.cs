@@ -33,16 +33,6 @@ namespace ProjecteFinal.ViewModel
             OnPropertyChanged(nameof(NombreRol));
         }
 
-        public async Task CargarProfesorPorCorreoAsync(string correo)
-        {
-            Profesor = await profesorDAO.ObtenerProfesorPorCorreoAsync(correo);
-            if (Profesor == null)
-            {
-                throw new InvalidOperationException("No se encontró ningún profesor con este correo.");
-            }
-        }
-
-
         public async Task<bool> GuardarNuevaContraseñaAsync()
         {
             if (string.IsNullOrWhiteSpace(ContraseñaActual) ||

@@ -91,14 +91,14 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-        private string _profesorNombre;
-        public string ProfesorNombre
+        private string _nombreProfesor;
+        public string NombreProfesor
         {
-            get => _profesorNombre;
+            get => _nombreProfesor;
             set
             {
-                _profesorNombre = value;
-                OnPropertyChanged(nameof(ProfesorNombre));
+                _nombreProfesor = value;
+                OnPropertyChanged(nameof(NombreProfesor));
             }
         }
 
@@ -126,7 +126,6 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-
         public ObservableCollection<string> OpcionesBusqueda { get; private set; }
         public ObservableCollection<string> OpcionesResponsable { get; private set; }
         public ObservableCollection<string> Estados { get; private set; }
@@ -146,7 +145,7 @@ namespace ProjecteFinal.ViewModel
             OpcionesBusqueda = new ObservableCollection<string> { " ", "Descripción", "Responsable" };
             OpcionesResponsable = new ObservableCollection<string> { " ", "Sí", "No" };
 
-            Estados = new ObservableCollection<string> { " ", "Pendiente", "Comunicada", "Resolviendo", "Solucionada", "Inviable" };
+            Estados  = new ObservableCollection<string> {" ", "Sin asignar", "Asignada", "En proceso", "Pendiente", "Resuelta" };
             TiposIncidencia = new ObservableCollection<string> { " ", "Hardware", "Software", "Red" };
             OpcionesOrdenacion = new ObservableCollection<string> { " ", "Más reciente a menos", "Menos reciente a más" };
 
@@ -213,7 +212,7 @@ namespace ProjecteFinal.ViewModel
 
                     gfx.DrawString(incidencia.estado, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth, y, colEstadoWidth, 20), XStringFormats.TopLeft);
 
-                    string responsable = string.IsNullOrWhiteSpace(incidencia.responsableDni) ? "Ningún profesor asignado" : incidencia.responsableDni;
+                    string responsable = string.IsNullOrWhiteSpace(incidencia.NombreResponsable) ? "Ningún profesor asignado" : incidencia.NombreResponsable;
                     if (responsable.Length > 15) // Ajustar truncamiento
                     {
                         responsable = responsable.Substring(0, 15) + "...";
@@ -253,81 +252,40 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-
         public async Task CargarIncidenciasAsync(Profesor profesor)
         {
             Incidencias.Clear();
+            IncidenciasFiltradas.Clear();
             List<Incidencia> listaIncidencias;
 
-            if (profesor.rol_id == 1) // Si el rol es "Profesor"
+            if (profesor.rol_id == 1) //rol profesor
             {
-                // Obtener solo las incidencias del profesor
                 listaIncidencias = incidenciaDAO.ObtenerIncidenciasPorProfesor(profesor.dni).ToList();
             }
             else
             {
-                // Obtener todas las incidencias
                 listaIncidencias = incidenciaDAO.ObtenerIncidencias().ToList();
             }
 
             foreach (var incidencia in listaIncidencias)
             {
-                // Obtener el nombre del profesor responsable
                 if (!string.IsNullOrWhiteSpace(incidencia.responsableDni))
                 {
-                    var responsable = await profesorDAO.BuscarPorDniAsync(incidencia.responsableDni);
-                    incidencia.responsableDni = responsable?.nombre ?? "Ningún profesor asignado";
+                    var profesorResponsable = await profesorDAO.BuscarPorDniAsync(incidencia.responsableDni);
+                    incidencia.NombreResponsable = profesorResponsable?.nombre ?? "Ningún profesor asignado";
                 }
                 else
                 {
-                    incidencia.responsableDni = "Ningún profesor asignado";
+                    incidencia.NombreResponsable = "Ningún profesor asignado";
                 }
 
                 Incidencias.Add(incidencia);
-                IncidenciasFiltradas.Add(incidencia);
             }
-            AplicarFiltros();
-        }
+
+            IncidenciasFiltradas = new ObservableCollection<Incidencia>(Incidencias.Where(i => i.estado != "Resuelta").OrderByDescending(i => i.fechaIncidencia));
 
 
-
-        public async void AñadirIncidencia(Incidencia nuevaIncidencia, Profesor profesor)
-        {
-            try
-            {
-                // Agregar la incidencia al DAO
-                await incidenciaDAO.AñadirIncidenciaAsync(nuevaIncidencia);
-
-                // Recargar las incidencias desde el DAO
-                await CargarIncidenciasAsync(profesor);
-
-                // Aplicar los filtros actuales
-                AplicarFiltros();
-
-                Console.WriteLine("Incidencia añadida correctamente y lista actualizada.");
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Error al añadir incidencia: {ex.Message}");
-                await Application.Current.MainPage.DisplayAlert("Error", "No se pudo añadir la incidencia. Inténtalo de nuevo.", "Aceptar");
-            }
-        }
-
-
-        public void ActualizarIncidencia(Incidencia incidenciaModificada)
-        {
-            incidenciaDAO.ActualizarIncidencia(incidenciaModificada);
-
-            var incidenciaExistente = Incidencias.FirstOrDefault(i => i.id == incidenciaModificada.id);
-            if (incidenciaExistente != null)
-            {
-                incidenciaExistente.descripcionDetallada = incidenciaModificada.descripcionDetallada;
-                incidenciaExistente.aulaUbicacion = incidenciaModificada.aulaUbicacion;
-                incidenciaExistente.fechaIncidencia = incidenciaModificada.fechaIncidencia;
-                incidenciaExistente.observaciones = incidenciaModificada.observaciones;
-                incidenciaExistente.tiempoInvertido = incidenciaModificada.tiempoInvertido;
-                incidenciaExistente.fechaResolucion = incidenciaModificada.fechaResolucion;
-            }
+            OnPropertyChanged(nameof(IncidenciasFiltradas));
         }
 
         public bool EliminarIncidencia(Incidencia incidencia)
@@ -358,13 +316,13 @@ namespace ProjecteFinal.ViewModel
                         filtrado = filtrado.Where(i => i.descripcionDetallada.Contains(FiltroBusqueda, StringComparison.OrdinalIgnoreCase)).ToList();
                         break;
                     case "Responsable":
-                        filtrado = filtrado.Where(i => !string.IsNullOrWhiteSpace(i.responsableDni) && i.responsableDni.Contains(FiltroBusqueda, StringComparison.OrdinalIgnoreCase)).ToList();
+                        filtrado = filtrado.Where(i => !string.IsNullOrWhiteSpace(i.NombreResponsable) && i.NombreResponsable.Contains(FiltroBusqueda, StringComparison.OrdinalIgnoreCase)).ToList();
                         break;
                     default: // Sin filtro específico (ambos campos)
                         filtrado = filtrado.Where(i =>
                             i.descripcionDetallada.Contains(FiltroBusqueda, StringComparison.OrdinalIgnoreCase) ||
-                            (!string.IsNullOrWhiteSpace(i.responsableDni) &&
-                             i.responsableDni.Contains(FiltroBusqueda, StringComparison.OrdinalIgnoreCase))
+                            (!string.IsNullOrWhiteSpace(i.NombreResponsable) &&
+                             i.NombreResponsable.Contains(FiltroBusqueda, StringComparison.OrdinalIgnoreCase))
                         ).ToList();
                         break;
                 }
@@ -373,9 +331,9 @@ namespace ProjecteFinal.ViewModel
             if (!string.IsNullOrWhiteSpace(FiltroResponsable) && FiltroResponsable != " ")
             {
                 if (FiltroResponsable == "Sí")
-                    filtrado = filtrado.Where(i => !string.IsNullOrWhiteSpace(i.responsableDni) && i.responsableDni != "Ningún profesor asignado").ToList();
+                    filtrado = filtrado.Where(i => !string.IsNullOrWhiteSpace(i.NombreResponsable) && i.NombreResponsable != "Ningún profesor asignado").ToList();
                 else if (FiltroResponsable == "No")
-                    filtrado = filtrado.Where(i => i.responsableDni == "Ningún profesor asignado").ToList();
+                    filtrado = filtrado.Where(i => i.NombreResponsable == "Ningún profesor asignado").ToList();
             }
             // Filtro de Estado
             if (!string.IsNullOrWhiteSpace(FiltroEstado) && FiltroEstado != " ")
@@ -405,8 +363,6 @@ namespace ProjecteFinal.ViewModel
                 filtrado = filtrado.Where(i => idsFiltrados.Contains(i.id)).ToList();
             }
 
-
-
             // Ordenar resultados
             if (!string.IsNullOrWhiteSpace(FiltroOrdenacion) && FiltroOrdenacion != " ")
             {
@@ -435,14 +391,16 @@ namespace ProjecteFinal.ViewModel
 
         public void ReiniciarFiltros()
         {
+            // Restablecer valores de los filtros
             FiltroBusqueda = string.Empty;
             TipoBusqueda = "Todos";
             FiltroResponsable = null;
-            FiltroEstado = null;
+            FiltroEstado = null; 
             FiltroTipoIncidencia = null;
-            FiltroOrdenacion = null;
+            FiltroOrdenacion = "Más FiltroOrdenacionreciente a menos";
 
-            AplicarFiltros();
+            // Volver al estado inicial excluyendo incidencias con estado "Resuelta" y de más reciente a menos.
+            IncidenciasFiltradas = new ObservableCollection<Incidencia>(Incidencias.Where(i => i.estado != "Resuelta").OrderByDescending(i => i.fechaIncidencia));
 
             OnPropertyChanged(nameof(FiltroBusqueda));
             OnPropertyChanged(nameof(TipoBusqueda));
@@ -450,7 +408,9 @@ namespace ProjecteFinal.ViewModel
             OnPropertyChanged(nameof(FiltroEstado));
             OnPropertyChanged(nameof(FiltroTipoIncidencia));
             OnPropertyChanged(nameof(FiltroOrdenacion));
+            OnPropertyChanged(nameof(IncidenciasFiltradas)); 
         }
+
 
     }
 }

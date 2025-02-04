@@ -1,11 +1,11 @@
-using ProjecteFinal.Models;
+ï»¿using ProjecteFinal.Models;
 using ProjecteFinal.ViewModel;
 using System.Collections.ObjectModel;
 
 namespace ProjecteFinal.Views
 {
     [QueryProperty(nameof(Departamento), "Departamento")]
-    public partial class ViewInsertarModificarDepartamento : ContentPage
+    public partial class ViewModificarDepartamento : ContentPage
     {
         private DepartamentosVM vm;
 
@@ -23,9 +23,10 @@ namespace ProjecteFinal.Views
 
         public bool IsCodigoEditable => string.IsNullOrWhiteSpace(_departamento?.codigo);
 
-        public ViewInsertarModificarDepartamento()
+        public ViewModificarDepartamento()
         {
             InitializeComponent();
+            vm = new DepartamentosVM();
             BindingContext = this;
 
             if (_departamento == null)
@@ -37,33 +38,17 @@ namespace ProjecteFinal.Views
         {
             try
             {
-                if (Departamento == null)
+                if (_departamento == null)
                     throw new ArgumentException("El departamento no puede ser nulo.");
 
-                var vm = new DepartamentosVM();
+                await vm.GuardarDepartamentoAsync(_departamento);
 
-                // Verificar si el código ya está en uso antes de guardar
-                var existente = await vm.departamentoDAO.ObtenerDepartamentoPorCodigoAsync(Departamento.codigo);
-                if (existente != null)
-                {
-                    throw new InvalidOperationException("Ya existe un departamento con este código.");
-                }
-
-                await vm.GuardarDepartamentoAsync(Departamento);
-                await DisplayAlert("Éxito", "Departamento guardado correctamente.", "Aceptar");
+                await DisplayAlert("Ã‰xito", "Departamento modificado correctamente.", "Aceptar");
                 await Navigation.PopAsync();
-            }
-            catch (InvalidOperationException ex)
-            {
-                await DisplayAlert("Aviso", ex.Message, "Aceptar");
-            }
-            catch (ArgumentException ex)
-            {
-                await DisplayAlert("Error", ex.Message, "Aceptar");
             }
             catch (Exception ex)
             {
-                await DisplayAlert("Error", $"No se pudo guardar el departamento: {ex.Message}", "Aceptar");
+                await DisplayAlert("Error", $"No se pudo modificar el departamento: {ex.Message}", "Aceptar");
             }
         }
 

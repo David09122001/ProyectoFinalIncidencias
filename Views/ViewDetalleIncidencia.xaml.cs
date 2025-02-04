@@ -16,11 +16,6 @@ public partial class ViewDetalleIncidencia : ContentPage
         vm = new DetalleIncidenciaVM(incidencia);  
         BindingContext = vm;
 
-        if (Incidencia.fechaResolucion == DateTime.MinValue)
-        {
-            // Si la fecha es 0 o no válida, ocultamos la sección
-            //FechaResolucionFrame.IsVisible = false;
-        }
     }
     protected override void OnAppearing()
     {

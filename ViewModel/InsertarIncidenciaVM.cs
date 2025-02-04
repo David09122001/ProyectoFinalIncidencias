@@ -33,8 +33,8 @@ namespace ProjecteFinal.ViewModel
         }
 
         public Incidencia Incidencia { get; set; } = new Incidencia();
-        public Incidencia_HW IncidenciaHW { get; set; } = new Incidencia_HW(); 
-        public Incidencia_SW IncidenciaSW { get; set; } = new Incidencia_SW(); 
+        public Incidencia_HW IncidenciaHW { get; set; } = new Incidencia_HW();
+        public Incidencia_SW IncidenciaSW { get; set; } = new Incidencia_SW();
         public Incidencia_Red IncidenciaRed { get; set; } = new Incidencia_Red();
 
         public bool MostrarHW { get; set; }
@@ -70,7 +70,7 @@ namespace ProjecteFinal.ViewModel
             TiposHW.Clear();
             foreach (var tipo in tiposHW)
             {
-                TiposHW.Add(tipo.dispositivo);  
+                TiposHW.Add(tipo.dispositivo);
             }
         }
 
@@ -91,7 +91,7 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
-            private void ActualizarFormulario()
+        private void ActualizarFormulario()
         {
             MostrarHW = TipoSeleccionado == "Hardware";
             MostrarSW = TipoSeleccionado == "Software";
@@ -109,35 +109,35 @@ namespace ProjecteFinal.ViewModel
                 string asunto = "Nueva Incidencia Reportada";
 
                 string cuerpo = $@"
-        <!DOCTYPE html>
-        <html>
-        <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
-            <h2 style='color: #007ACC;'>Nueva Incidencia Reportada</h2>
-            <p>Estimado equipo de <strong>Mantenimiento TIC</strong>,</p>
-            <p>Se ha registrado una nueva incidencia en el sistema de gestión. A continuación, se detallan los datos de la incidencia:</p>
-            <table style='border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 20px; font-size: 14px;'>
-                <tr>
-                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Descripción</strong></td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.descripcionDetallada}</td>
-                </tr>
-                <tr>
-                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Aula</strong></td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.aulaUbicacion}</td>
-                </tr>
-                <tr>
-                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Fecha de Incidencia</strong></td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.fechaIncidencia:dd/MM/yyyy}</td>
-                </tr>
-                <tr>
-                    <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Tipo</strong></td>
-                    <td style='border: 1px solid #ddd; padding: 8px;'>{TipoSeleccionado}</td>
-                </tr>
-            </table>
-            <p style='margin-top: 20px;'>Por favor, revisen esta incidencia a la mayor brevedad posible.</p>
-            <p>Gracias,</p>
-            <p style='color: #007ACC;'><strong>Sistema de Gestión de Incidencias</strong></p>
-        </body>
-        </html>";
+                <!DOCTYPE html>
+                <html>
+                <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                    <h2 style='color: #007ACC;'>Nueva Incidencia Reportada</h2>
+                    <p>Estimado equipo de <strong>Mantenimiento TIC</strong>,</p>
+                    <p>Se ha registrado una nueva incidencia en el sistema de gestión. A continuación, se detallan los datos de la incidencia:</p>
+                    <table style='border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 20px; font-size: 14px;'>
+                        <tr>
+                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Descripción</strong></td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.descripcionDetallada}</td>
+                        </tr>
+                        <tr>
+                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Aula</strong></td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.aulaUbicacion}</td>
+                        </tr>
+                        <tr>
+                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Fecha de Incidencia</strong></td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.fechaIncidencia:dd/MM/yyyy}</td>
+                        </tr>
+                        <tr>
+                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Tipo</strong></td>
+                            <td style='border: 1px solid #ddd; padding: 8px;'>{TipoSeleccionado}</td>
+                        </tr>
+                    </table>
+                    <p style='margin-top: 20px;'>Por favor, revisen esta incidencia a la mayor brevedad posible.</p>
+                    <p>Gracias,</p>
+                    <p style='color: #007ACC;'><strong>Sistema de Gestión de Incidencias</strong></p>
+                </body>
+                </html>";
 
                 MailAddress addressFrom = new MailAddress("iscapopproyecto@gmail.com", "Gestión Incidencias");
                 MailAddress addressTo = new MailAddress(correoDestino);
@@ -158,7 +158,6 @@ namespace ProjecteFinal.ViewModel
                 };
 
                 await Task.Run(() => client.Send(message));
-                Console.WriteLine("Correo enviado correctamente.");
             }
             catch (Exception ex)
             {
@@ -194,7 +193,7 @@ namespace ProjecteFinal.ViewModel
 
                 if (string.IsNullOrWhiteSpace(Incidencia.estado))
                 {
-                    Incidencia.estado = "Pendiente";
+                    Incidencia.estado = "Sin asignar";
                 }
 
                 await incidenciaDAO.AñadirIncidenciaAsync(Incidencia);
@@ -238,12 +237,12 @@ namespace ProjecteFinal.ViewModel
 
                 await EnviarCorreoAsync();
 
-                return true; 
+                return true;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"Error en GuardarIncidenciaAsync: {ex.Message}");
-                throw; 
+                throw;
             }
             finally
             {

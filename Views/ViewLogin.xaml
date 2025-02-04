@@ -5,38 +5,28 @@
              Title=""
              BackgroundColor="#F3F4F6">
 
-    <!-- Contenedor principal -->
     <Grid>
-        <!-- Fondo de encabezado -->
         <BoxView BackgroundColor="#1E88E5" HeightRequest="240" VerticalOptions="Start" />
-
-        <!-- Contenedor de contenido centrado -->
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="30" VerticalOptions="Center" HorizontalOptions="Center">
-
-                <!-- Espaciado entre el encabezado -->
                 <VerticalStackLayout HorizontalOptions="Center" VerticalOptions="Center" Margin="0,20,0,40">
-                    <!-- Título principal -->
                     <Label Text="Gestor de Incidencias"
                            FontSize="42"
                            FontAttributes="Bold"
                            TextColor="White"
                            HorizontalOptions="Center" />
-                    <!-- Subtítulo -->
                     <Label Text="Administra y resuelve incidencias fácilmente"
                            FontSize="20"
                            TextColor="#E3F2FD"
                            HorizontalOptions="Center" />
                 </VerticalStackLayout>
 
-                <!-- Tarjeta de inicio de sesión -->
                 <Frame BackgroundColor="White"
                        CornerRadius="15"
                        Padding="25"
                        HasShadow="True"
                        WidthRequest="450"
                        Margin="0,40,0,0">
-                    <!-- Ancho y margen ajustados -->
                     <VerticalStackLayout Spacing="20">
 
                         <!-- Icono -->
@@ -57,7 +47,6 @@
                                CornerRadius="10"
                                Padding="12"
                                WidthRequest="360">
-                            <!-- Ancho ajustado -->
                             <Grid ColumnSpacing="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
@@ -80,7 +69,6 @@
                                CornerRadius="10"
                                Padding="12"
                                WidthRequest="360">
-                            <!-- Ancho ajustado -->
                             <Grid ColumnSpacing="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="40" />
@@ -110,7 +98,7 @@
                         Padding="12"
                         HorizontalOptions="Fill" />
 
-                        <!-- Enlace para restablecer contraseña -->
+                        <!-- Restablecer contraseña -->
                         <Label Text="¿Has olvidado tu contraseña?"
                                TextColor="#1E88E5"
                                HorizontalOptions="Center"

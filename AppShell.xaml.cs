@@ -15,7 +15,10 @@
             Routing.RegisterRoute(nameof(Views.ViewInsertarIncidencia), typeof(Views.ViewInsertarIncidencia));
             Routing.RegisterRoute(nameof(Views.ViewModificarIncidencia), typeof(Views.ViewModificarIncidencia));
             Routing.RegisterRoute(nameof(Views.ViewDepartamentos), typeof(Views.ViewDepartamentos));
-            Routing.RegisterRoute(nameof(Views.ViewInsertarModificarDepartamento), typeof(Views.ViewInsertarModificarDepartamento));
+            Routing.RegisterRoute(nameof(Views.ViewModificarDepartamento), typeof(Views.ViewModificarDepartamento));
+            Routing.RegisterRoute(nameof(Views.ViewInsertarDepartamento), typeof(Views.ViewInsertarDepartamento));
+            Routing.RegisterRoute(nameof(Views.ViewModificarProfesor), typeof(Views.ViewModificarProfesor));
+            Routing.RegisterRoute(nameof(Views.ViewInsertarProfesor), typeof(Views.ViewInsertarProfesor));
             Routing.RegisterRoute(nameof(Views.ViewPerfil), typeof(Views.ViewPerfil));
             Routing.RegisterRoute(nameof(Views.ViewSeleccionarProfesor), typeof(Views.ViewSeleccionarProfesor));
             Routing.RegisterRoute(nameof(Views.ViewDetalleIncidencia), typeof(Views.ViewDetalleIncidencia));

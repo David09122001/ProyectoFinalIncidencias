@@ -5,43 +5,46 @@
              BackgroundColor="#F8F9FA">
 
     <VerticalStackLayout Padding="20" Spacing="15">
-        <!-- Título -->
-        <Label Text="Historial de Logs"
-               FontSize="28"
-               FontAttributes="Bold"
-               TextColor="#2C3E50"
-               HorizontalOptions="Center"
-               Margin="0,0,0,20" />
 
-        <!-- Filtro -->
-        <HorizontalStackLayout Spacing="10" HorizontalOptions="Center">
-            <Entry Placeholder="Filtrar por ID de incidencia"
-                   Keyboard="Numeric"
-                   Text="{Binding FiltroIncidenciaId}"
-                   WidthRequest="250"
-                   HeightRequest="40"
-                   BackgroundColor="White"
-                   HorizontalTextAlignment="Center" />
-            <Button Text="Filtrar"
+        <Grid>
+            <BoxView BackgroundColor="#1E88E5" HeightRequest="130" VerticalOptions="Start" />
+
+            <!-- Título -->
+            <VerticalStackLayout HorizontalOptions="Center" Margin="0,15,0,10">
+                <Label Text="Historial de Logs"
+                    FontSize="28"
+                    FontAttributes="Bold"
+                    TextColor="White"
+                    HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <!-- Filtro -->
+            <HorizontalStackLayout Spacing="10" HorizontalOptions="Center" Margin="0,70,0,0">
+                <Entry Placeholder="Filtrar por ID de incidencia"
+                    Keyboard="Numeric"
+                    Text="{Binding FiltroIncidenciaId}"
+                    WidthRequest="250"
+                    HeightRequest="40"
+                    BackgroundColor="White"
+                    HorizontalTextAlignment="Center"/>
+                <Button Text="Filtrar"
                     Command="{Binding FiltrarCommand}"
                     WidthRequest="100"
                     HeightRequest="40"
-                    BackgroundColor="#1E88E5"
-                    TextColor="White"/>
-            <Button Text="Borrar Filtro"
+                    BackgroundColor="White"
+                    TextColor="#1E88E5"
+                    FontAttributes="Bold"/>
+                <Button Text="Borrar Filtro"
                     Command="{Binding BorrarFiltroCommand}"
                     WidthRequest="120"
                     HeightRequest="40"
                     BackgroundColor="#B0BEC5"
                     TextColor="White"/>
-        </HorizontalStackLayout>
+            </HorizontalStackLayout>
+        </Grid>
 
-        <!-- Tabla de Logs -->
-        <Grid ColumnSpacing="1" RowSpacing="1" BackgroundColor="#E0E0E0" Margin="0,20,0,0">
-            <!-- Cabecera -->
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+        <!-- Encabezado -->
+        <Grid BackgroundColor="#1565C0" Padding="10,5" Margin="0,20,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
@@ -51,51 +54,48 @@
                    FontSize="18"
                    FontAttributes="Bold"
                    TextColor="White"
-                   BackgroundColor="#1E88E5"
-                   Padding="10,5"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
-                   Grid.Row="0" Grid.Column="0" />
+                   Grid.Column="0" />
             <Label Text="Estado"
                    FontSize="18"
                    FontAttributes="Bold"
                    TextColor="White"
-                   BackgroundColor="#1E88E5"
-                   Padding="10,5"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
-                   Grid.Row="0" Grid.Column="1" />
+                   Grid.Column="1" />
             <Label Text="Fecha"
                    FontSize="18"
                    FontAttributes="Bold"
                    TextColor="White"
-                   BackgroundColor="#1E88E5"
-                   Padding="10,5"
                    HorizontalTextAlignment="Center"
                    VerticalTextAlignment="Center"
-                   Grid.Row="0" Grid.Column="2" />
+                   Grid.Column="2" />
+        </Grid>
 
-            <!-- Datos -->
-            <CollectionView ItemsSource="{Binding Logs}" Grid.Row="1" Grid.ColumnSpan="3">
+        <!-- Lista de Logs (Scrolleable) -->
+        <ScrollView HeightRequest="500">
+            <CollectionView ItemsSource="{Binding Logs}"
+                            VerticalScrollBarVisibility="Always">
                 <CollectionView.ItemsLayout>
                     <LinearItemsLayout Orientation="Vertical" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid ColumnSpacing="1" RowSpacing="1" BackgroundColor="White">
+                        <Grid ColumnSpacing="1" RowSpacing="1" Padding="5" BackgroundColor="White">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Label Text="{Binding incidenciaId, StringFormat='ID: {0}'}"
+                            <Label Text="{Binding incidenciaId, StringFormat='{0}'}"
                                    FontSize="16"
                                    TextColor="#34495E"
                                    Padding="10,5"
                                    HorizontalTextAlignment="Center"
                                    VerticalTextAlignment="Center"
                                    Grid.Column="0" />
-                            <Label Text="{Binding estado, StringFormat='Estado: {0}'}"
+                            <Label Text="{Binding estado, StringFormat='{0}'}"
                                    FontSize="16"
                                    TextColor="#34495E"
                                    Padding="10,5"
@@ -113,6 +113,7 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-        </Grid>
+        </ScrollView>
+
     </VerticalStackLayout>
 </ContentPage>

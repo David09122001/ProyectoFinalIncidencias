@@ -10,21 +10,25 @@
                      IconImageSource="login.png"
                      Clicked="OnOpcionesClicked" />
     </ContentPage.ToolbarItems>
-    <!-- Contenedor principal -->
-    <Grid>
-        
-        <!-- Contenido del menú principal -->
-        <VerticalStackLayout Padding="20">
-            <!-- Mensaje de bienvenida -->
-            <Label Text="{Binding MensajeBienvenida}" 
-                   FontSize="28" 
-                   FontAttributes="Bold" 
-                   HorizontalOptions="Center" 
-                   TextColor="#1E88E5" 
-                   Margin="0,20,0,40" />
 
-            <!-- Grid de opciones del menú -->
-            <Grid Padding="20" RowSpacing="20" ColumnSpacing="20">
+    <Grid>
+        <BoxView BackgroundColor="#1E88E5" HeightRequest="180" VerticalOptions="Start" Grid.Row="0"/>
+
+        <VerticalStackLayout Padding="20" Grid.Row="0">
+
+            <VerticalStackLayout HorizontalOptions="Center" Margin="0,30,0,20">
+                <Label Text="MENÚ PRINCIPAL"
+                       FontSize="28"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center" />
+                <Label Text="Selecciona una opción para continuar"
+                       FontSize="16"
+                       TextColor="#E3F2FD"
+                       HorizontalOptions="Center" />
+            </VerticalStackLayout>
+
+            <Grid Padding="20" RowSpacing="20" ColumnSpacing="20" Margin="0,40,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -37,7 +41,7 @@
                 </Grid.RowDefinitions>
 
                 <!-- Gestión de Incidencias -->
-                <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
+                <Frame Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernCardStyle}" BackgroundColor="White">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="incidencias.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Gestión de Incidencias" Style="{StaticResource CardLabelStyle}" />
@@ -49,7 +53,7 @@
                 </Frame>
 
                 <!-- Gestión de Profesores -->
-                <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
+                <Frame Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernCardStyle}" BackgroundColor="White">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="profesores.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Gestión de Profesores" Style="{StaticResource CardLabelStyle}" />
@@ -61,7 +65,7 @@
                 </Frame>
 
                 <!-- Gestión de Departamentos -->
-                <Frame Grid.Row="0" Grid.Column="2" Style="{StaticResource ModernCardStyle}">
+                <Frame Grid.Row="0" Grid.Column="2" Style="{StaticResource ModernCardStyle}" BackgroundColor="White">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="departamentos.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Gestión de Departamentos" Style="{StaticResource CardLabelStyle}" />
@@ -73,7 +77,7 @@
                 </Frame>
 
                 <!-- Gestión de Tipos HW -->
-                <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource ModernCardStyle}">
+                <Frame Grid.Row="1" Grid.Column="0" Style="{StaticResource ModernCardStyle}" BackgroundColor="White">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="hardware.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Gestión tipos de HW" Style="{StaticResource CardLabelStyle}" />
@@ -85,7 +89,7 @@
                 </Frame>
 
                 <!-- Generar Informes -->
-                <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource ModernCardStyle}">
+                <Frame Grid.Row="1" Grid.Column="1" Style="{StaticResource ModernCardStyle}" BackgroundColor="White">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="rol.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Gestión de Roles" Style="{StaticResource CardLabelStyle}" />
@@ -97,7 +101,7 @@
                 </Frame>
 
                 <!-- Ver Logs -->
-                <Frame Grid.Row="1" Grid.Column="2" Style="{StaticResource ModernCardStyle}">
+                <Frame Grid.Row="1" Grid.Column="2" Style="{StaticResource ModernCardStyle}" BackgroundColor="White">
                     <VerticalStackLayout VerticalOptions="Center" HorizontalOptions="Center">
                         <Image Source="log.png" WidthRequest="50" HeightRequest="50" />
                         <Label Text="Ver Logs" Style="{StaticResource CardLabelStyle}" />
@@ -108,10 +112,10 @@
                     </Frame.GestureRecognizers>
                 </Frame>
 
-            </Grid> 
+            </Grid>
         </VerticalStackLayout>
 
-        <!-- Desplegable Clásico -->
+        <!-- Desplegable -->
         <Frame x:Name="DropdownMenu"
                IsVisible="False"
                BackgroundColor="White"
@@ -137,5 +141,6 @@
                 </Label>
             </StackLayout>
         </Frame>
+
     </Grid>
 </ContentPage>

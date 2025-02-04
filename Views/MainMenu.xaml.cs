@@ -22,7 +22,6 @@ public partial class MainMenu : ContentPage
         }
     }
 
-    
     public MainMenu()
     {
         InitializeComponent();
@@ -173,18 +172,15 @@ public partial class MainMenu : ContentPage
         DropdownMenu.IsVisible = !DropdownMenu.IsVisible;
     }
 
-    // Evento para la opción "Perfil"
     private async void OnPerfilTapped(object sender, EventArgs e)
     {
-        DropdownMenu.IsVisible = false; // Ocultar el menú
+        DropdownMenu.IsVisible = false; 
         await Shell.Current.GoToAsync($"{nameof(ViewPerfil)}",
           new Dictionary<string, object>
           {
             { "Profesor", Profesor }
           });
     }
-
-    // Evento para la opción "Cerrar sesión"
     private async void OnCerrarSesionTapped(object sender, EventArgs e)
     {
         DropdownMenu.IsVisible = false; // Ocultar el menú

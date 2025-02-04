@@ -133,7 +133,6 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Botones Centrados -->
             <HorizontalStackLayout Spacing="20" HorizontalOptions="Center">
                 <Button Text="Generar Informe"
                         Style="{StaticResource PrimaryButtonStyle}"

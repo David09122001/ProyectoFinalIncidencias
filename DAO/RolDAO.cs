@@ -39,38 +39,9 @@ namespace ProjecteFinal.DAO
                 .FirstOrDefaultAsync(r => r.nombre.ToLower() == nombre.ToLower());
         }
 
-        public async Task<List<Rol>> BuscarTodosAsync()
-        {
-            return await GetConnection().Table<Rol>().ToListAsync();
-        }
-
         public async Task EliminarRolAsync(Rol rol)
         {
             await GetConnection().DeleteAsync(rol);
-        }
-
-        // Asignar permisos a un rol
-        public async Task AsignarPermisosAsync(int rolId, List<int> permisosIds)
-        {
-            // Eliminar los permisos existentes para este rol
-            await GetConnection().Table<RolPermiso>().DeleteAsync(rp => rp.rolId == rolId);
-
-            // Insertar los nuevos permisos
-            foreach (var permisoId in permisosIds)
-            {
-                var rolPermiso = new RolPermiso
-                {
-                    rolId = rolId,
-                    permisoCodigo = permisoId
-                };
-                await GetConnection().InsertAsync(rolPermiso);
-            }
-        }
-
-        // Eliminar permisos asignados a un rol
-        public async Task EliminarPermisosPorRolAsync(int rolId)
-        {
-            await GetConnection().Table<RolPermiso>().DeleteAsync(rp => rp.rolId == rolId);
         }
 
         public async Task<Rol> ObtenerRolPorIdAsync(int rolId)

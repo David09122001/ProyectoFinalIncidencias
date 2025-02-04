@@ -32,9 +32,6 @@
             </Frame>
 
 
-
-
-            <!-- Campos Generales -->
             <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
                 <VerticalStackLayout Spacing="10">
                     <Label Text="Descripción Detallada" FontAttributes="Bold" TextColor="#34495E" />
@@ -102,7 +99,7 @@
                 </VerticalStackLayout>
             </Frame>
 
-            <!-- Formulario Específico por Tipo -->
+            <!-- Formulario por Tipo -->
             <Frame BackgroundColor="White" CornerRadius="15" Padding="20" HasShadow="True" WidthRequest="600">
                 <VerticalStackLayout>
                     <Picker ItemsSource="{Binding Tipos}" SelectedItem="{Binding TipoSeleccionado}" Title="Seleccione un tipo de incidencia" WidthRequest="550" />

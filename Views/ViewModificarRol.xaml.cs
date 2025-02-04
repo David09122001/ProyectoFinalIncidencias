@@ -27,11 +27,9 @@ public partial class ViewModificarRol : ContentPage
     {
         InitializeComponent();
 
-        // Inicializar y asignar el ViewModel
         _vm = new RolesVM();
         BindingContext = _vm;
 
-        // Cargar permisos al cargar la vista
         if (_vm.RolSeleccionado != null)
         {
             _ = _vm.CargarPermisosAsync(_vm.RolSeleccionado.id);
@@ -57,17 +55,15 @@ public partial class ViewModificarRol : ContentPage
         }
     }
 
-
-
-
     private async void OnGuardarClicked(object sender, EventArgs e)
     {
         try
         {
             if (_vm.RolSeleccionado == null)
+            {
                 throw new ArgumentException("El rol no puede ser nulo.");
+            }
 
-            // Guardar los permisos seleccionados
             await _vm.GuardarRolAsync();
 
             await DisplayAlert("Éxito", "Rol y permisos guardados correctamente.", "Aceptar");
@@ -81,7 +77,6 @@ public partial class ViewModificarRol : ContentPage
 
     private async void OnCancelarClicked(object sender, EventArgs e)
     {
-        // Simplemente retrocede a la página anterior
         await Navigation.PopAsync();
     }
 

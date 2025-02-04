@@ -101,13 +101,43 @@ namespace ProjecteFinal.Models
         [Ignore]
         public List<Adjunto> Adjuntos { get; set; } = new List<Adjunto>();
 
-        public bool comunicada { get; set; } = false;
-
+       
         [ForeignKey(typeof(Profesor)), NotNull]
         public string profesorDni { get; set; }
 
+        private string _responsableDni;
         [ForeignKey(typeof(Profesor))]
-        public string responsableDni { get; set; }
+        public string responsableDni
+        {
+            get => _responsableDni;
+            set
+            {
+                if (_responsableDni != value)
+                {
+                    _responsableDni = value;
+                    OnPropertyChanged(nameof(responsableDni));
+                }
+            }
+        }
+
+
+        private string _nombreResponsable;
+
+        [Ignore] 
+        public string NombreResponsable
+        {
+            get => _nombreResponsable;
+            set
+            {
+                if (_nombreResponsable != value) 
+                {
+                    _nombreResponsable = value;
+                    OnPropertyChanged(nameof(NombreResponsable)); 
+                }
+            }
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 

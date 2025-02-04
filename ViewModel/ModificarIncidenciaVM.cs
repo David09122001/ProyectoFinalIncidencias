@@ -20,23 +20,10 @@ namespace ProjecteFinal.ViewModel
         public Incidencia Incidencia { get; set; }
         public ObservableCollection<Adjunto> Adjuntos { get; set; } = new ObservableCollection<Adjunto>();
 
-        public ObservableCollection<string> Estados
-        {
-            get
+        public ObservableCollection<string> Estados { get; } = new ObservableCollection<string>
             {
-                var estadosDisponibles = new ObservableCollection<string> { "Resolviendo", "Solucionada", "Inviable" };
-
-                if (_estadoSeleccionado == "Pendiente" || _estadoSeleccionado == "Comunicada")
-                {
-                    estadosDisponibles.Insert(0, _estadoSeleccionado);
-                }
-
-                return estadosDisponibles;
-            }
-        }
-
-
-
+                "Sin asignar", "Asignada", "En proceso", "Pendiente", "Resuelta"
+            };
 
         private string _estadoSeleccionado;
         private string _estadoAnterior;
@@ -48,12 +35,48 @@ namespace ProjecteFinal.ViewModel
             {
                 if (_estadoSeleccionado != value && !string.IsNullOrWhiteSpace(value))
                 {
+                    // Si se selecciona "Sin asignar" y hay un responsable, mostrar alerta
+                    if (value == "Sin asignar" && !string.IsNullOrWhiteSpace(Incidencia.responsableDni))
+                    {
+                        Application.Current.MainPage.Dispatcher.Dispatch(async () =>
+                        {
+                            bool confirmacion = await Application.Current.MainPage.DisplayAlert(
+                                "Confirmación",
+                                "¿Estás seguro de que deseas cambiar a 'Sin asignar'? Se perderá el profesor responsable.",
+                                "Sí", "No"
+                            );
+
+                            if (confirmacion)
+                            {
+                                _estadoSeleccionado = value;
+                                Incidencia.estado = value;
+                                Incidencia.responsableDni = null; // Se elimina el profesor responsable
+                                await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
+
+                                OnPropertyChanged(nameof(EstadoSeleccionado));
+                                OnPropertyChanged(nameof(Incidencia.estado));
+                                OnPropertyChanged(nameof(Incidencia.responsableDni));
+                            }
+                            else
+                            {
+                                // Cancelar la selección y mantener el estado anterior
+                                OnPropertyChanged(nameof(EstadoSeleccionado));
+                            }
+                        });
+
+                        return;
+                    }
+
                     _estadoSeleccionado = value;
-                    Incidencia.estado = value; 
+                    Incidencia.estado = value;
                     OnPropertyChanged(nameof(EstadoSeleccionado));
+                    OnPropertyChanged(nameof(Incidencia.estado));
                 }
             }
         }
+
+
+        public string _profesorTemporal;
 
         public ObservableCollection<string> Tipos { get; set; } = new ObservableCollection<string> { "Hardware", "Software", "Red" };
 
@@ -95,53 +118,55 @@ namespace ProjecteFinal.ViewModel
         private DateTime? _fechaResolucionOriginal;
 
         private string _estadoInicial;
+
+        public Profesor ProfesorActual { get; set; }
+
+        private PermisoDAO permisoDAO = new PermisoDAO();
         public ModificarIncidenciaVM(Incidencia incidencia)
         {
             Incidencia = incidencia;
 
-            _estadoSeleccionado = incidencia.estado ?? "Pendiente";
-            Incidencia.estado = _estadoSeleccionado;
-            _estadoInicial = incidencia.estado;
+
+            _estadoSeleccionado = !string.IsNullOrWhiteSpace(incidencia.estado) ? incidencia.estado : "Sin asignar";
+            _estadoInicial = Incidencia.estado;
 
             TipoSeleccionado = DeterminarTipoDeIncidencia();
 
-            CargarProfesorAsignadoAsync().ConfigureAwait(false);
+            _ = CargarProfesorAsignadoAsync();
+            //  _ = CargarPermisosAsync();
+
             _fechaResolucionOriginal = incidencia.fechaResolucion;
-
             EliminarAdjuntoCommand = new Command<Adjunto>(EliminarAdjuntoAsync);
-
             CargarDatosAsync();
         }
+
 
         private async Task CargarProfesorAsignadoAsync()
         {
             try
             {
-                if (!string.IsNullOrWhiteSpace(Incidencia.responsableDni))
-                {
-                    var profesor = await profesorDAO.BuscarPorDniAsync(Incidencia.responsableDni);
-
-                    if (profesor != null)
-                    {
-                        ProfesorResponsable = $"{profesor.nombre} ({profesor.email})";
-                    }
-                    else if (Incidencia.responsableDni == "SAI")
-                    {
-                        ProfesorResponsable = "Servicio de Asistencia Informática (SAI)";
-                    }
-                    else
-                    {
-                        ProfesorResponsable = "Responsable no encontrado";
-                    }
-                }
-                else
+                  if (string.IsNullOrWhiteSpace(Incidencia.responsableDni))
                 {
                     ProfesorResponsable = "Ningún profesor asignado";
+                    return;
                 }
+
+                var profesor = await profesorDAO.BuscarPorDniAsync(Incidencia.responsableDni);
+
+                if (profesor != null)
+                {
+                    ProfesorResponsable = $"{profesor.nombre} ({profesor.email})";
+                 }
+                else
+                {
+                    ProfesorResponsable = "Responsable no encontrado";
+                  }
+
+
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error al cargar el profesor asignado: {ex.Message}");
+                await Application.Current.MainPage.DisplayAlert("ERROR", $"ERROR en CargarProfesorAsignadoAsync: {ex.Message}", "OK");
                 ProfesorResponsable = "Error al cargar responsable";
             }
 
@@ -154,57 +179,6 @@ namespace ProjecteFinal.ViewModel
             await CargarAdjuntosAsync();
             await CargarDatosSubtipoAsync();
         }
-
-        private void ActualizarPicker()
-        {
-            OnPropertyChanged(nameof(Estados)); 
-            OnPropertyChanged(nameof(EstadoSeleccionado)); 
-        }
-
-        private void CambiarEstadoComunicada()
-        {
-            if (!string.IsNullOrWhiteSpace(Incidencia.responsableDni))
-            {
-                Incidencia.estado = "Comunicada";
-                EstadoSeleccionado = "Comunicada"; 
-                OnPropertyChanged(nameof(EstadoSeleccionado));
-                OnPropertyChanged(nameof(Estados));
-            }
-        }
-
-
-        public async Task CambiarEstadoAsync(string nuevoEstado)
-        {
-            
-            if (_estadoSeleccionado == nuevoEstado)
-                return;
-
-            if (nuevoEstado == "Resolviendo" && string.IsNullOrWhiteSpace(Incidencia.responsableDni))
-            {
-                await App.Current.MainPage.DisplayAlert(
-                    "Asignación requerida",
-                    "Para cambiar el estado a 'Resolviendo', debes asignar un profesor responsable.",
-                    "Aceptar");
-                return;
-            }
-
-            bool confirm = await App.Current.MainPage.DisplayAlert(
-                "Cambiar Estado",
-                $"¿Estás seguro de que quieres cambiar el estado a '{nuevoEstado}'?",
-                "Sí",
-                "No");
-
-            if (!confirm)
-                return; 
-
-            _estadoSeleccionado = nuevoEstado;
-
-            OnPropertyChanged(nameof(EstadoSeleccionado));
-        }
-
-
-
-
         private async Task ConfirmarCambioTipoAsync(string nuevoTipo)
         {
             if (!string.IsNullOrWhiteSpace(_tipoSeleccionado))
@@ -216,17 +190,17 @@ namespace ProjecteFinal.ViewModel
                     "No");
 
                 if (!confirm)
-                    return; 
+                    return;
             }
 
             if (_tipoSeleccionado == "Hardware")
-                IncidenciaHW = null; 
+                IncidenciaHW = null;
             else if (_tipoSeleccionado == "Software")
-                IncidenciaSW = null; 
+                IncidenciaSW = null;
             else if (_tipoSeleccionado == "Red")
-                IncidenciaRed = null; 
+                IncidenciaRed = null;
 
-       
+
             _tipoSeleccionado = nuevoTipo;
 
             if (nuevoTipo == "Hardware")
@@ -286,56 +260,131 @@ namespace ProjecteFinal.ViewModel
             if (incidenciaDAO.EsIncidenciaRed(Incidencia.id)) return "Red";
             return null;
         }
-        public async Task GuardarCambiosAsync()
+        public async Task<bool> GuardarCambiosAsync()
         {
-            if (string.IsNullOrWhiteSpace(Incidencia.descripcionDetallada) ||
-                string.IsNullOrWhiteSpace(Incidencia.aulaUbicacion) ||
-                Incidencia.fechaIncidencia == default)
+            try
             {
-                throw new InvalidOperationException("Completa todos los campos obligatorios.");
-            }
 
-            // Validar que el estado "Resolviendo" solo sea posible si hay un profesor asignado
-            if (EstadoSeleccionado == "Resolviendo" && string.IsNullOrWhiteSpace(Incidencia.responsableDni))
+                // No permitir guardar si faltan campos obligatorios
+                if (string.IsNullOrWhiteSpace(Incidencia.descripcionDetallada) ||
+                    string.IsNullOrWhiteSpace(Incidencia.aulaUbicacion) ||
+                    Incidencia.fechaIncidencia == default)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Completa todos los campos obligatorios.", "Aceptar");
+                    return false; // NO SE GUARDA, NO SE CIERRA
+                }
+
+                // Obtener el correo del usuario autenticado
+                string usuarioEmail = Preferences.Get("UsuarioEmail", string.Empty);
+                if (string.IsNullOrWhiteSpace(usuarioEmail))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "No se encontró el correo del usuario.", "Aceptar");
+                    return false;
+                }
+
+                // Buscar el profesor autenticado
+                var profesorActual = await profesorDAO.ObtenerProfesorPorCorreoAsync(usuarioEmail);
+                if (profesorActual == null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "No se pudo obtener el usuario actual.", "Aceptar");
+                    return false;
+                }
+
+                // Comprobar si tiene permisos para asignar/quitar responsables
+                bool tienePermiso = (await permisoDAO.ObtenerPermisosPorRolAsync(profesorActual.rol_id))
+                                    .Any(p => p.descripcion.Equals("Asignar responsable", StringComparison.OrdinalIgnoreCase));
+
+
+                // Si el usuario intenta cambiar a "Sin asignar" sin permiso, bloquear el guardado
+                if (_estadoSeleccionado == "Sin asignar" && !tienePermiso)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Acceso Denegado",
+                        "No tienes permisos para asignar o quitar un profesor responsable.", "Aceptar");
+
+                     return false;
+                }
+
+                // Guardar si el estado es "Asignada" y hay profesor seleccionado 
+                if (Incidencia.estado == "Asignada" && string.IsNullOrWhiteSpace(Incidencia.responsableDni) && string.IsNullOrWhiteSpace(_profesorTemporal))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Para marcar la incidencia como 'Asignada', debes seleccionar un profesor responsable.", "Aceptar");
+                    return false; // NO SE GUARDA, NO SE CIERRA
+                }
+
+                if (!string.IsNullOrWhiteSpace(_profesorTemporal) && string.IsNullOrWhiteSpace(Incidencia.responsableDni))
+                {
+                    if (Incidencia.estado == "Sin asignar")
+                    {
+                        Incidencia.estado = "Asignada"; // Solo cambiar si aún estaba en "Sin asignar"
+                    }
+                    Incidencia.responsableDni = _profesorTemporal;
+
+                    await EnviarCorreoNuevoResponsableAsync(_profesorTemporal);
+                }
+
+                //  Aplicar cambios de profesor responsable SOLO si se ha seleccionado uno nuevo
+                if (!string.IsNullOrWhiteSpace(_profesorTemporal))
+                {
+                    Incidencia.responsableDni = _profesorTemporal; //guarda el cambio en la base de datos
+                }
+
+                // Si el estado es "Sin asignar", borrar profesor responsable en la BD
+                if (Incidencia.estado == "Sin asignar")
+                {
+                    Incidencia.responsableDni = null;
+                    OnPropertyChanged(nameof(Incidencia.responsableDni));
+                    // Guarda en la BD
+                    await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
+
+                  
+                }
+
+                // Si la incidencia se marca como "Resuelta", asignamos la fecha de resolución 
+                if (Incidencia.estado == "Resuelta" && !Incidencia.fechaResolucion.HasValue)
+                {
+                    Incidencia.fechaResolucion = DateTime.Now;
+                }
+
+                bool estadoCambiado = _estadoInicial != Incidencia.estado;
+
+                // Guardar
+                await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
+                await ManejarSubtipoAsync();
+                await ManejarAdjuntosAsync();
+
+                // Si cambia el estado, registrar log y enviar correo
+                if (estadoCambiado)
+                {
+                    await RegistrarLogAsync();
+                    await EnviarCorreosCambioEstadoAsync();
+                }
+
+                _estadoInicial = Incidencia.estado;
+
+                // Refrescar lista
+                if (Application.Current.MainPage is Shell shell)
+                {
+                    var viewIncidencias = shell.CurrentPage as ViewIncidencias;
+                    if (viewIncidencias != null)
+                    {
+                        await viewIncidencias.RefrescarIncidencias(); 
+                    }
+                }
+
+                OnPropertyChanged(nameof(EstadoSeleccionado));
+                OnPropertyChanged(nameof(Estados));
+                OnPropertyChanged(nameof(ProfesorResponsable));
+
+                return true; //cerrar vista
+            }
+            catch (Exception ex)
             {
-                throw new InvalidOperationException("No puedes asignar el estado 'Resolviendo' sin seleccionar un profesor.");
+                await Application.Current.MainPage.DisplayAlert("Error", $"⚠️ Error al guardar: {ex.Message}", "Aceptar");
+                return false;  //que no se cierre la vista
             }
-
-            // Si el estado es null o "Pendiente" y hay un profesor asignado, cambiar a "Comunicada"
-            if (!string.IsNullOrWhiteSpace(Incidencia.responsableDni) &&
-                (string.IsNullOrWhiteSpace(Incidencia.estado) || Incidencia.estado == "Pendiente"))
-            {
-                CambiarEstadoComunicada();
-            }
-
-            // Validar que el estado no sea null antes de guardar
-            if (string.IsNullOrWhiteSpace(Incidencia.estado))
-            {
-                throw new InvalidOperationException("El estado de la incidencia no puede ser nulo.");
-            }
-
-            bool estadoCambiado = _estadoInicial != Incidencia.estado;
-
-            if (Incidencia.estado == "Solucionada" && !Incidencia.fechaResolucion.HasValue)
-            {
-                Incidencia.fechaResolucion = DateTime.Now;
-            }
-            await incidenciaDAO.ActualizarIncidenciaAsync(Incidencia);
-
-            await ManejarSubtipoAsync();
-            await ManejarAdjuntosAsync();
-
-            if (estadoCambiado)
-            {
-                await RegistrarLogAsync(); // Registrar el log
-                await EnviarCorreosCambioEstadoAsync(); 
-            }
-
-            _estadoInicial = Incidencia.estado;
-
-            OnPropertyChanged(nameof(EstadoSeleccionado));
-            OnPropertyChanged(nameof(Estados));
         }
+
+
 
 
         private async Task EnviarCorreosCambioEstadoAsync()
@@ -383,9 +432,6 @@ namespace ProjecteFinal.ViewModel
         }
 
 
-
-
-
         private async Task ManejarSubtipoAsync()
         {
             // Eliminar subtipos anteriores
@@ -393,7 +439,6 @@ namespace ProjecteFinal.ViewModel
             await incidenciaDAO.EliminarSubtipoSoftwareAsync(Incidencia.id);
             await incidenciaDAO.EliminarSubtipoRedAsync(Incidencia.id);
 
-            // Manejar el nuevo subtipo seleccionado
             if (TipoSeleccionado == "Hardware")
             {
                 // Validar campos específicos de Hardware
@@ -483,15 +528,45 @@ namespace ProjecteFinal.ViewModel
         }
         public async Task CambiarProfesorAsync()
         {
-            var seleccionarProfesorVM = new SeleccionarProfesorVM();
-            seleccionarProfesorVM.ProfesorSeleccionado += (profesor) =>
-            {
-                Incidencia.responsableDni = profesor.dni;
-                ProfesorResponsable = $"{profesor.nombre} ({profesor.email})";
-                OnPropertyChanged(nameof(ProfesorResponsable));
+            string usuarioEmail = Preferences.Get("UsuarioEmail", string.Empty);
 
-                // Cerrar automáticamente la vista de selección
-                App.Current.MainPage.Navigation.PopAsync();
+            if (string.IsNullOrWhiteSpace(usuarioEmail))
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No se encontró el correo del usuario en Preferences.", "Aceptar");
+                return;
+            }
+
+            var profesorActual = await profesorDAO.ObtenerProfesorPorCorreoAsync(usuarioEmail);
+
+            if (profesorActual == null)
+            {
+                await App.Current.MainPage.DisplayAlert("Error", "No se pudo encontrar el profesor en la base de datos.", "Aceptar");
+                return;
+            }
+            
+            bool tienePermiso = (await permisoDAO.ObtenerPermisosPorRolAsync(profesorActual.rol_id))
+                                .Any(p => p.descripcion.Equals("Asignar responsable", StringComparison.OrdinalIgnoreCase));
+
+            if (!tienePermiso)
+            {
+                await App.Current.MainPage.DisplayAlert("Acceso Denegado",
+                    "No tienes permisos para asignar un profesor responsable.", "Aceptar");
+                return; 
+            }
+
+            var seleccionarProfesorVM = new SeleccionarProfesorVM();
+
+            seleccionarProfesorVM.ProfesorSeleccionado += async (profesor) =>
+            {
+                if (profesor != null)
+                {
+                    _profesorTemporal = profesor.dni;
+                    ProfesorResponsable = $"{profesor.nombre} ({profesor.email})";
+
+                    OnPropertyChanged(nameof(ProfesorResponsable));
+
+                    await App.Current.MainPage.Navigation.PopAsync();
+                }
             };
 
             var seleccionarProfesorView = new ViewSeleccionarProfesor
@@ -501,6 +576,7 @@ namespace ProjecteFinal.ViewModel
 
             await App.Current.MainPage.Navigation.PushAsync(seleccionarProfesorView);
         }
+
 
         private async Task EnviarCorreoAsync(string destinatario, string asunto, string cuerpo)
         {
@@ -524,7 +600,6 @@ namespace ProjecteFinal.ViewModel
                 };
 
                 await Task.Run(() => client.Send(message));
-                Console.WriteLine($"Correo enviado correctamente a {destinatario}");
             }
             catch (Exception ex)
             {
@@ -533,60 +608,13 @@ namespace ProjecteFinal.ViewModel
         }
 
 
-
-        private async Task ValidarEstadoAsync(string nuevoEstado)
-        {
-            // Si el responsable es el SAI, no validar
-            if (Incidencia.responsableDni == "SAI")
-            {
-                _estadoSeleccionado = nuevoEstado;
-                OnPropertyChanged(nameof(EstadoSeleccionado));
-                return;
-            }
-
-            // Si intenta cambiar a "Comunicada", poner el estado anterior
-            if (nuevoEstado == "Comunicada")
-            {
-                await App.Current.MainPage.DisplayAlert(
-                    "No permitido",
-                    "El estado 'Comunicada' no puede ser seleccionado manualmente.",
-                    "Aceptar");
-
-                _estadoSeleccionado = _estadoAnterior;
-                OnPropertyChanged(nameof(EstadoSeleccionado));
-                return;
-            }
-
-            // Validar si intenta seleccionar "Resolviendo" sin profesor responsable asignado
-            if (nuevoEstado == "Resolviendo" && string.IsNullOrWhiteSpace(Incidencia.responsableDni))
-            {
-                await App.Current.MainPage.DisplayAlert(
-                    "Asignación requerida",
-                    "Para cambiar el estado a 'Resolviendo', debes asignar un profesor responsable.",
-                    "Aceptar");
-
-                _estadoSeleccionado = _estadoAnterior;
-                OnPropertyChanged(nameof(EstadoSeleccionado));
-                return;
-            }
-
-            // Cambiar el estado si es válido
-            _estadoSeleccionado = nuevoEstado;
-            OnPropertyChanged(nameof(EstadoSeleccionado));
-        }
-
         public async Task ResolverPorSAIAsync()
         {
             try
             {
-                // Asignar al SAI como responsable
-                Incidencia.responsableDni = "SAI";
-                ProfesorResponsable = "Servicio de Asistencia Informática (SAI)";
-                OnPropertyChanged(nameof(ProfesorResponsable));
-
-                // Cambiar automáticamente el estado a "Comunicada"
-                Incidencia.estado = "Comunicada";
-                EstadoSeleccionado = "Comunicada"; 
+                // Cambiar automáticamente el estado a "Pendiente"
+                Incidencia.estado = "Pendiente";
+                EstadoSeleccionado = "Pendiente";
                 OnPropertyChanged(nameof(EstadoSeleccionado));
                 OnPropertyChanged(nameof(Estados));
 
@@ -605,39 +633,39 @@ namespace ProjecteFinal.ViewModel
         {
             try
             {
-                string correoDestino = "sai@example.com"; // Dirección de correo del SAI
+                string correoDestino = "david.carcer09@gmail.com"; // Dirección de correo del SAI
                 string asunto = "Nueva Incidencia Asignada al SAI";
 
                 string cuerpo = $@"
-<!DOCTYPE html>
-<html>
-<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
-    <h2 style='color: #007ACC;'>Nueva Incidencia Asignada</h2>
-    <p>Estimado equipo del <strong>Servicio de Asistencia Informática (SAI)</strong>,</p>
-    <p>Se les ha asignado una nueva incidencia. A continuación, se detallan los datos de la incidencia:</p>
-    <table style='border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 20px; font-size: 14px;'>
-        <tr>
-            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Descripción</strong></td>
-            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.descripcionDetallada}</td>
-        </tr>
-        <tr>
-            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Aula</strong></td>
-            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.aulaUbicacion}</td>
-        </tr>
-        <tr>
-            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Fecha de Incidencia</strong></td>
-            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.fechaIncidencia:dd/MM/yyyy}</td>
-        </tr>
-        <tr>
-            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Tipo</strong></td>
-            <td style='border: 1px solid #ddd; padding: 8px;'>{TipoSeleccionado}</td>
-        </tr>
-    </table>
-    <p style='margin-top: 20px;'>Por favor, gestionen esta incidencia a la mayor brevedad posible.</p>
-    <p>Gracias,</p>
-    <p style='color: #007ACC;'><strong>Sistema de Gestión de Incidencias</strong></p>
-</body>
-</html>";
+                                <!DOCTYPE html>
+                                <html>
+                                <body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+                                    <h2 style='color: #007ACC;'>Nueva Incidencia Asignada</h2>
+                                    <p>Estimado equipo del <strong>Servicio de Asistencia Informática (SAI)</strong>,</p>
+                                    <p>Se les ha asignado una nueva incidencia. A continuación, se detallan los datos de la incidencia:</p>
+                                    <table style='border-collapse: collapse; width: 100%; max-width: 600px; margin-top: 20px; font-size: 14px;'>
+                                        <tr>
+                                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Descripción</strong></td>
+                                            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.descripcionDetallada}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Aula</strong></td>
+                                            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.aulaUbicacion}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Fecha de Incidencia</strong></td>
+                                            <td style='border: 1px solid #ddd; padding: 8px;'>{Incidencia.fechaIncidencia:dd/MM/yyyy}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style='border: 1px solid #ddd; padding: 8px; background-color: #f4f4f4;'><strong>Tipo</strong></td>
+                                            <td style='border: 1px solid #ddd; padding: 8px;'>{TipoSeleccionado}</td>
+                                        </tr>
+                                    </table>
+                                    <p style='margin-top: 20px;'>Por favor, gestionen esta incidencia a la mayor brevedad posible.</p>
+                                    <p>Gracias.</p>
+                                    <p style='color: #007ACC;'><strong>Sistema de Gestión de Incidencias</strong></p>
+                                </body>
+                                </html>";
 
                 // Configuración del correo
                 MailAddress addressFrom = new MailAddress("iscapopproyecto@gmail.com", "Gestión Incidencias");
@@ -667,6 +695,37 @@ namespace ProjecteFinal.ViewModel
             }
         }
 
+        private async Task EnviarCorreoNuevoResponsableAsync(string dniProfesor)
+        {
+            try
+            {
+                var profesorAsignado = await profesorDAO.BuscarPorDniAsync(dniProfesor);
+                if (profesorAsignado == null) return;
+
+                string asunto = $"Nueva incidencia asignada: {Incidencia.id}";
+                string cuerpo = $@"
+            Estimado/a {profesorAsignado.nombre},
+            
+            Se le ha asignado una nueva incidencia en el sistema de gestión de incidencias.
+            
+            Detalles:
+            - Descripción: {Incidencia.descripcionDetallada}
+            - Aula: {Incidencia.aulaUbicacion}
+            - Fecha de incidencia: {Incidencia.fechaIncidencia:dd/MM/yyyy}
+            - Estado: {Incidencia.estado}
+            
+            Por favor, revise el sistema para más información.";
+
+                await EnviarCorreoAsync(profesorAsignado.email, asunto, cuerpo);
+                Console.WriteLine($"✅ Correo enviado a nuevo responsable: {profesorAsignado.email}");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error al enviar correo al nuevo responsable: {ex.Message}");
+            }
+        }
+
+
         private async Task RegistrarLogAsync()
         {
             try
@@ -679,7 +738,6 @@ namespace ProjecteFinal.ViewModel
                 };
 
                 await new LogDAO().AñadirLogAsync(log);
-                Console.WriteLine($"Log registrado: Incidencia {log.incidenciaId}, Estado {log.estado}, Fecha {log.fecha}");
             }
             catch (Exception ex)
             {

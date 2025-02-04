@@ -5,6 +5,7 @@ using Microsoft.Maui.Storage;
 using System;
 using System.IO;
 using System.Linq;
+using ProjecteFinal.DAO;
 
 namespace ProjecteFinal.Views;
 
@@ -30,45 +31,39 @@ public partial class ViewModificarIncidencia : ContentPage
         Loaded += OnLoaded;
     }
 
-    private void OnLoaded(object sender, EventArgs e)
+    private async void OnLoaded(object sender, EventArgs e)
     {
-        if (Incidencia != null)
+        if (Incidencia == null)
+            return;
+
+
+        BindingContext = vm = new ModificarIncidenciaVM(Incidencia);
+
+        if (Incidencia.fechaResolucion == DateTime.MinValue)
         {
-            BindingContext = vm = new ModificarIncidenciaVM(Incidencia);
-
-            // Establecer la fecha actual solo si la fecha de resolución no tiene un valor
-            if (Incidencia.fechaResolucion == DateTime.MinValue)
-            {
-                Incidencia.fechaResolucion = DateTime.Now; // Establecer la fecha actual por defecto
-            }
-
-            Loaded -= OnLoaded;
+            Incidencia.fechaResolucion = DateTime.Now;
         }
+
+        Loaded -= OnLoaded;
     }
+
+
+
 
     private async void OnGuardarClicked(object sender, EventArgs e)
     {
         try
         {
-            if (Incidencia.estado == "Solucionada")
-            {
-                // Si el estado es "Resuelta"
-                if (Incidencia.fechaResolucion == DateTime.MinValue)
-                {
-                    // Asignar la fecha actual si no se ha asignado ninguna fecha aún
-                    Incidencia.fechaResolucion = DateTime.Now;
-                }
-            }
-            else
-            {
-                // Si el estado no es "Resuelta", asignamos null a la fecha de resolución
-                Incidencia.fechaResolucion = null;
-            }
+            bool cambiosGuardados = await vm.GuardarCambiosAsync();
 
-            await vm.GuardarCambiosAsync();
+            if (!cambiosGuardados) 
+            {
+                return;
+            }
 
             await DisplayAlert("Éxito", "La incidencia se ha actualizado correctamente.", "Aceptar");
             await Navigation.PopAsync();
+
         }
         catch (Exception ex)
         {
@@ -82,6 +77,7 @@ public partial class ViewModificarIncidencia : ContentPage
     {
         bool confirm = await DisplayAlert("Cancelar", "¿Estás seguro de que quieres cancelar los cambios?", "Sí", "No");
         if (confirm)
+             vm._profesorTemporal = null;
             await Navigation.PopAsync();
     }
 
@@ -124,12 +120,22 @@ public partial class ViewModificarIncidencia : ContentPage
 
     private async void OnResolverPorSAIClicked(object sender, EventArgs e)
     {
+        bool confirmacion = await DisplayAlert("Confirmación",
+            "¿Estás seguro de que deseas asignar esta incidencia al SAI?", "Sí", "No");
+
+        if (!confirmacion)
+        {
+            return;
+        }
+
         if (BindingContext is ModificarIncidenciaVM vm)
         {
             await vm.ResolverPorSAIAsync();
-            await DisplayAlert("Incidencia Asignada al SAI", "La incidencia ha sido asignada correctamente al SAI.", "Aceptar");
+            await DisplayAlert("Incidencia Asignada al SAI",
+                "La incidencia ha sido asignada correctamente al SAI.", "Aceptar");
         }
     }
+
 
     private async void OnSeleccionarArchivoClicked(object sender, EventArgs e)
     {

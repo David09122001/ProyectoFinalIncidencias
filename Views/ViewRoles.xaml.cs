@@ -10,10 +10,9 @@ public partial class ViewRoles : ContentPage
     public ViewRoles()
     {
         InitializeComponent();
-        BindingContext = vm = new RolesVM();  // Correcta inicialización del ViewModel
+        BindingContext = vm = new RolesVM(); 
     }
 
-    // Acción para insertar un nuevo rol
     private async void OnInsertarClicked(object sender, EventArgs e)
     {
         await Shell.Current.GoToAsync(nameof(ViewInsertarRol));
@@ -22,11 +21,10 @@ public partial class ViewRoles : ContentPage
     private async void OnModificarClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
-        var rol = button?.CommandParameter as Rol;  // Obtienes el objeto Rol
+        var rol = button?.CommandParameter as Rol; 
 
         if (rol != null)
         {
-            // Aquí pasas el objeto completo 'rol' como parámetro
             await Shell.Current.GoToAsync($"{nameof(ViewModificarRol)}",
                 new Dictionary<string, object>
                 {
@@ -36,7 +34,6 @@ public partial class ViewRoles : ContentPage
     }
 
 
-    // Acción para eliminar un rol
     private async void OnEliminarClicked(object sender, EventArgs e)
     {
         var button = sender as Button;
@@ -64,10 +61,9 @@ public partial class ViewRoles : ContentPage
         }
     }
 
-    // Recargar la lista de roles cuando la página aparezca
     protected override async void OnAppearing()
     {
         base.OnAppearing();
-        await vm.CargarRolesAsync();  // Cargamos los roles desde la base de datos
+        await vm.CargarRolesAsync(); 
     }
 }
