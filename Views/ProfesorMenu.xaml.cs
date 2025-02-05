@@ -13,7 +13,7 @@ public partial class ProfesorMenu : ContentPage
         set
         {
             _profesor = value;
-            MensajeBienvenida = $"¡Bienvenido {_profesor.nombre} ({ObtenerNombreRol(_profesor.rol_id)})!";
+            MensajeBienvenida = $"¡Bienvenido/a {_profesor.nombre} ({ObtenerNombreRol(_profesor.rol_id)})!";
             OnPropertyChanged(nameof(MensajeBienvenida));
 
         }

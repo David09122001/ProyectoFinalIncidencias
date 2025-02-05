@@ -168,7 +168,7 @@ namespace ProjecteFinal.ViewModel
                 page.Size = PdfSharpCore.PageSize.A4;
 
                 var gfx = XGraphics.FromPdfPage(page);
-                var fontRegular = new XFont("Verdana", 8, XFontStyle.Regular); // Reducir tamaño de fuente
+                var fontRegular = new XFont("Verdana", 8, XFontStyle.Regular);
                 var fontBold = new XFont("Verdana", 10, XFontStyle.Bold);
 
                 double margin = 40;
@@ -182,22 +182,22 @@ namespace ProjecteFinal.ViewModel
                 gfx.DrawString($"Número total de incidencias: {IncidenciasFiltradas.Count}", fontRegular, XBrushes.Black, new XRect(margin, y, page.Width - 2 * margin, page.Height), XStringFormats.TopLeft);
                 y += 40;
 
-                // Column widths (ajustados)
+                // Column widths
                 double colIdWidth = 40;
-                double colDescWidth = 160; // Reducido
+                double colDescWidth = 160;
                 double colEstadoWidth = 80;
-                double colRespWidth = 120; // Reducido
-                double colFechaWidth = 80; // Más espacio para la fecha
+                double colRespWidth = 120;
+                double colFechaWidth = 80;
 
                 // ** Tabla - Cabecera **
                 gfx.DrawString("ID", fontBold, XBrushes.Black, new XRect(margin, y, colIdWidth, 20), XStringFormats.TopLeft);
                 gfx.DrawString("Descripción", fontBold, XBrushes.Black, new XRect(margin + colIdWidth, y, colDescWidth, 20), XStringFormats.TopLeft);
                 gfx.DrawString("Estado", fontBold, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth, y, colEstadoWidth, 20), XStringFormats.TopLeft);
-                gfx.DrawString("Responsable", fontBold, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth, y, colRespWidth, 20), XStringFormats.TopLeft);
+                gfx.DrawString("Profesor", fontBold, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth, y, colRespWidth, 20), XStringFormats.TopLeft);
                 gfx.DrawString("Fecha", fontBold, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth + colRespWidth, y, colFechaWidth, 20), XStringFormats.TopLeft);
 
                 y += 20;
-                gfx.DrawLine(XPens.Black, margin, y, page.Width - margin, y); // Línea bajo el encabezado
+                gfx.DrawLine(XPens.Black, margin, y, page.Width - margin, y);
                 y += 10;
 
                 // ** Tabla - Datos **
@@ -205,7 +205,7 @@ namespace ProjecteFinal.ViewModel
                 {
                     gfx.DrawString(incidencia.id.ToString(), fontRegular, XBrushes.Black, new XRect(margin, y, colIdWidth, 20), XStringFormats.TopLeft);
 
-                    string descripcion = incidencia.descripcionDetallada.Length > 25 // Ajustar truncamiento
+                    string descripcion = incidencia.descripcionDetallada.Length > 25
                         ? incidencia.descripcionDetallada.Substring(0, 25) + "..."
                         : incidencia.descripcionDetallada;
                     gfx.DrawString(descripcion, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth, y, colDescWidth, 20), XStringFormats.TopLeft);
@@ -213,18 +213,16 @@ namespace ProjecteFinal.ViewModel
                     gfx.DrawString(incidencia.estado, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth, y, colEstadoWidth, 20), XStringFormats.TopLeft);
 
                     string responsable = string.IsNullOrWhiteSpace(incidencia.NombreResponsable) ? "Ningún profesor asignado" : incidencia.NombreResponsable;
-                    if (responsable.Length > 15) // Ajustar truncamiento
+                    if (responsable.Length > 15)
                     {
                         responsable = responsable.Substring(0, 15) + "...";
                     }
                     gfx.DrawString(responsable, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth, y, colRespWidth, 20), XStringFormats.TopLeft);
 
-                    // Alinear la fecha al centro
                     gfx.DrawString(incidencia.fechaIncidencia.ToString("dd/MM/yyyy"), fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth + colRespWidth, y, colFechaWidth, 20), XStringFormats.TopCenter);
 
                     y += 20;
 
-                    // Salto de página si excede el espacio
                     if (y > page.Height - margin)
                     {
                         page = pdfDoc.AddPage();
@@ -234,11 +232,16 @@ namespace ProjecteFinal.ViewModel
                 }
 
                 // ** Pie de página **
-                gfx.DrawLine(XPens.Black, margin, page.Height - 40, page.Width - margin, page.Height - 40); // Línea
+                gfx.DrawLine(XPens.Black, margin, page.Height - 40, page.Width - margin, page.Height - 40);
                 gfx.DrawString($"Página {pdfDoc.PageCount}", fontRegular, XBrushes.Black, new XRect(0, page.Height - 30, page.Width, 20), XStringFormats.TopCenter);
 
+                // Generar un nombre único para el archivo
+                var folderPath = @"C:\Users\David\Desktop\Projecte Final\informes";
+                var baseFileName = "InformeIncidencias";
+                var fileExtension = ".pdf";
+                var filePath = GetUniqueFileName(folderPath, baseFileName, fileExtension);
+
                 // Guardar el archivo
-                var filePath = @"C:\Users\David\Desktop\Projecte Final\informes\InformeIncidencias.pdf";
                 using (var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write))
                 {
                     pdfDoc.Save(stream);
@@ -251,6 +254,21 @@ namespace ProjecteFinal.ViewModel
                 await Application.Current.MainPage.DisplayAlert("Error", $"No se pudo generar el informe: {ex.Message}", "Aceptar");
             }
         }
+
+        private string GetUniqueFileName(string folderPath, string baseFileName, string fileExtension)
+        {
+            int counter = 0;
+            string filePath;
+            do
+            {
+                var suffix = counter == 0 ? "" : $"({counter})";
+                filePath = Path.Combine(folderPath, $"{baseFileName}{suffix}{fileExtension}");
+                counter++;
+            } while (File.Exists(filePath));
+
+            return filePath;
+        }
+
 
         public async Task CargarIncidenciasAsync(Profesor profesor)
         {

@@ -13,7 +13,7 @@ namespace ProjecteFinal.Models
         [PrimaryKey, AutoIncrement]
         public int id { get; set; }
 
-        //[ForeignKey(typeof(Incidencia)), NotNull]
+        [ForeignKey(typeof(Incidencia)), NotNull]
         public int incidenciaId { get; set; }
 
         [NotNull]

@@ -24,9 +24,9 @@
                         <Label Text="{Binding Incidencia.estado}" TextColor="#1F2937" />
                     </HorizontalStackLayout>
 
-                    <!-- Responsable -->
+                    <!-- Profesor -->
                     <HorizontalStackLayout Spacing="10">
-                        <Label Text="Responsable:" FontAttributes="Bold" TextColor="#1F2937" />
+                        <Label Text="Profesor:" FontAttributes="Bold" TextColor="#1F2937" />
                         <Label Text="{Binding Profesor.nombre}" TextColor="#1F2937" />
                     </HorizontalStackLayout>
 
@@ -34,6 +34,18 @@
                     <HorizontalStackLayout Spacing="10">
                         <Label Text="Correo:" FontAttributes="Bold" TextColor="#1F2937" />
                         <Label Text="{Binding Profesor.email}" TextColor="#1F2937" />
+                    </HorizontalStackLayout>
+
+                    <!-- Profesor Responsable -->
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="Profesor responsable:" FontAttributes="Bold" TextColor="#1F2937" />
+                        <Label Text="{Binding ProfesorResponsable.nombre}" TextColor="#1F2937" />
+                    </HorizontalStackLayout>
+
+                    <!-- Correo Responsable -->
+                    <HorizontalStackLayout Spacing="10">
+                        <Label Text="Correo responsable:" FontAttributes="Bold" TextColor="#1F2937" />
+                        <Label Text="{Binding ProfesorResponsable.email}" TextColor="#1F2937" />
                     </HorizontalStackLayout>
 
                     <!-- Descripción -->

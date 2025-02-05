@@ -33,6 +33,18 @@ namespace ProjecteFinal.ViewModels
             }
         }
 
+        private Profesor _profesorResponsable;
+        public Profesor ProfesorResponsable
+        {
+            get => _profesorResponsable;
+            set
+            {
+                _profesorResponsable = value;
+                OnPropertyChanged(nameof(ProfesorResponsable));  
+            }
+        }
+
+
         public ObservableCollection<Adjunto> Adjuntos { get; set; } = new ObservableCollection<Adjunto>();
         public Incidencia_HW IncidenciaHW { get;  set; }
         public Incidencia_SW IncidenciaSW { get;  set; }
@@ -93,10 +105,19 @@ namespace ProjecteFinal.ViewModels
         {
             if (!string.IsNullOrEmpty(Incidencia.profesorDni))
             {
+                // Cargar el profesor creador de la incidencia
                 Profesor = await profesorDAO.BuscarPorDniAsync(Incidencia.profesorDni);
-                OnPropertyChanged(nameof(Profesor)); 
+                OnPropertyChanged(nameof(Profesor));
+
+                // Cargar el profesor responsable de la incidencia
+                if (!string.IsNullOrEmpty(Incidencia.responsableDni))
+                {
+                    ProfesorResponsable = await profesorDAO.BuscarPorDniAsync(Incidencia.responsableDni);
+                    OnPropertyChanged(nameof(ProfesorResponsable));
+                }
             }
         }
+
 
         private async Task CargarAdjuntosAsync()
         {
@@ -140,7 +161,6 @@ namespace ProjecteFinal.ViewModels
             OnPropertyChanged(nameof(MostrarSW));
             OnPropertyChanged(nameof(MostrarRed));
         }
-
         private void GenerarInforme()
         {
             try
@@ -206,11 +226,11 @@ namespace ProjecteFinal.ViewModels
                 graphics.DrawString($"Tiempo Invertido: {Incidencia.tiempoInvertido} minutos", fontRegular, blackBrush, new XPoint(margin, currentY));
                 currentY += 40;
 
-                // ** Bloque: Responsable de la Incidencia **
-                graphics.DrawString("Responsable de la Incidencia", fontSubtitle, blueBrush, new XPoint(margin, currentY));
+                // ** Bloque: Profesor que inserto de la Incidencia **
+                graphics.DrawString("Profesor que registró la incidencia", fontSubtitle, blueBrush, new XPoint(margin, currentY));
                 currentY += 20;
 
-                graphics.DrawString($"Profesor: {Profesor?.nombre ?? "Ningún profesor asignado"}", fontRegular, blackBrush, new XPoint(margin, currentY));
+                graphics.DrawString($"Profesor: {Profesor.nombre}", fontRegular, blackBrush, new XPoint(margin, currentY));
                 currentY += 20;
 
                 if (!string.IsNullOrWhiteSpace(Profesor?.email))
@@ -224,8 +244,31 @@ namespace ProjecteFinal.ViewModels
                 graphics.DrawLine(XPens.LightGray, margin, currentY, page.Width - margin, currentY);
                 currentY += 20;
 
+                // ** Bloque: Responsable de la Incidencia **
+                graphics.DrawString("Responsable de la Incidencia", fontSubtitle, blueBrush, new XPoint(margin, currentY));
+                currentY += 20;
+
+                graphics.DrawString($"Profesor: {ProfesorResponsable?.nombre ?? "Ningún profesor asignado"}", fontRegular, blackBrush, new XPoint(margin, currentY));
+                currentY += 20;
+
+                if (!string.IsNullOrWhiteSpace(ProfesorResponsable?.email))
+                {
+                    graphics.DrawString($"Correo Electrónico: {ProfesorResponsable.email}", fontRegular, blackBrush, new XPoint(margin, currentY));
+                    currentY += 20;
+                }
+
+                // Separador visual
+                currentY += 20;
+                graphics.DrawLine(XPens.LightGray, margin, currentY, page.Width - margin, currentY);
+                currentY += 20;
+
+                // Generar un nombre único para el archivo
+                var folderPath = @"C:\Users\David\Desktop\Projecte Final\informes";
+                var baseFileName = "InformeDetalleIncidencia";
+                var fileExtension = ".pdf";
+                var filePath = GetUniqueFileName(folderPath, baseFileName, fileExtension);
+
                 // Guardar el archivo PDF
-                var filePath = @"C:\Users\David\Desktop\Projecte Final\informes\InformeDetalleIncidencia.pdf";
                 document.Save(filePath);
 
                 // Mostrar mensaje de éxito
@@ -237,6 +280,19 @@ namespace ProjecteFinal.ViewModels
             }
         }
 
+        private string GetUniqueFileName(string folderPath, string baseFileName, string fileExtension)
+        {
+            int counter = 0;
+            string filePath;
+            do
+            {
+                var suffix = counter == 0 ? "" : $"({counter})";
+                filePath = Path.Combine(folderPath, $"{baseFileName}{suffix}{fileExtension}");
+                counter++;
+            } while (File.Exists(filePath));
+
+            return filePath;
+        }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

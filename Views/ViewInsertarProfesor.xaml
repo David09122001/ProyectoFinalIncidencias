@@ -65,7 +65,7 @@
                            TextColor="#2C3E50" 
                            VerticalOptions="Center" 
                            Grid.Column="0" />
-                    <Entry Placeholder="Ejemplo: juan.perez@email.com" 
+                    <Entry Placeholder="Ejemplo: juan.perez@edu.gva" 
                            Text="{Binding Profesor.email, Mode=TwoWay}" 
                            WidthRequest="500" 
                            HorizontalOptions="Center" 

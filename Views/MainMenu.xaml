@@ -16,18 +16,26 @@
 
         <VerticalStackLayout Padding="20" Grid.Row="0">
 
-            <VerticalStackLayout HorizontalOptions="Center" Margin="0,30,0,20">
-                <Label Text="MENÚ PRINCIPAL"
-                       FontSize="28"
-                       FontAttributes="Bold"
-                       TextColor="White"
-                       HorizontalOptions="Center" />
-                <Label Text="Selecciona una opción para continuar"
-                       FontSize="16"
-                       TextColor="#E3F2FD"
-                       HorizontalOptions="Center" />
-            </VerticalStackLayout>
+            <VerticalStackLayout HorizontalOptions="Center" Margin="0,20,0,0" Spacing="8">
 
+                <!-- Título principal -->
+                <Label Text="MENÚ PRINCIPAL"
+                FontSize="30"
+                FontAttributes="Bold"
+                TextColor="White"
+                HorizontalOptions="Center"
+                       Padding="10,5"/>
+
+                <!-- Mensaje de Bienvenida -->
+                <Label Text="{Binding MensajeBienvenida}" 
+               FontSize="22"
+               FontAttributes="Bold"
+               TextColor="White"
+               HorizontalOptions="Center"
+               Padding="10,5"/>
+
+            </VerticalStackLayout>
+            
             <Grid Padding="20" RowSpacing="20" ColumnSpacing="20" Margin="0,40,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

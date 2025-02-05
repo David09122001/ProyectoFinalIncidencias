@@ -16,16 +16,24 @@
 
         <Grid Padding="20">
 
-            <VerticalStackLayout HorizontalOptions="Center" Margin="0,30,0,20">
+            <VerticalStackLayout HorizontalOptions="Center" Margin="0,20,0,0" Spacing="8">
+
+                <!-- Título principal -->
                 <Label Text="MENÚ PRINCIPAL"
-                    FontSize="28"
-                    FontAttributes="Bold"
-                    TextColor="White"
-                    HorizontalOptions="Center" />
-                <Label Text="Accede a la gestión de incidencias"
-                    FontSize="16"
-                    TextColor="#E3F2FD"
-                    HorizontalOptions="Center" />
+                       FontSize="30"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       Padding="10,5"/>
+
+                <!-- Mensaje de Bienvenida -->
+                <Label Text="{Binding MensajeBienvenida}" 
+                       FontSize="22"
+                       FontAttributes="Bold"
+                       TextColor="White"
+                       HorizontalOptions="Center"
+                       Padding="10,5"/>
+
             </VerticalStackLayout>
 
             <Grid VerticalOptions="Start" HorizontalOptions="Center" Margin="0,170,0,0">
