@@ -1,8 +1,8 @@
-using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
+using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
 using System;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     public partial class ViewCambiarContrasena : ContentPage
     {

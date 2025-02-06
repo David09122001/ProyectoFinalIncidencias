@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace ProjecteFinal.Models
+namespace GestorIncidencias.Models
 {
     public class Incidencia : INotifyPropertyChanged
     {

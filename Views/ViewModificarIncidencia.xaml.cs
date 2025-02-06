@@ -1,13 +1,13 @@
 ﻿
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 using Microsoft.Maui.Storage;
 using System;
 using System.IO;
 using System.Linq;
-using ProjecteFinal.DAO;
+using GestorIncidencias.DAO;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 [QueryProperty(nameof(Incidencia), "Incidencia")]
 public partial class ViewModificarIncidencia : ContentPage

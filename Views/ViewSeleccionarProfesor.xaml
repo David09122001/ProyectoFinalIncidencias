@@ -1,6 +1,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProjecteFinal.Views.ViewSeleccionarProfesor"
+             x:Class="GestorIncidencias.Views.ViewSeleccionarProfesor"
              Title="Seleccionar Profesor"
              BackgroundColor="#F5F6F8"
              x:Name="ParentPage">

@@ -1,6 +1,6 @@
-using ProjecteFinal.Models;
+using GestorIncidencias.Models;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 [QueryProperty(nameof(Profesor), "Profesor")]
 public partial class ProfesorMenu : ContentPage

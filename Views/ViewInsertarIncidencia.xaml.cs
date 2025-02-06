@@ -1,10 +1,10 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 using System;
 using System.IO;
 using Microsoft.Maui.Storage;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     [QueryProperty(nameof(Profesor), "Profesor")]
     public partial class ViewInsertarIncidencia : ContentPage

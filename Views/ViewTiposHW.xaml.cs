@@ -1,7 +1,7 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     public partial class ViewTiposHW : ContentPage
     {

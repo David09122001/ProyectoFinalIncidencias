@@ -1,9 +1,9 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 using System;
 using System.Collections.ObjectModel;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 [QueryProperty(nameof(Rol), "Rol")]
 public partial class ViewModificarRol : ContentPage

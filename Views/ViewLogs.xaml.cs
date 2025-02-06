@@ -1,6 +1,6 @@
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.ViewModel;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 public partial class ViewLogs : ContentPage
 {

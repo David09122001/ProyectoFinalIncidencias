@@ -1,6 +1,6 @@
-using ProjecteFinal.ViewModels;
+using GestorIncidencias.ViewModels;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     public partial class ViewRestablecerContrasena : ContentPage
     {

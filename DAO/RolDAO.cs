@@ -1,4 +1,4 @@
-﻿using ProjecteFinal.Models;
+﻿using GestorIncidencias.Models;
 using SQLite;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjecteFinal.DAO
+namespace GestorIncidencias.DAO
 {
     public class RolDAO
     {

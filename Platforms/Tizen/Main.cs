@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace ProjecteFinal
+namespace GestorIncidencias
 {
     internal class Program : MauiApplication
     {

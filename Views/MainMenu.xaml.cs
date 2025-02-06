@@ -1,7 +1,7 @@
-using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
+using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 [QueryProperty(nameof(Profesor), "Profesor")]
 public partial class MainMenu : ContentPage
 {

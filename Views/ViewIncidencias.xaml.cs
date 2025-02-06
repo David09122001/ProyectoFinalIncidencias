@@ -1,8 +1,8 @@
-﻿using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+﻿using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 using System.ComponentModel;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 [QueryProperty(nameof(Profesor), "Profesor")]
 public partial class ViewIncidencias : ContentPage, INotifyPropertyChanged
 {

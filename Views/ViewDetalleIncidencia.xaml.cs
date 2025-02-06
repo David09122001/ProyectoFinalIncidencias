@@ -1,9 +1,9 @@
-using ProjecteFinal.Models;
+using GestorIncidencias.Models;
 using Microsoft.Maui.Controls;
 using System;
-using ProjecteFinal.ViewModels;
+using GestorIncidencias.ViewModels;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 public partial class ViewDetalleIncidencia : ContentPage
 {
     public Incidencia Incidencia { get; set; }

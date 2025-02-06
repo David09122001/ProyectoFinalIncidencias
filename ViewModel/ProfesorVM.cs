@@ -1,10 +1,10 @@
-﻿using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
+﻿using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace ProjecteFinal.ViewModels
+namespace GestorIncidencias.ViewModels
 {
     public class ProfesoresVM : INotifyPropertyChanged
     {

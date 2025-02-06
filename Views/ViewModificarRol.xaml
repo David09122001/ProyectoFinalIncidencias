@@ -1,6 +1,6 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProjecteFinal.Views.ViewModificarRol"
+             x:Class="GestorIncidencias.Views.ViewModificarRol"
              Title="Modificar Rol"
              BackgroundColor="#F9FAFB">
     <VerticalStackLayout Padding="20" Spacing="15" HorizontalOptions="Center" VerticalOptions="Center">

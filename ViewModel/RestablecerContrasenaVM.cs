@@ -1,12 +1,12 @@
-﻿using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
+﻿using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
 using System;
 using System.ComponentModel;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
 
-namespace ProjecteFinal.ViewModels
+namespace GestorIncidencias.ViewModels
 {
     public class RestablecerContrasenaVM : INotifyPropertyChanged
     {

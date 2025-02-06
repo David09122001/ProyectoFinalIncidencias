@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace ProjecteFinal
+namespace GestorIncidencias
 {
     [Application]
     public class MainApplication : MauiApplication

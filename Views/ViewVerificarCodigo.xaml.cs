@@ -1,7 +1,7 @@
-using ProjecteFinal.Models;
+using GestorIncidencias.Models;
 using System;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     public partial class ViewVerificarCodigo : ContentPage
     {

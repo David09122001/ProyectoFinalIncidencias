@@ -1,10 +1,10 @@
 ﻿using SQLite;
-using ProjecteFinal.Config;
+using GestorIncidencias.Config;
 using System.IO;
 using System.Threading.Tasks;
-using ProjecteFinal.Models;
+using GestorIncidencias.Models;
 
-namespace ProjecteFinal.BaseDatos
+namespace GestorIncidencias.BaseDatos
 {
     public static class BaseDatos
     {
@@ -25,14 +25,17 @@ namespace ProjecteFinal.BaseDatos
 
         public static async Task InicializarBaseDatosAsync()
         {
-            var db = GetConnection();
+            if (File.Exists(Constants.DatabasePath))
+            {
+                // La base de datos ya existe, no es necesario volver a inicializar.
+                return;
+            }
 
-            EliminarTablasAsync();
-
-            CrearTablasAsync();
-
-            InsertarDatosInicialesAsync();
+            // Crear tablas e insertar datos iniciales.
+            await CrearTablasAsync();
+            await InsertarDatosInicialesAsync();
         }
+
 
         // Eliminar tablas existentes
         public static async Task EliminarTablasAsync()

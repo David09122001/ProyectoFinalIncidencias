@@ -1,8 +1,8 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 using System.Collections.ObjectModel;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 public partial class ViewInsertarRol : ContentPage
 {

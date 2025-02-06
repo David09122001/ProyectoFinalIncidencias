@@ -1,10 +1,10 @@
-﻿using ProjecteFinal.Models;
-using ProjecteFinal.DAO;
+﻿using GestorIncidencias.Models;
+using GestorIncidencias.DAO;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using ProjecteFinal.Base;
+using GestorIncidencias.Base;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class VerLogsVM : BaseViewModel
     {

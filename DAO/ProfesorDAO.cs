@@ -1,8 +1,8 @@
-﻿using ProjecteFinal.Models;
+﻿using GestorIncidencias.Models;
 using SQLite;
 using System.Threading.Tasks;
 
-namespace ProjecteFinal.DAO
+namespace GestorIncidencias.DAO
 {
     public class ProfesorDAO
     {

@@ -1,4 +1,4 @@
-﻿namespace ProjecteFinal
+﻿namespace GestorIncidencias
 {
     public partial class App : Application
     {

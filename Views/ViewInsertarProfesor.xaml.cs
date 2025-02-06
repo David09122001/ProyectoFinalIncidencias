@@ -1,9 +1,9 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
-using ProjecteFinal.ViewModels;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
+using GestorIncidencias.ViewModels;
 using System;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     public partial class ViewInsertarProfesor : ContentPage
     {

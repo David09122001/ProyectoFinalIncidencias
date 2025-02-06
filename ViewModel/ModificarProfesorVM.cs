@@ -1,11 +1,11 @@
-﻿using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
+﻿using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class ModificarProfesorVM : INotifyPropertyChanged
     {

@@ -1,14 +1,14 @@
 ﻿using PdfSharpCore.Drawing;
 using PdfSharpCore.Pdf;
-using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
-using ProjecteFinal.Views;
+using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
+using GestorIncidencias.Views;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class IncidenciasVM : INotifyPropertyChanged
     {

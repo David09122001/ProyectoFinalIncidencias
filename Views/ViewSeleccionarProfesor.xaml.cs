@@ -1,4 +1,4 @@
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 public partial class ViewSeleccionarProfesor : ContentPage
 {

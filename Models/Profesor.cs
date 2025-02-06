@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjecteFinal.Models
+namespace GestorIncidencias.Models
 {
     public class Profesor
     {

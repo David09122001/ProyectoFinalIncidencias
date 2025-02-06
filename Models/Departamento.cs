@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace ProjecteFinal.Models
+namespace GestorIncidencias.Models
 {
     public class Departamento : INotifyPropertyChanged
     {

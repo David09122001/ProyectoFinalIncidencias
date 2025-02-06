@@ -1,10 +1,10 @@
-﻿using ProjecteFinal.Models;
+﻿using GestorIncidencias.Models;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows.Input;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class InformesVM : INotifyPropertyChanged
     {

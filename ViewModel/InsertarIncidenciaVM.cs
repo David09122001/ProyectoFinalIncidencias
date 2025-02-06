@@ -1,13 +1,13 @@
-﻿using ProjecteFinal.Models;
-using ProjecteFinal.DAO;
+﻿using GestorIncidencias.Models;
+using GestorIncidencias.DAO;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using ProjecteFinal.Base;
+using GestorIncidencias.Base;
 using System.Windows.Input;
 using System.Net.Mail;
 using System.Net;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class InsertarIncidenciaVM : BaseViewModel
     {

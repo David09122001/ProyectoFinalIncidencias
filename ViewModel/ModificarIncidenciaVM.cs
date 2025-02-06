@@ -1,15 +1,15 @@
-﻿using ProjecteFinal.Models;
-using ProjecteFinal.DAO;
-using ProjecteFinal.Base;
+﻿using GestorIncidencias.Models;
+using GestorIncidencias.DAO;
+using GestorIncidencias.Base;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using ProjecteFinal.Views;
+using GestorIncidencias.Views;
 using System.Net.Mail;
 using System.Net;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class ModificarIncidenciaVM : BaseViewModel
     {

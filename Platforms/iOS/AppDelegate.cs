@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace ProjecteFinal
+namespace GestorIncidencias
 {
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate

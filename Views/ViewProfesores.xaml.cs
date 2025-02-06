@@ -1,9 +1,9 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModels;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModels;
 using Microsoft.Maui.Controls;
 using System;
 
-namespace ProjecteFinal.Views
+namespace GestorIncidencias.Views
 {
     public partial class ViewProfesores : ContentPage
     {

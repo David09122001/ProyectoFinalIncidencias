@@ -1,11 +1,11 @@
-﻿using ProjecteFinal.Models;
-using ProjecteFinal.DAO;
+﻿using GestorIncidencias.Models;
+using GestorIncidencias.DAO;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using ProjecteFinal.Base;
+using GestorIncidencias.Base;
 
-namespace ProjecteFinal.ViewModel
+namespace GestorIncidencias.ViewModel
 {
     public class RolesVM : BaseViewModel
     {

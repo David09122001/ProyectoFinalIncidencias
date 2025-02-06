@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 
-namespace ProjecteFinal
+namespace GestorIncidencias
 {
     public static class MauiProgram
     {

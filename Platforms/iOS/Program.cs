@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace ProjecteFinal
+namespace GestorIncidencias
 {
     public class Program
     {

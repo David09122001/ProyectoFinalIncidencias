@@ -1,7 +1,7 @@
 ﻿using SQLite;
 using SQLiteNetExtensions.Attributes;
 
-namespace ProjecteFinal.Models
+namespace GestorIncidencias.Models
 {
     public class Adjunto
     {

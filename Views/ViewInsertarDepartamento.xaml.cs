@@ -1,7 +1,7 @@
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 [QueryProperty(nameof(Departamento), "Departamento")]
 public partial class ViewInsertarDepartamento : ContentPage

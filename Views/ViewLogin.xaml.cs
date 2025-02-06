@@ -1,9 +1,9 @@
-﻿using ProjecteFinal.DAO;
-using ProjecteFinal.Models;
-using ProjecteFinal.ViewModel;
+﻿using GestorIncidencias.DAO;
+using GestorIncidencias.Models;
+using GestorIncidencias.ViewModel;
 using System;
 
-namespace ProjecteFinal.Views;
+namespace GestorIncidencias.Views;
 
 public partial class ViewLogin : ContentPage
 {
