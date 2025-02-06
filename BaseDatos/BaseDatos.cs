@@ -142,16 +142,6 @@ namespace GestorIncidencias.BaseDatos
             GetConnection().InsertAsync(new RolPermiso { rolId = 4, permisoCodigo = 7 }).Wait();
 
             // Insertar profesores
-            GetConnection().InsertAsync(new Profesor
-            {
-                dni = "20881963X",
-                nombre = "Admin",
-                departamentoCodigo = "INF",
-                email = "1",
-                contrasena = "1",
-                rol_id = 3
-            }).Wait();
-
 
             // Insertar profesores estándar con DNIs correctos y correos @edu.gva
             GetConnection().InsertAsync(new Profesor
