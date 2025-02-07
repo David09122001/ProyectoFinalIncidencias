@@ -226,7 +226,7 @@ namespace GestorIncidencias.ViewModels
                 graphics.DrawString($"Tiempo Invertido: {Incidencia.tiempoInvertido} minutos", fontRegular, blackBrush, new XPoint(margin, currentY));
                 currentY += 40;
 
-                // ** Bloque: Profesor que inserto de la Incidencia **
+                // ** Bloque: Profesor que registró la incidencia **
                 graphics.DrawString("Profesor que registró la incidencia", fontSubtitle, blueBrush, new XPoint(margin, currentY));
                 currentY += 20;
 
@@ -262,8 +262,8 @@ namespace GestorIncidencias.ViewModels
                 graphics.DrawLine(XPens.LightGray, margin, currentY, page.Width - margin, currentY);
                 currentY += 20;
 
-                // Generar un nombre único para el archivo utilizando la carpeta "informes" en datos locales
-                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "informes");
+                // Generar un nombre único para el archivo utilizando la carpeta "informes" en el Escritorio
+                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "informes");
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
@@ -283,7 +283,6 @@ namespace GestorIncidencias.ViewModels
                 Application.Current.MainPage.DisplayAlert("Error", $"No se pudo generar el informe: {ex.Message}", "Aceptar");
             }
         }
-
 
         private string GetUniqueFileName(string folderPath, string baseFileName, string fileExtension)
         {

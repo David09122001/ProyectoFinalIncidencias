@@ -185,7 +185,7 @@ namespace GestorIncidencias.ViewModel
                     new XRect(margin, y, page.Width - 2 * margin, page.Height), XStringFormats.TopLeft);
                 y += 40;
 
-                // Ancho de columnas
+                // Anchos de columnas
                 double colIdWidth = 40;
                 double colDescWidth = 160;
                 double colEstadoWidth = 80;
@@ -206,14 +206,17 @@ namespace GestorIncidencias.ViewModel
                 // ** Tabla - Datos **
                 foreach (var incidencia in IncidenciasFiltradas)
                 {
-                    gfx.DrawString(incidencia.id.ToString(), fontRegular, XBrushes.Black, new XRect(margin, y, colIdWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(incidencia.id.ToString(), fontRegular, XBrushes.Black,
+                        new XRect(margin, y, colIdWidth, 20), XStringFormats.TopLeft);
 
                     string descripcion = incidencia.descripcionDetallada.Length > 25
                         ? incidencia.descripcionDetallada.Substring(0, 25) + "..."
                         : incidencia.descripcionDetallada;
-                    gfx.DrawString(descripcion, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth, y, colDescWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(descripcion, fontRegular, XBrushes.Black,
+                        new XRect(margin + colIdWidth, y, colDescWidth, 20), XStringFormats.TopLeft);
 
-                    gfx.DrawString(incidencia.estado, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth, y, colEstadoWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(incidencia.estado, fontRegular, XBrushes.Black,
+                        new XRect(margin + colIdWidth + colDescWidth, y, colEstadoWidth, 20), XStringFormats.TopLeft);
 
                     string responsable = string.IsNullOrWhiteSpace(incidencia.NombreResponsable)
                         ? "Ningún profesor asignado"
@@ -222,7 +225,8 @@ namespace GestorIncidencias.ViewModel
                     {
                         responsable = responsable.Substring(0, 15) + "...";
                     }
-                    gfx.DrawString(responsable, fontRegular, XBrushes.Black, new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth, y, colRespWidth, 20), XStringFormats.TopLeft);
+                    gfx.DrawString(responsable, fontRegular, XBrushes.Black,
+                        new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth, y, colRespWidth, 20), XStringFormats.TopLeft);
 
                     gfx.DrawString(incidencia.fechaIncidencia.ToString("dd/MM/yyyy"), fontRegular, XBrushes.Black,
                         new XRect(margin + colIdWidth + colDescWidth + colEstadoWidth + colRespWidth, y, colFechaWidth, 20), XStringFormats.TopCenter);
@@ -242,8 +246,8 @@ namespace GestorIncidencias.ViewModel
                 gfx.DrawString($"Página {pdfDoc.PageCount}", fontRegular, XBrushes.Black,
                     new XRect(0, page.Height - 30, page.Width, 20), XStringFormats.TopCenter);
 
-                // Generar un nombre único para el archivo utilizando una ruta segura
-                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "informes");
+                // Generar un nombre único para el archivo en la carpeta Desktop/informes
+                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory), "informes");
                 if (!Directory.Exists(folderPath))
                 {
                     Directory.CreateDirectory(folderPath);
