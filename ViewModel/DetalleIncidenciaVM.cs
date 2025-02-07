@@ -262,8 +262,12 @@ namespace GestorIncidencias.ViewModels
                 graphics.DrawLine(XPens.LightGray, margin, currentY, page.Width - margin, currentY);
                 currentY += 20;
 
-                // Generar un nombre único para el archivo
-                var folderPath = @"C:\Users\David\Desktop\Projecte Final\informes";
+                // Generar un nombre único para el archivo utilizando la carpeta "informes" en datos locales
+                var folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "informes");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
                 var baseFileName = "InformeDetalleIncidencia";
                 var fileExtension = ".pdf";
                 var filePath = GetUniqueFileName(folderPath, baseFileName, fileExtension);
@@ -279,6 +283,7 @@ namespace GestorIncidencias.ViewModels
                 Application.Current.MainPage.DisplayAlert("Error", $"No se pudo generar el informe: {ex.Message}", "Aceptar");
             }
         }
+
 
         private string GetUniqueFileName(string folderPath, string baseFileName, string fileExtension)
         {
