@@ -25,12 +25,15 @@ namespace GestorIncidencias.BaseDatos
 
         public static async Task InicializarBaseDatosAsync()
         {
+            
             if (File.Exists(Constants.DatabasePath))
             {
                 // La base de datos ya existe, no es necesario volver a inicializar.
+                
                 return;
             }
 
+            
             // Crear tablas e insertar datos iniciales.
             await CrearTablasAsync();
             await InsertarDatosInicialesAsync();
@@ -127,6 +130,7 @@ namespace GestorIncidencias.BaseDatos
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 2 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 3 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 4 }).Wait();
+            GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 5 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 6 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 7 }).Wait();
             GetConnection().InsertAsync(new RolPermiso { rolId = 3, permisoCodigo = 8 }).Wait();
@@ -143,7 +147,6 @@ namespace GestorIncidencias.BaseDatos
 
             // Insertar profesores
 
-            // Insertar profesores estándar con DNIs correctos y correos @edu.gva
             GetConnection().InsertAsync(new Profesor
             {
                 dni = "86157907E",
@@ -153,6 +156,7 @@ namespace GestorIncidencias.BaseDatos
                 contrasena = "1234",
                 rol_id = 1
             }).Wait();
+
 
             GetConnection().InsertAsync(new Profesor
             {
